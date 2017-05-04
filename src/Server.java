@@ -1,8 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Server {
     static final String[] job = {"Attacker", "Bystander"};
@@ -42,11 +41,11 @@ class connectionThread extends Thread {
         try {
             System.out.println("Connection accepted: " + socket);
             BufferedReader in = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
+                new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(
-                    new BufferedWriter(
-                            new OutputStreamWriter(socket.getOutputStream())),
-                    true);
+                new BufferedWriter(
+                    new OutputStreamWriter(socket.getOutputStream())),
+                true);
             String data;
             while ((data = in.readLine()) != null) {
                 commandReceiver(data, in, out);
