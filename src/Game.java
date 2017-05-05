@@ -7,6 +7,7 @@ public class Game {
     private int numOfBystanders;
     private int numOfGame;
 
+    // TODO: 盤面の保存形式を決める 野澤 2017/05/05
     public Game(int n) {
         field = new int[10][10];
         numOfGame = n;
