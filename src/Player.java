@@ -8,7 +8,6 @@ public class Player {
     }
 
     public void newGame() {
-        Game game = new Game();
 
     }
 

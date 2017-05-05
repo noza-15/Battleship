@@ -1,61 +1,50 @@
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client {
+    BufferedReader in;
+    PrintWriter out;
+    Client client;
     private String inputName;
     private int jobCode;
+    private int groupNo;
     private Player player;
     private int clientID;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("***レーダー作戦ゲームβ***");
-        System.out.println("サーバーのアドレスを入力してください。");
-        String inputaddr;
-        inputaddr = scanner.nextLine();
-        try {
-            InetAddress address = InetAddress.getByName(inputaddr);
-            Socket socket = new Socket(address, 8080);
-            System.out.println("socket = " + socket);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-            Client client = new Client();
-            client.init();
-            out.println(Server.REGISTER);
-            out.println(client.inputName);
-            out.println(client.jobCode);
-            System.out.println(in.readLine());
-            System.out.println("操作を選択してください。\n" +
-                    "1) 新規グループを作成\n" +
-                    "2) 既存グループに参加");
-            int op = scanner.nextInt();
-            if(op == 1){
-                out.println(Server.NEW_GROUP);
-            }
+        Client client = new Client();
+        client.init();
+    }
 
+    private void init() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            connectionBuilder();
+            chooseGroup();
+            setName();
+            chooseJob();
+
+//            client.clientID = Integer.parseInt((in.readLine()));
+            System.out.println(in.readLine());
+            out.print("");
             scanner.next();
-        } catch (UnknownHostException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-    void init() {
-        setName();
-        chooseJob();
-    }
-
-    void setName() {
+    private void setName() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("名前を入力してください。");
         inputName = scanner.next();
+        out.println(inputName);
     }
 
-    void chooseJob() {
+    private void chooseJob() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("役割を選んでください。\nAttacker(攻撃者), Bystander(傍観者)");
         switch (scanner.next().toLowerCase()) {
@@ -76,5 +65,46 @@ public class Client {
                 chooseJob();
                 break;
         }
+        out.println(jobCode);
+    }
+
+    private void chooseGroup() throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("操作を選択してください。\n" +
+                "1) 新規グループを作成\n" +
+                "2) 既存グループに参加");
+        int op;
+        while ((op = scanner.nextInt()) != 1 && op != 2) {
+            System.out.println("1か2を入力してください。");
+        }
+        groupNo = 0;
+        switch (op + 10) {
+            case Server.NEW_GROUP:
+                out.println(Server.NEW_GROUP);
+                groupNo = Integer.parseInt(in.readLine());
+                break;
+            case Server.LIST_GROUP:
+                out.println(Server.LIST_GROUP);
+                int total = Integer.parseInt(in.readLine());
+                for (int i = 0; i < total; i++) {
+                    System.out.println(in.readLine());
+                }
+                System.out.println("グループを選んでください。");
+                groupNo = scanner.nextInt() - 1;
+                break;
+        }
+        out.println(Server.REGISTER);
+        out.println(groupNo);
+    }
+
+    private void connectionBuilder()throws Exception{
+        System.out.println("サーバーのアドレスを入力してください。");
+        Scanner scanner = new Scanner(System.in);
+        String inputAddr = scanner.nextLine();
+        InetAddress address = InetAddress.getByName(inputAddr);
+        Socket socket = new Socket(address, Server.PORT_NO);
+        System.out.println("socket = " + socket);
+        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
     }
 }
