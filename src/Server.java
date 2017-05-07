@@ -12,6 +12,7 @@ public class Server {
     static final int REGISTER = 10;
     static final int NEW_GROUP = 11;
     static final int LIST_GROUP = 12;
+    static final int DOES_EXIST_GROUP = 13;
     static int numOfGame = 0;
     static int numOfPlayer = 0;
     static ArrayList<Game> gameList = new ArrayList<>();
@@ -36,10 +37,10 @@ public class Server {
 }
 
 class connectionThread extends Thread {
-    Socket socket;
+    private Socket socket;
 
     // TODO: サンプルコードにあった出力が残ってる 野澤 2017/05/05
-    public connectionThread(Socket socket) {
+    connectionThread(Socket socket) {
         this.socket = socket;
         System.out.println("接続" + socket.getRemoteSocketAddress());
     }
@@ -69,7 +70,7 @@ class connectionThread extends Thread {
         }
     }
 
-    public void handleCommand(String command, BufferedReader in, PrintWriter out) throws IOException {
+    private void handleCommand(String command, BufferedReader in, PrintWriter out) throws IOException {
         switch (Integer.parseInt(command)) {
             case Server.REGISTER:
                 int groupNo = Integer.parseInt(in.readLine());
@@ -87,8 +88,9 @@ class connectionThread extends Thread {
                         Server.gameList.get(groupNo).addPlayer(bystander);
                         break;
                 }
-                System.out.println("登録完了 : " + name + " , " + Server.job[jobCode] + ", ID:" + Server.playerList.size());
-                out.println("登録完了 : " + name + " , " + Server.job[jobCode] + ", ID:" + Server.playerList.size());
+                System.out.println("登録完了 : " + name + ", " + Server.job[jobCode] + ", ID:" + Server.playerList.size());
+                out.println(Server.gameList.get(groupNo));
+                out.println("登録完了 : " + name + ", " + Server.job[jobCode] + ", ID:" + Server.playerList.size());
                 out.println(Server.playerList.size());
                 break;
             case Server.NEW_GROUP:
@@ -97,15 +99,17 @@ class connectionThread extends Thread {
                 out.println(Server.playerList.size());
                 out.println(Server.gameList.size() + 1);
                 break;
+            case Server.DOES_EXIST_GROUP:
+                out.println(Server.gameList.size());
+                break;
             case Server.LIST_GROUP:
                 System.out.println("グループの一覧出力");
                 out.println(Server.gameList.size());
                 for (int i = 0; i < Server.gameList.size(); i++) {
-                    out.println(i + 1 + ") " + Server.gameList.get(i));
+                    out.println(i + 1 + ": " + Server.gameList.get(i));
                 }
                 out.println(Server.playerList.size());
                 break;
-
             default:
                 System.out.println("?");
                 break;
@@ -118,9 +122,9 @@ class serverPrompt extends Thread {
     public void run() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            String command = scanner.nextLine();
+            String command = scanner.nextLine().toLowerCase();
             switch (command) {
-                case "list group":
+                case "list player":
                     if (Server.playerList.size() == 0) {
                         System.out.println("プレイヤーがいません。");
                     }
@@ -128,15 +132,20 @@ class serverPrompt extends Thread {
                         System.out.println(i + 1 + ": " + Server.playerList.get(i));
                     }
                     break;
-                case "list game":
+                case "list group":
+                    if (Server.gameList.size() == 0) {
+                        System.out.println("グループが存在しません。");
+                    }
                     for (int i = 0; i < Server.gameList.size(); i++) {
                         System.out.println(i + 1 + ": " + Server.gameList.get(i));
                     }
+                    break;
+                case "quit":
                 case "exit":
                     System.exit(1);
                     break;
                 default:
-                    System.out.println(command + ": コマンドが見つかりません");
+                    System.out.println(command + ": コマンドが見つかりません。");
                     break;
             }
         }

@@ -5,8 +5,8 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client {
-    BufferedReader in;
-    PrintWriter out;
+    private BufferedReader in;
+    private PrintWriter out;
     private String inputName;
     private int jobCode;
     private int groupNo;
@@ -15,7 +15,7 @@ public class Client {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("***レーダー作戦ゲームβ***");
+        System.out.println("*** レーダー作戦ゲームβ ***");
         Client client = new Client();
         client.initialize();
     }
@@ -29,6 +29,9 @@ public class Client {
             setJob();
 
             clientID = Integer.parseInt((in.readLine()));
+
+            System.out.println("グループ" + (groupNo + 1) + "に参加しました。");
+            System.out.println(in.readLine());
             System.out.println(in.readLine());
             scanner.next();
         } catch (Exception e) {
@@ -69,18 +72,22 @@ public class Client {
 
     private void setGroup() throws Exception {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("操作を選択してください。\n" +
-                "1: 新規グループを作成\n" +
-                "2: 既存グループに参加");
+        System.out.println("操作を選択してください。");
+        System.out.println("1: 新規グループを作成");
+        out.println(Server.DOES_EXIST_GROUP);
+        if ((Integer.parseInt(in.readLine())) > 0) {
+            System.out.println("2: 既存グループに参加");
+        }
         int op;
         while ((op = scanner.nextInt()) != 1 && op != 2) {
-            System.out.println("1か2を入力してください。");
+            System.out.println("数字を入力してください。");
         }
         groupNo = 0;
         switch (op + 10) {
             case Server.NEW_GROUP:
                 out.println(Server.NEW_GROUP);
                 groupNo = Integer.parseInt(in.readLine());
+                System.out.println("グループ" + (groupNo + 1) + "を作成します。");
                 break;
             case Server.LIST_GROUP:
                 out.println(Server.LIST_GROUP);
@@ -96,7 +103,7 @@ public class Client {
         out.println(groupNo);
     }
 
-    private void establishConnection() throws IOException {
+    private void establishConnection() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("サーバーのアドレスを入力してください。");
         String inputAddr = scanner.nextLine();
@@ -107,9 +114,14 @@ public class Client {
             System.err.println("サーバーが見つかりませんでした。");
             System.exit(1);
         }
-        Socket socket = new Socket(address, Server.PORT_NO);
-        System.out.println("socket = " + socket);
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+        try {
+            Socket socket = new Socket(address, Server.PORT_NO);
+            System.out.println("socket = " + socket);
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+        } catch (IOException e) {
+            System.err.println("サーバー接続中にエラーが発生しました。");
+            System.exit(1);
+        }
     }
 }

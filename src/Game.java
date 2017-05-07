@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 
 public class Game {
-    ArrayList<Player> players = new ArrayList<>();
-    int[][] field;
+    private ArrayList<Player> players = new ArrayList<>();
+    private int[][] field;
     private int numOfAttackers;
     private int numOfBystanders;
     private int numOfGame;
 
     // TODO: 盤面の保存形式を決める 野澤 2017/05/05
-    public Game(int n) {
+    Game(int n) {
         field = new int[10][10];
         numOfGame = n;
     }
@@ -42,8 +42,8 @@ public class Game {
 
     @Override
     public String toString() {
-        return "グループ" + numOfGame +
-                ": Attacker " + numOfAttackers + "人, " +
+        return "グループ" + numOfGame + " - " +
+                "Attacker " + numOfAttackers + "人, " +
                 "Bystander " + numOfBystanders + "人";
     }
 }
