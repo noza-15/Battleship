@@ -7,6 +7,8 @@ import java.util.Scanner;
 public class Client {
     private BufferedReader in;
     private PrintWriter out;
+    private ObjectInputStream objIn;
+    private ObjectOutputStream objOut;
     private String inputName;
     private int jobCode;
     private int groupNo;
@@ -33,6 +35,10 @@ public class Client {
             System.out.println("グループ" + (groupNo + 1) + "に参加しました。");
             System.out.println(in.readLine());
             System.out.println(in.readLine());
+            player = new Player(inputName);
+            player.setJobCode(jobCode);
+
+
             scanner.next();
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,8 +123,14 @@ public class Client {
         try {
             Socket socket = new Socket(address, Server.PORT_NO);
             System.out.println("socket = " + socket);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+            InputStream inputStream = socket.getInputStream();
+            OutputStream outputStream = socket.getOutputStream();
+            in = new BufferedReader(new InputStreamReader(inputStream));
+            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)), true);
+//            objIn = new ObjectInputStream(inputStream);
+//            objOut = new ObjectOutputStream(outputStream);
+//            objOut.writeObject(new Player("test"));
+
         } catch (IOException e) {
             System.err.println("サーバー接続中にエラーが発生しました。");
             System.exit(1);

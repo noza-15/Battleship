@@ -1,7 +1,11 @@
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
+    private static final long serialVersionUID = 910896110410228731L;
     private int score;
     private String playerName;
     private int jobCode;
+
 
     Player(String inputName) {
         setPlayerName(inputName);

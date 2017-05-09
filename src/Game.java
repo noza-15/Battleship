@@ -1,6 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Game {
+public class Game implements Serializable {
+    private static final long serialVersionUID = 7418218819592240789L;
     private ArrayList<Player> players = new ArrayList<>();
     private int[][] field;
     private int numOfAttackers;
