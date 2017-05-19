@@ -47,7 +47,7 @@ public class Client {
 
     private void setName() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("名前を入力してください。");
+        System.out.println("プレイヤー名を入力してください。");
         inputName = scanner.next();
         out.println(inputName);
     }
@@ -102,6 +102,7 @@ public class Client {
                     System.out.println(in.readLine());
                 }
                 System.out.println("グループを選んでください。");
+                // TODO: 存在しないグループを選べてしまう
                 groupNo = scanner.nextInt() - 1;
                 break;
         }
