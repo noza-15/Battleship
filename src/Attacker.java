@@ -6,6 +6,6 @@ public class Attacker extends Player {
 
     @Override
     public void nextTurn() {
-        super.nextTurn();//a
+        super.nextTurn();
     }
 }
