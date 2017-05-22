@@ -8,4 +8,12 @@ public class Attacker extends Player {
     public void nextTurn() {
         super.nextTurn();
     }
+
+    @Override
+    public String toString() {
+        return "Attacker{" +
+                "Name= " + getPlayerName() +
+                ", Job= " + Server.job[getJobCode()] +
+                "}";
+    }
 }

@@ -1,4 +1,4 @@
-public class Bystander extends Player{
+public class Bystander extends Player {
 
     Bystander(String inputName) {
         super(inputName);
@@ -8,5 +8,13 @@ public class Bystander extends Player{
     @Override
     public void nextTurn() {
         super.nextTurn();
+    }
+
+    @Override
+    public String toString() {
+        return "Bystander{" +
+                "Name= " + getPlayerName() +
+                ", Job= " + Server.job[getJobCode()] +
+                "}";
     }
 }

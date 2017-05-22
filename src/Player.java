@@ -6,9 +6,13 @@ public class Player implements Serializable {
     private String playerName;
     private int jobCode;
 
-
     Player(String inputName) {
         setPlayerName(inputName);
+    }
+
+    private Player(String playerName, int jobCode) {
+        this.playerName = playerName;
+        this.jobCode = jobCode;
     }
 
     public void newGame() {
@@ -23,7 +27,7 @@ public class Player implements Serializable {
         return playerName;
     }
 
-    public void setPlayerName(String playerName) {
+    private void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
@@ -31,7 +35,7 @@ public class Player implements Serializable {
         return jobCode;
     }
 
-    public void setJobCode(int jobCode) {
+    void setJobCode(int jobCode) {
         this.jobCode = jobCode;
     }
 

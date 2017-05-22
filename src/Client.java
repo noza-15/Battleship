@@ -31,13 +31,18 @@ public class Client {
             setJob();
 
             clientID = Integer.parseInt((in.readLine()));
-
             System.out.println("グループ" + (groupNo + 1) + "に参加しました。");
             System.out.println(in.readLine());
             System.out.println(in.readLine());
             player = new Player(inputName);
-            player.setJobCode(jobCode);
-
+            switch (jobCode) {
+                case Server.ATTACKER:
+                    player = new Attacker(inputName);
+                    break;
+                case Server.BYSTANDER:
+                    player = new Bystander(inputName);
+                    break;
+            }
 
             scanner.next();
         } catch (Exception e) {
