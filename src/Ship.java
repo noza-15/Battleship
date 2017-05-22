@@ -33,6 +33,9 @@ public class Ship {
         return size;
     }
 
+    /**
+     * @return 戦艦の残機数
+     */
     public int getLife() {
         return life;
     }
