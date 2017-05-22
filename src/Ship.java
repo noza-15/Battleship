@@ -40,6 +40,9 @@ public class Ship {
         return life;
     }
 
+    /**
+     * @return 戦艦の名前
+     */
     public String getName() {
         return name;
     }
