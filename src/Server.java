@@ -15,7 +15,7 @@ public class Server {
     static final int DOES_EXIST_GROUP = 13;
     static int numOfGame = 0;
     static int numOfPlayer = 0;
-    static ArrayList<Game> gameList = new ArrayList<>();
+    static ArrayList<Field> fieldList = new ArrayList<>();
     static ArrayList<Player> playerList = new ArrayList<>();
 //    static Server serverInstance;
 
@@ -80,33 +80,33 @@ class connectionThread extends Thread {
                     case Server.ATTACKER:
                         Attacker attacker = new Attacker(name);
                         Server.playerList.add(attacker);
-                        Server.gameList.get(groupNo).addPlayer(attacker);
+                        Server.fieldList.get(groupNo).addPlayer(attacker);
                         break;
                     case Server.BYSTANDER:
                         Bystander bystander = new Bystander(name);
                         Server.playerList.add(bystander);
-                        Server.gameList.get(groupNo).addPlayer(bystander);
+                        Server.fieldList.get(groupNo).addPlayer(bystander);
                         break;
                 }
                 System.out.println("登録完了 : " + name + ", " + Server.job[jobCode] + ", ID:" + Server.playerList.size());
-                out.println(Server.gameList.get(groupNo));
+                out.println(Server.fieldList.get(groupNo));
                 out.println("登録完了 : " + name + ", " + Server.job[jobCode] + ", ID:" + Server.playerList.size());
                 out.println(Server.playerList.size());
                 break;
             case Server.NEW_GROUP:
                 System.out.println("グループを新規作成します。");
-                Server.gameList.add(new Game(Server.gameList.size() + 1));
+                Server.fieldList.add(new Field(Server.fieldList.size() + 1));
                 out.println(Server.playerList.size());
-                out.println(Server.gameList.size() + 1);
+                out.println(Server.fieldList.size() + 1);
                 break;
             case Server.DOES_EXIST_GROUP:
-                out.println(Server.gameList.size());
+                out.println(Server.fieldList.size());
                 break;
             case Server.LIST_GROUP:
                 System.out.println("グループの一覧出力");
-                out.println(Server.gameList.size());
-                for (int i = 0; i < Server.gameList.size(); i++) {
-                    out.println(i + 1 + ": " + Server.gameList.get(i));
+                out.println(Server.fieldList.size());
+                for (int i = 0; i < Server.fieldList.size(); i++) {
+                    out.println(i + 1 + ": " + Server.fieldList.get(i));
                 }
                 out.println(Server.playerList.size());
                 break;
@@ -133,11 +133,11 @@ class serverPrompt extends Thread {
                     }
                     break;
                 case "list group":
-                    if (Server.gameList.size() == 0) {
+                    if (Server.fieldList.size() == 0) {
                         System.out.println("グループが存在しません。");
                     }
-                    for (int i = 0; i < Server.gameList.size(); i++) {
-                        System.out.println(i + 1 + ": " + Server.gameList.get(i));
+                    for (int i = 0; i < Server.fieldList.size(); i++) {
+                        System.out.println(i + 1 + ": " + Server.fieldList.get(i));
                     }
                     break;
                 case "quit":
