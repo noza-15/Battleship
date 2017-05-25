@@ -6,7 +6,10 @@ public class Attacker extends Player {
 
     @Override
     public void nextTurn() {
-        super.nextTurn();
+        System.out.println("どこを攻撃しますか？");
+        System.out.println("x");
+
+        System.out.println("y");
     }
 
     @Override
