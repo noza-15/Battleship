@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Field implements Serializable {
     private static final long serialVersionUID = 7418218819592240789L;
     private ArrayList<Player> players = new ArrayList<>();
-    private int[][] field;
+    private int[][] field = new int[10][10];
     private int numOfAttackers;
     private int numOfBystanders;
     private int numOfGame;
@@ -30,19 +30,38 @@ public class Field implements Serializable {
 //        players.add(player);
 //    }
 
+    //攻撃した場所を保存
+    void FieldAttacked(int x,int y){
+        field[y][x] = 1;
+    }
+
     //自分の海を表示するメソッド
-    void showMyField() {
+    void show() {
+        for(int n = 0;n < field.length; n++) {
+            System.out.print("\t" + (n + 1));
+        }
+        System.out.println();
+
         for (int i = 0; i < 10; i++) {
-            System.out.print((i + 1));
+            System.out.print((i + 1) + "\t");
             for (int j = 0; j < 10; j++) {
-                //各マスの状態によって場合分けする。
+                if (field[i][j] == 0) {
+                    System.out.print("-\t");
+                } else if (field[i][j] == 1) {
+                    System.out.print("✖\t");
+                } else if (field[i][j] == -1) {
+                    System.out.print("◯\t");
+                }
+
             }
             System.out.println();
         }
     }
 
 
-    void show() {
+
+
+    /*void show() {
         for (int i = 0; i < field.length; i++) {
             System.out.print("|");
             for (int j = 0; j < field[i].length; j++) {
@@ -62,4 +81,5 @@ public class Field implements Serializable {
                 "Attacker " + numOfAttackers + "人, " +
                 "Bystander " + numOfBystanders + "人";
     }
+    */
 }
