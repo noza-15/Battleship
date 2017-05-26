@@ -80,12 +80,12 @@ class connectionThread extends Thread {
                     case Server.ATTACKER:
                         Attacker attacker = new Attacker(name);
                         Server.playerList.add(attacker);
-                        Server.fieldList.get(groupNo).addPlayer(attacker);
+//                        Server.fieldList.get(groupNo).addPlayer(attacker);
                         break;
                     case Server.BYSTANDER:
                         Bystander bystander = new Bystander(name);
                         Server.playerList.add(bystander);
-                        Server.fieldList.get(groupNo).addPlayer(bystander);
+//                        Server.fieldList.get(groupNo).addPlayer(bystander);
                         break;
                 }
                 System.out.println("登録完了 : " + name + ", " + Server.job[jobCode] + ", ID:" + Server.playerList.size());

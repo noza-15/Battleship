@@ -34,7 +34,6 @@ public class Client {
             System.out.println("グループ" + (groupNo + 1) + "に参加しました。");
             System.out.println(in.readLine());
             System.out.println(in.readLine());
-            player = new Player(inputName);
             switch (jobCode) {
                 case Server.ATTACKER:
                     player = new Attacker(inputName);
@@ -43,6 +42,7 @@ public class Client {
                     player = new Bystander(inputName);
                     break;
             }
+            player.nextTurn();
 
             scanner.next();
         } catch (Exception e) {

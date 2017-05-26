@@ -18,17 +18,17 @@ public class Field implements Serializable {
     }
 
 
-    void addPlayer(Player player) {
-        switch (player.getJobCode()) {
-            case Server.ATTACKER:
-                numOfAttackers++;
-                break;
-            case Server.BYSTANDER:
-                numOfBystanders++;
-                break;
-        }
-        players.add(player);
-    }
+//    void addPlayer(Player player) {
+//        switch (player.getJobCode()) {
+//            case Server.ATTACKER:
+//                numOfAttackers++;
+//                break;
+//            case Server.BYSTANDER:
+//                numOfBystanders++;
+//                break;
+//        }
+//        players.add(player);
+//    }
 
     //自分の海を表示するメソッド
     void showMyField() {
