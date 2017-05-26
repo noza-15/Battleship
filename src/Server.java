@@ -6,14 +6,19 @@ import java.util.Scanner;
 
 public class Server {
     static final String[] job = {"Attacker", "Bystander"};
+    static final String SHIPS[] = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
+
     static final int PORT_NO = 9999;
+
     static final int ATTACKER = 0;
     static final int BYSTANDER = 1;
+    //command
     static final int REGISTER = 10;
     static final int NEW_GROUP = 11;
     static final int LIST_GROUP = 12;
     static final int DOES_EXIST_GROUP = 13;
-    static final String SHIPS[] = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
+    static final int SET_SHIPS = 14;
+
     static int numOfGame = 0;
     static int numOfPlayer = 0;
     static ArrayList<Field> fieldList = new ArrayList<>();
