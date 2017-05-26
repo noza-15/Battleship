@@ -14,6 +14,7 @@ public class Client {
     private int groupNo;
     private Player player;
     private int clientID;
+    private CommandHandler cmdHandler;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -30,10 +31,10 @@ public class Client {
             setName();
             setJob();
 
-            clientID = Integer.parseInt((in.readLine()));
+            clientID = cmdHandler.receiveInt();
             System.out.println("グループ" + (groupNo + 1) + "に参加しました。");
-            System.out.println(in.readLine());
-            System.out.println(in.readLine());
+            System.out.println(cmdHandler.receiveString());
+            System.out.println(cmdHandler.receiveString());
             switch (jobCode) {
                 case Server.ATTACKER:
                     player = new Attacker(inputName);
@@ -54,6 +55,7 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
         System.out.println("プレイヤー名を入力してください。");
         inputName = scanner.next();
+
         out.println(inputName);
     }
 
@@ -78,7 +80,7 @@ public class Client {
                 setJob();
                 break;
         }
-        out.println(jobCode);
+        cmdHandler.send(jobCode);
     }
 
     private void setGroup() throws Exception {
@@ -86,7 +88,8 @@ public class Client {
         System.out.println("操作を選択してください。");
         System.out.println("1: 新規グループを作成");
         out.println(Server.DOES_EXIST_GROUP);
-        if ((Integer.parseInt(in.readLine())) > 0) {
+        int groupCnt = Integer.parseInt(in.readLine());
+        if (groupCnt > 0) {
             System.out.println("2: 既存グループに参加");
         }
         int op;
@@ -96,23 +99,26 @@ public class Client {
         groupNo = 0;
         switch (op + 10) {
             case Server.NEW_GROUP:
-                out.println(Server.NEW_GROUP);
-                groupNo = Integer.parseInt(in.readLine());
+                cmdHandler.send(Server.NEW_GROUP);
+                groupNo = cmdHandler.receiveInt();
                 System.out.println("グループ" + (groupNo + 1) + "を作成します。");
                 break;
             case Server.LIST_GROUP:
-                out.println(Server.LIST_GROUP);
-                int total = Integer.parseInt(in.readLine());
+                cmdHandler.send(Server.LIST_GROUP);
+                int total = cmdHandler.receiveInt();
+                System.out.println("グループが" + groupCnt + "個あります。グループを選んでください。");
                 for (int i = 0; i < total; i++) {
                     System.out.println(in.readLine());
                 }
-                System.out.println("グループを選んでください。");
                 // TODO: 存在しないグループを選べてしまう
-                groupNo = scanner.nextInt() - 1;
+                while ((groupNo = scanner.nextInt() - 1) + 1 > groupCnt && (groupNo) < 0) {
+                    System.out.println("正しい番号を選んでください");
+                }
+                ;
                 break;
         }
-        out.println(Server.REGISTER);
-        out.println(groupNo);
+        cmdHandler.send(Server.REGISTER);
+        cmdHandler.send(groupNo);
     }
 
     private void establishConnection() {
@@ -133,13 +139,50 @@ public class Client {
             OutputStream outputStream = socket.getOutputStream();
             in = new BufferedReader(new InputStreamReader(inputStream));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)), true);
-//            objIn = new ObjectInputStream(inputStream);
+            cmdHandler = new CommandHandler(in, out);
+            //            objIn = new ObjectInputStream(inputStream);
 //            objOut = new ObjectOutputStream(outputStream);
 //            objOut.writeObject(new Player("test"));
 
         } catch (IOException e) {
             System.err.println("サーバー接続中にエラーが発生しました。");
             System.exit(1);
+        }
+    }
+}
+
+class CommandHandler {
+    private BufferedReader in;
+    private PrintWriter out;
+
+    CommandHandler(BufferedReader in, PrintWriter out) {
+        this.in = in;
+        this.out = out;
+    }
+
+    void send(String command) {
+        out.print(command);
+    }
+
+    void send(int command) {
+        out.print(command);
+    }
+
+    int receiveInt() {
+        try {
+            return Integer.parseInt(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    String receiveString() {
+        try {
+            return in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "null";
         }
     }
 }
