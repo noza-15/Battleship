@@ -96,6 +96,7 @@ class connectionThread extends Thread {
             case Server.NEW_GROUP:
                 System.out.println("グループを新規作成します。");
                 Server.fieldList.add(new Field(Server.fieldList.size() + 1));
+//                Server.fieldList.add(new Field(Server.fieldList.size() + 1));
                 out.println(Server.playerList.size());
                 out.println(Server.fieldList.size() + 1);
                 break;

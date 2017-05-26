@@ -12,7 +12,16 @@ public class Attacker extends Player {
     @Override
     public void newGame() {
         System.out.println("船の配置を決めます。");
-        System.out.println("空母の設定をします");
+        System.out.println("空母の設定をします、支点の位置を決めてください");
+        System.out.print("x:");
+        int x = scan.nextInt();
+        System.out.print("y:");
+        int y = scan.nextInt();
+        System.out.println("設置する方向を決めてください");
+        System.out.println("縦:0");
+        System.out.println("横:1");
+        int d = scan.nextInt();
+        Ship ship1 = new Ship("空母",5,x,y,d);
 
     }
 
