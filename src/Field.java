@@ -10,9 +10,6 @@ public class Field implements Serializable {
     private int numOfGame;
 
 
-
-
-
     // TODO: 盤面の保存形式を決める 野澤 2017/05/05
 
     Field(int n) {
@@ -21,8 +18,7 @@ public class Field implements Serializable {
     }
 
 
-
-    /*void addPlayer(Player player) {
+    void addPlayer(Player player) {
         switch (player.getJobCode()) {
             case Server.ATTACKER:
                 numOfAttackers++;
@@ -32,18 +28,19 @@ public class Field implements Serializable {
                 break;
         }
         players.add(player);
-    }*/
+    }
+
     //自分の海を表示するメソッド
-    void showmyField() {
-        for (int i= 0; i < 10; i++) {
+    void showMyField() {
+        for (int i = 0; i < 10; i++) {
             System.out.print((i + 1));
             for (int j = 0; j < 10; j++) {
                 //各マスの状態によって場合分けする。
-                }
-                System.out.println();
             }
+            System.out.println();
         }
     }
+
 
     void show() {
         for (int i = 0; i < field.length; i++) {
