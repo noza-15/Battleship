@@ -14,7 +14,7 @@ public class Client {
     private int groupNo;
     private Player player;
     private int clientID;
-    private CommandHandler cmdHandler;
+    private CommandHandler cmd;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -31,13 +31,13 @@ public class Client {
             setName();
             setJob();
 
-            clientID = cmdHandler.receiveInt();
+            clientID = cmd.receiveInt();
             System.out.println("グループ" + (groupNo + 1) + "に参加しました。");
-            System.out.println(cmdHandler.receiveString());
-            System.out.println(cmdHandler.receiveString());
+            System.out.println(cmd.receiveString());
+            System.out.println(cmd.receiveString());
             switch (jobCode) {
                 case Server.ATTACKER:
-                    player = new Attacker(inputName);
+                    player = new Attacker(inputName, cmd);
                     break;
                 case Server.BYSTANDER:
                     player = new Bystander(inputName);
@@ -80,7 +80,7 @@ public class Client {
                 setJob();
                 break;
         }
-        cmdHandler.send(jobCode);
+        cmd.send(jobCode);
     }
 
     private void setGroup() throws Exception {
@@ -99,13 +99,13 @@ public class Client {
         groupNo = 0;
         switch (op + 10) {
             case Server.NEW_GROUP:
-                cmdHandler.send(Server.NEW_GROUP);
-                groupNo = cmdHandler.receiveInt();
+                cmd.send(Server.NEW_GROUP);
+                groupNo = cmd.receiveInt();
                 System.out.println("グループ" + (groupNo + 1) + "を作成します。");
                 break;
             case Server.LIST_GROUP:
-                cmdHandler.send(Server.LIST_GROUP);
-                int total = cmdHandler.receiveInt();
+                cmd.send(Server.LIST_GROUP);
+                int total = cmd.receiveInt();
                 System.out.println("グループが" + groupCnt + "個あります。グループを選んでください。");
                 for (int i = 0; i < total; i++) {
                     System.out.println(in.readLine());
@@ -117,8 +117,8 @@ public class Client {
                 ;
                 break;
         }
-        cmdHandler.send(Server.REGISTER);
-        cmdHandler.send(groupNo);
+        cmd.send(Server.REGISTER);
+        cmd.send(groupNo);
     }
 
     private void establishConnection() {
@@ -139,7 +139,7 @@ public class Client {
             OutputStream outputStream = socket.getOutputStream();
             in = new BufferedReader(new InputStreamReader(inputStream));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)), true);
-            cmdHandler = new CommandHandler(in, out);
+            cmd = new CommandHandler(in, out);
             //            objIn = new ObjectInputStream(inputStream);
 //            objOut = new ObjectOutputStream(outputStream);
 //            objOut.writeObject(new Player("test"));

@@ -5,6 +5,11 @@ public class Bystander extends Player {
         setJobCode(Server.BYSTANDER);
     }
 
+    Bystander(String inputName, CommandHandler cmd) {
+        super(inputName, cmd);
+        setJobCode(Server.BYSTANDER);
+    }
+
     @Override
     public void nextTurn() {
         super.nextTurn();

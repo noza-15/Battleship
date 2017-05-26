@@ -5,9 +5,15 @@ public class Player implements Serializable {
     private int score;
     private String playerName;
     private int jobCode;
+    private CommandHandler cmd;
 
     Player(String inputName) {
         setPlayerName(inputName);
+    }
+
+    Player(String inputName, CommandHandler cmd) {
+        setPlayerName(inputName);
+        this.cmd = cmd;
     }
 
     private Player(String playerName, int jobCode) {

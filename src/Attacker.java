@@ -1,11 +1,17 @@
-import java.util.Scanner;//攻撃位置を読み込むためにimportします。
+import java.util.Scanner;
 
 public class Attacker extends Player {
     Field sea = new Field(1);
     //Ship a1 = new Ship ("空母", 5, posX, posY, Ship.VERTICAL);
     Scanner scan = new Scanner(System.in);
+
     Attacker(String inputName) {
         super(inputName);
+        setJobCode(Server.ATTACKER);
+    }
+
+    Attacker(String inputName, CommandHandler cmd) {
+        super(inputName, cmd);
         setJobCode(Server.ATTACKER);
     }
 
@@ -34,7 +40,7 @@ public class Attacker extends Player {
         int x = scan.nextInt();//TODO:数字以外が入力されたらそこでエラーになり終了してしまう。
         System.out.print("y:");
         int y = scan.nextInt();
-        sea.FieldAttacked(x-1,y-1);
+        sea.FieldAttacked(x - 1, y - 1);
         sea.show();
         System.out.println("他のプレイヤーが選択するのを待っています...");
 

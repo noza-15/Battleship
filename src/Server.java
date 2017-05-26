@@ -13,6 +13,7 @@ public class Server {
     static final int NEW_GROUP = 11;
     static final int LIST_GROUP = 12;
     static final int DOES_EXIST_GROUP = 13;
+    static final String SHIPS[] = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
     static int numOfGame = 0;
     static int numOfPlayer = 0;
     static ArrayList<Field> fieldList = new ArrayList<>();
