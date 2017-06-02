@@ -43,6 +43,7 @@ public class Client {
                     player = new Bystander(inputName);
                     break;
             }
+            player.newGame();
             player.nextTurn();
 
             scanner.next();
