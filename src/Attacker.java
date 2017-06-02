@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Attacker extends Player {
     Field sea = new Field(1);
+    Ship ships[] = new Ship[Server.SHIPS.length];
     //Ship a1 = new Ship ("空母", 5, posX, posY, Ship.VERTICAL);
     Scanner scan = new Scanner(System.in);
 
@@ -29,7 +30,7 @@ public class Attacker extends Player {
             System.out.println("横:1");
             int d = scan.nextInt();
             //:TODO インスタンスの格納
-            new Ship(Server.SHIPS[i], 5 - i, x, y, d);
+            ships[i] = new Ship(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, d);
 
         }
 
@@ -51,7 +52,19 @@ public class Attacker extends Player {
         //TODO:入力されたマスを送信する。
     }
 
-
+    boolean survive(Ship ship[]){
+        int lives = 3;
+        for(int i=0;i<Server.SHIPS.length;i++) {
+            if (ship[i].life <= 0) {
+                lives--;
+            }
+        }
+        if(lives <=0){
+            System.out.println("You Lose");
+            return false;
+        }
+        else return true;
+    }
 
 
     @Override

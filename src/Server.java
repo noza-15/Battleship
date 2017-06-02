@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Server {
     static final String[] job = {"Attacker", "Bystander"};
     static final String SHIPS[] = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
-
+    static final int SHIPS_SIZE[] = {5,4,3,3,2};
     static final int PORT_NO = 9999;
 
     static final int ATTACKER = 0;
