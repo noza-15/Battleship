@@ -17,19 +17,6 @@ public class Field implements Serializable {
         numOfGame = n;
     }
 
-
-//    void addPlayer(Player player) {
-//        switch (player.getJobCode()) {
-//            case Server.ATTACKER:
-//                numOfAttackers++;
-//                break;
-//            case Server.BYSTANDER:
-//                numOfBystanders++;
-//                break;
-//        }
-//        players.add(player);
-//    }
-
     //攻撃した場所を保存
     void FieldAttacked(int x,int y){
         field[y][x] = 1;

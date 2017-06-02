@@ -17,9 +17,9 @@ public class Bystander extends Player {
 
     @Override
     public String toString() {
-        return "Bystander{" +
+        return "Bystander {" +
                 "Name= " + getPlayerName() +
-                ", Job= " + Server.job[getJobCode()] +
+                ", Job= " + Server.JOB[getJobCode()] +
                 "}";
     }
 }

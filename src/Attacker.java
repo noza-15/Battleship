@@ -55,7 +55,7 @@ public class Attacker extends Player {
     boolean survive(Ship ship[]){
         int lives = 3;
         for(int i=0;i<Server.SHIPS.length;i++) {
-            if (ship[i].life <= 0) {
+            if (ship[i].getLife() <= 0) {
                 lives--;
             }
         }
@@ -69,9 +69,9 @@ public class Attacker extends Player {
 
     @Override
     public String toString() {
-        return "Attacker{" +
+        return "Attacker {" +
                 "Name= " + getPlayerName() +
-                ", Job= " + Server.job[getJobCode()] +
+                ", Job= " + Server.JOB[getJobCode()] +
                 "}";
     }
 }

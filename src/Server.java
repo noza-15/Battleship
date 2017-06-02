@@ -5,28 +5,27 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Server {
-    static final String[] job = {"Attacker", "Bystander"};
+    static final String[] JOB = {"Attacker", "Bystander"};
     static final String SHIPS[] = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
-    static final int SHIPS_SIZE[] = {5,4,3,3,2};
+    static final int SHIPS_SIZE[] = {5, 4, 3, 3, 2};
     static final int PORT_NO = 9999;
 
     static final int ATTACKER = 0;
     static final int BYSTANDER = 1;
     //command
-    static final int REGISTER = 0;
-    static final int NEW_GROUP = 1;
-    static final int LIST_GROUP = 2;
-    static final int DOES_EXIST_GROUP = 3;
-    static final int SET_SHIPS = 4;
+    static final int REGISTER = 100;
+    static final int NEW_GROUP = 101;
+    static final int LIST_GROUP = 102;
+    static final int DOES_EXIST_GROUP = 103;
+    static final int CLOSE_APPLICATIONS = 104;
+    static final int START = 105;
+    static final int SET_SHIPS = 106;
 
-    static int numOfGame = 0;
-    static int numOfPlayer = 0;
     static ArrayList<Player> allPlayerList = new ArrayList<>();
     static ArrayList<GameGroup> groupList = new ArrayList<>();
 
     // TODO: 実際のゲームが始まってからの通信はこれから実装する 野澤 2017/05/05
     public static void main(String[] args) throws IOException {
-//        serverInstance = new Server();
         ServerSocket s = new ServerSocket(PORT_NO);
         System.out.println("Started: " + s);
         new serverPrompt().start();
@@ -87,14 +86,20 @@ class connectionThread extends Thread {
                         Attacker attacker = new Attacker(name);
                         group.add(attacker);
                         Server.allPlayerList.add(attacker);
+                        if (group.getAttackersCount() == 1) {
+                            out.println(true);
+                            group.setParentID(Server.allPlayerList.size() - 1);
+                        }
                         break;
                     case Server.BYSTANDER:
                         Bystander bystander = new Bystander(name);
                         group.add(bystander);
                         Server.allPlayerList.add(bystander);
+                        out.println(false);
                         break;
                 }
-                String output = "登録完了 : " + name + ", " + Server.job[jobCode] + ", ID:" + group.size();
+                out.println(Server.allPlayerList.size() - 1);
+                String output = "登録完了 : " + name + ", " + Server.JOB[jobCode] + ", playerID: " + (Server.allPlayerList.size() - 1);
                 System.out.println(output);
                 out.println(output);
                 break;
@@ -102,13 +107,12 @@ class connectionThread extends Thread {
             case Server.NEW_GROUP:
                 System.out.println("New group generated.");
                 Server.groupList.add(new GameGroup(Server.groupList.size()));
-                out.println(Server.groupList.size());
+                out.println(Server.groupList.size() - 1);
                 break;
 
             case Server.DOES_EXIST_GROUP:
-                System.out.println("DOES_EXIST_GROUP");
+                System.out.println("Does ");
                 out.println(Server.groupList.size());
-                System.out.println(Server.groupList.size());
                 break;
 
             case Server.LIST_GROUP:

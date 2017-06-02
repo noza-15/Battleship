@@ -2,10 +2,11 @@ import java.util.ArrayList;
 
 public class GameGroup {
     private ArrayList<Player> playersList = new ArrayList<>();
-    private int groupID;
-    private int numOfAttackers = 0;
-    private int numOfBystanders = 0;
 
+    private int groupID;
+    private int parentID;
+    private int attackersCount = 0;
+    private int bystandersCount = 0;
     GameGroup(int groupID) {
         this.groupID = groupID;
     }
@@ -13,9 +14,9 @@ public class GameGroup {
     void add(Player player) {
         playersList.add(player);
         if (player instanceof Attacker) {
-            numOfAttackers++;
+            attackersCount++;
         } else if (player instanceof Bystander) {
-            numOfBystanders++;
+            bystandersCount++;
         }
     }
 
@@ -23,10 +24,30 @@ public class GameGroup {
         return playersList.size();
     }
 
+    public int getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(int groupID) {
+        this.groupID = groupID;
+    }
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public int getAttackersCount() {
+        return attackersCount;
+    }
+
+    public int getBystandersCount() {
+        return bystandersCount;
+    }
+
     @Override
     public String toString() {
         return "グループ" + groupID + " : " +
-                "Attacker " + numOfAttackers + "人, " +
-                "Bystander " + numOfBystanders + "人";
+                "Attacker " + attackersCount + "人, " +
+                "Bystander " + bystandersCount + "人";
     }
 }

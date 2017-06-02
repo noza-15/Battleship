@@ -7,135 +7,116 @@ import java.util.Scanner;
 public class Client {
     private BufferedReader in;
     private PrintWriter out;
-    private ObjectInputStream objIn;
-    private ObjectOutputStream objOut;
-    private String inputName;
-    private int jobCode;
-    private int groupNo;
+    private Scanner scanner;
+    //    private ObjectInputStream objIn;
+//    private ObjectOutputStream objOut;
+    private int groupID;
     private Player player;
-    private int clientID;
     private CommandHandler cmd;
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("*** レーダー作戦ゲームβ ***");
         Client client = new Client();
         client.initialize();
+        client.play();
     }
 
     private void initialize() {
-        Scanner scanner = new Scanner(System.in);
-        try {
-            establishConnection();
-            setGroup();
-            setName();
-            setJob();
-            register();
-
-//            clientID = cmd.receiveInt();
-            System.out.println("グループ" + (groupNo + 1) + "に参加しました。");
-            System.out.println(cmd.receiveString());
-//            System.out.println(cmd.receiveString());
-            switch (jobCode) {
-                case Server.ATTACKER:
-                    player = new Attacker(inputName, cmd);
-                    break;
-                case Server.BYSTANDER:
-                    player = new Bystander(inputName);
-                    break;
-            }
-            player.newGame();
-            player.nextTurn();
-
-            scanner.next();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        scanner = new Scanner(System.in);
+        establishConnection();
+        setGroup();
+        setPlayer();
+        register();
     }
 
-    private void setName() {
-        Scanner scanner = new Scanner(System.in);
+    private void play() {
+        player.waitStart();
+        player.newGame();
+        player.nextTurn();
+    }
+
+    private void setPlayer() {
         System.out.println("プレイヤー名を入力してください。");
-        inputName = scanner.next();
-        out.println(inputName);
-    }
-
-    private void setJob() {
-        Scanner scanner = new Scanner(System.in);
+        String inputName = scanner.next();
         System.out.println("役割を選んでください。\nAttacker(攻撃者), Bystander(傍観者)");
         switch (scanner.next().toLowerCase()) {
             case "a":
             case "attacker":
-                jobCode = Server.ATTACKER;
-                player = new Attacker(inputName);
+                player = new Attacker(inputName, cmd);
+                player.setJobCode(Server.ATTACKER);
                 System.out.println("Attacker(攻撃者)が選択されました。");
                 break;
             case "b":
             case "bystander":
-                jobCode = Server.BYSTANDER;
-                player = new Bystander(inputName);
+                player = new Bystander(inputName, cmd);
+                player.setJobCode(Server.BYSTANDER);
                 System.out.println("Bystander(傍観者)が選択されました。");
                 break;
             default:
                 System.out.println("AかBを入力してください。");
-                setJob();
+                setPlayer();
                 break;
         }
-        cmd.send(jobCode);
     }
 
-    private void setGroup() throws Exception {
-        Scanner scanner = new Scanner(System.in);
+    private void setGroup() {
+        int groupCount;
+        int op;
         System.out.println("操作を選択してください。");
         System.out.println("1: 新規グループを作成");
-        out.println(Server.DOES_EXIST_GROUP);
-        int groupCnt = Integer.parseInt(in.readLine());
-        if (groupCnt > 0) {
+        cmd.send(Server.DOES_EXIST_GROUP);
+        groupCount = cmd.receiveInt();
+        if (groupCount > 0) {
             System.out.println("2: 既存グループに参加");
         }
-        int op;
-        while ((op = scanner.nextInt()) != 1 && op != 2) {
+        op = scanner.nextInt();
+        while (op != 1 && groupCount == 0 || op > 2 || op < 1) {
             System.out.println("数字を入力してください。");
+            op = scanner.nextInt();
         }
-        groupNo = 0;
-        switch (op) {
+        switch (op + 100) {
             case Server.NEW_GROUP:
-//                newGroup();
-                cmd.send(Server.NEW_GROUP);
-                groupNo = cmd.receiveInt();
-                System.out.println("グループ" + (groupNo + 1) + "を作成します。");
+                newGroup();
                 break;
             case Server.LIST_GROUP:
-                cmd.send(Server.LIST_GROUP);
-                int total = cmd.receiveInt();
-                System.out.println("グループが" + groupCnt + "個あります。グループを選んでください。");
-                for (int i = 0; i < total; i++) {
-                    System.out.println(in.readLine());
-                }
-                // TODO: 存在しないグループを選べてしまう
-                while ((groupNo = scanner.nextInt() - 1) + 1 > groupCnt && (groupNo) < 0) {
-                    System.out.println("正しい番号を選んでください");
-                }
+                listGroup(groupCount);
                 break;
         }
     }
 
-    void register() {
+    private void register() {
         cmd.send(Server.REGISTER);
-        cmd.send(groupNo);
-        cmd.send(jobCode);
+        cmd.send(player.getGroupID());
+        cmd.send(player.getPlayerName());
+        cmd.send(player.getJobCode());
+        player.setGroupID(groupID);
+        player.setPlayerID(cmd.receiveInt());
+        player.setParent(cmd.receiveBoolean());
+
+        System.out.println("グループ" + groupID + "に参加しました。");
+        System.out.println(cmd.receiveString());
     }
 
-//    void listGroup(int groupCnt) throws Exception{
-//        Scanner scanner = new Scanner(System.in);
-//
-//        ;
-//    }
-
-    void newGroup() {
+    private void newGroup() {
         cmd.send(Server.NEW_GROUP);
-        groupNo = cmd.receiveInt();
-        System.out.println("グループ" + (groupNo + 1) + "を作成します。");
+        groupID = cmd.receiveInt();
+        System.out.println("グループ" + groupID + "を作成します。");
+    }
+
+    private void listGroup(int groupCount) {
+        Scanner scanner = new Scanner(System.in);
+        cmd.send(Server.LIST_GROUP);
+        int total = cmd.receiveInt();
+        System.out.println("グループが " + groupCount + " 個あります。グループを選んでください。");
+        for (int i = 0; i < total; i++) {
+            System.out.println(cmd.receiveString());
+        }
+        groupID = scanner.nextInt() - 1;
+        while (groupID + 1 > groupCount || groupID < 0) {
+            System.out.println("正しい番号を選んでください");
+            groupID = scanner.nextInt() - 1;
+        }
+
     }
 
     private void establishConnection() {
@@ -157,10 +138,9 @@ public class Client {
             in = new BufferedReader(new InputStreamReader(inputStream));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)), true);
             cmd = new CommandHandler(in, out);
-            //            objIn = new ObjectInputStream(inputStream);
+//            objIn = new ObjectInputStream(inputStream);
 //            objOut = new ObjectOutputStream(outputStream);
 //            objOut.writeObject(new Player("test"));
-
         } catch (IOException e) {
             System.err.println("サーバー接続中にエラーが発生しました。");
             System.exit(1);
@@ -178,11 +158,11 @@ class CommandHandler {
     }
 
     void send(String command) {
-        out.print(command);
+        out.println(command);
     }
 
     void send(int command) {
-        out.print(command);
+        out.println(command);
     }
 
     int receiveInt() {
@@ -191,6 +171,15 @@ class CommandHandler {
         } catch (IOException e) {
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    boolean receiveBoolean() {
+        try {
+            return Boolean.parseBoolean(in.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
