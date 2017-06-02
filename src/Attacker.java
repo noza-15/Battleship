@@ -19,7 +19,7 @@ public class Attacker extends Player {
     public void newGame() {
         System.out.println("船の配置を決めます。");
         for(int i=0;i<Server.SHIPS.length;i++) {
-            System.out.println(Server.SHIPS[0]+"の設定をします、支点の位置を決めてください");
+            System.out.println(Server.SHIPS[0] + "の設定をします、支点の位置を決めてください");
             System.out.print("x:");
             int x = scan.nextInt();
             System.out.print("y:");
@@ -29,9 +29,10 @@ public class Attacker extends Player {
             System.out.println("横:1");
             int d = scan.nextInt();
             //:TODO インスタンスの格納
-            new Ship(Server.SHIPS[i],5-i,x,y,d);
+            new Ship(Server.SHIPS[i], 5 - i, x, y, d);
 
         }
+
     }
 
     @Override
@@ -49,6 +50,8 @@ public class Attacker extends Player {
 
         //TODO:入力されたマスを送信する。
     }
+
+
 
 
     @Override

@@ -35,7 +35,7 @@ public class Field implements Serializable {
         field[y][x] = 1;
     }
 
-    //自分の海を表示するメソッド
+    //海の状態を表示するメソッド
     void show() {
         for(int n = 0;n < field.length; n++) {
             System.out.print("\t" + (n + 1));

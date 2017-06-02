@@ -71,4 +71,19 @@ public class Ship {
             return true;
         }
     }
+
+    boolean survive(Ship ship[]){
+        int lives = 3;
+        for(int i=0;i<Server.SHIPS.length;i++) {
+            if (ship[i].life <= 0) {
+                lives--;
+            }
+        }
+        if(lives <=0){
+            System.out.println("You Lose");
+            return false;
+        }
+        else return true;
+    }
+
 }
