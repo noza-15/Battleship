@@ -30,11 +30,12 @@ public class Client {
             setGroup();
             setName();
             setJob();
+            register();
 
-            clientID = cmd.receiveInt();
+//            clientID = cmd.receiveInt();
             System.out.println("グループ" + (groupNo + 1) + "に参加しました。");
             System.out.println(cmd.receiveString());
-            System.out.println(cmd.receiveString());
+//            System.out.println(cmd.receiveString());
             switch (jobCode) {
                 case Server.ATTACKER:
                     player = new Attacker(inputName, cmd);
@@ -56,7 +57,6 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
         System.out.println("プレイヤー名を入力してください。");
         inputName = scanner.next();
-
         out.println(inputName);
     }
 
@@ -98,8 +98,9 @@ public class Client {
             System.out.println("数字を入力してください。");
         }
         groupNo = 0;
-        switch (op + 10) {
+        switch (op) {
             case Server.NEW_GROUP:
+//                newGroup();
                 cmd.send(Server.NEW_GROUP);
                 groupNo = cmd.receiveInt();
                 System.out.println("グループ" + (groupNo + 1) + "を作成します。");
@@ -115,11 +116,26 @@ public class Client {
                 while ((groupNo = scanner.nextInt() - 1) + 1 > groupCnt && (groupNo) < 0) {
                     System.out.println("正しい番号を選んでください");
                 }
-                ;
                 break;
         }
+    }
+
+    void register() {
         cmd.send(Server.REGISTER);
         cmd.send(groupNo);
+        cmd.send(jobCode);
+    }
+
+//    void listGroup(int groupCnt) throws Exception{
+//        Scanner scanner = new Scanner(System.in);
+//
+//        ;
+//    }
+
+    void newGroup() {
+        cmd.send(Server.NEW_GROUP);
+        groupNo = cmd.receiveInt();
+        System.out.println("グループ" + (groupNo + 1) + "を作成します。");
     }
 
     private void establishConnection() {
