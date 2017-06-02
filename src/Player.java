@@ -14,6 +14,7 @@ public class Player implements Serializable {
     Player(String inputName, CommandHandler cmd) {
         setPlayerName(inputName);
         this.cmd = cmd;
+
     }
 
     private Player(String playerName, int jobCode) {
