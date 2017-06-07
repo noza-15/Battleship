@@ -21,6 +21,9 @@ public class Field implements Serializable {
     void FieldAttacked(int x,int y){
         field[y][x] = 1;
     }
+    //攻撃された場所を保存
+    void FiealdAttack(int x,int y) { field[y][x] = 2 ;}
+
 
     //海の状態を表示するメソッド
     void show() {
@@ -34,31 +37,19 @@ public class Field implements Serializable {
             for (int j = 0; j < 10; j++) {
                 if (field[i][j] == 0) {
                     System.out.print("-\t");
-                } else if (field[i][j] == 1) {
+                }
+                else if (field[i][j] == 1) {
                     System.out.print("✖\t");
-                } else if (field[i][j] == -1) {
+                }
+                else if (field[i][j] == -1) {
                     System.out.print("◯\t");
+                }
+                else if(field[i][j] == 2){
+                    System.out.println("@\t");
                 }
 
             }
             System.out.println();
-        }
-    }
-
-
-
-
-    /*void show() {
-        for (int i = 0; i < field.length; i++) {
-            System.out.print("|");
-            for (int j = 0; j < field[i].length; j++) {
-                if (field[i][j] == 0) {
-                    System.out.print(" |");
-                } else {
-                    System.out.print("X|");
-                }
-            }
-            System.out.println("");
         }
     }
 

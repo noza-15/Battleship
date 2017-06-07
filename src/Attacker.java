@@ -16,19 +16,41 @@ public class Attacker extends Player {
         setJobCode(Server.ATTACKER);
     }
 
+    //船が置けるかどうか判別するメソッド
+    public static boolean check(int size, int x, int y, int d){
+        if(x<0 || y<0){
+            System.out.println("そこにはおけません！");
+            return true;
+        }
+        else if(d==1 && x+size>=10) {
+            System.out.println("そこにはおけません");
+            return true;
+        }
+        else if(d==0 && y+size>=10){
+            System.out.println("そこにはおけません");
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     @Override
     public void newGame() {
         System.out.println("船の配置を決めます。");
         for(int i=0;i<Server.SHIPS.length;i++) {
-            System.out.println(Server.SHIPS[0] + "の設定をします、支点の位置を決めてください");
-            System.out.print("x:");
-            int x = scan.nextInt();
-            System.out.print("y:");
-            int y = scan.nextInt();
-            System.out.println("設置する方向を決めてください");
-            System.out.println("縦:0");
-            System.out.println("横:1");
-            int d = scan.nextInt();
+            do {
+                System.out.println(Server.SHIPS[0] + "の設定をします、支点の位置を決めてください");
+                System.out.print("x:");
+                int x = scan.nextInt();
+                System.out.print("y:");
+                int y = scan.nextInt();
+                System.out.println("設置する方向を決めてください");
+                System.out.println("縦:0");
+                System.out.println("横:1");
+                int d = scan.nextInt();
+                while (check(Server.SHIPS_SIZE[i], x, y, d)) ;
+            }
             //:TODO インスタンスの格納
             ships[i] = new Ship(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, d);
 
