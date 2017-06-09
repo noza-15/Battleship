@@ -59,5 +59,5 @@ public class Field implements Serializable {
                 "Attacker " + numOfAttackers + "人, " +
                 "Bystander " + numOfBystanders + "人";
     }
-    */
+
 }

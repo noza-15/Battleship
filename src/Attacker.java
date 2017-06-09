@@ -17,20 +17,17 @@ public class Attacker extends Player {
     }
 
     //船が置けるかどうか判別するメソッド
-    public static boolean check(int size, int x, int y, int d){
-        if(x<0 || y<0){
+    public static boolean check(int size, int x, int y, int d) {
+        if (x < 0 || y < 0) {
             System.out.println("そこにはおけません！");
             return true;
-        }
-        else if(d==1 && x+size>=10) {
+        } else if (d == 1 && x + size >= 10) {
             System.out.println("そこにはおけません");
             return true;
-        }
-        else if(d==0 && y+size>=10){
+        } else if (d == 0 && y + size >= 10) {
             System.out.println("そこにはおけません");
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
@@ -38,19 +35,19 @@ public class Attacker extends Player {
     @Override
     public void newGame() {
         System.out.println("船の配置を決めます。");
-        for(int i=0;i<Server.SHIPS.length;i++) {
+        for (int i = 0; i < Server.SHIPS.length; i++) {
+            int x, y, d;
             do {
                 System.out.println(Server.SHIPS[0] + "の設定をします、支点の位置を決めてください");
                 System.out.print("x:");
-                int x = scan.nextInt();
+                x = scan.nextInt();
                 System.out.print("y:");
-                int y = scan.nextInt();
+                y = scan.nextInt();
                 System.out.println("設置する方向を決めてください");
                 System.out.println("縦:0");
                 System.out.println("横:1");
-                int d = scan.nextInt();
-                while (check(Server.SHIPS_SIZE[i], x, y, d)) ;
-            }
+                d = scan.nextInt();
+            } while (check(Server.SHIPS_SIZE[i], x, y, d));
             //:TODO インスタンスの格納
             ships[i] = new Ship(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, d);
 
@@ -74,18 +71,17 @@ public class Attacker extends Player {
         //TODO:入力されたマスを送信する。
     }
 
-    boolean survive(Ship ship[]){
+    boolean survive(Ship ship[]) {
         int lives = 3;
-        for(int i=0;i<Server.SHIPS.length;i++) {
+        for (int i = 0; i < Server.SHIPS.length; i++) {
             if (ship[i].getLife() <= 0) {
                 lives--;
             }
         }
-        if(lives <=0){
+        if (lives <= 0) {
             System.out.println("You Lose");
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
 
