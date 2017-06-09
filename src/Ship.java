@@ -47,6 +47,16 @@ public class Ship {
         return name;
     }
 
+
+    boolean shipLife(){
+        if(this.life <= 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     /**
      * 被弾したかを返す。同じ位置の2回目の被弾はfalse。
      *
@@ -54,6 +64,7 @@ public class Ship {
      * @param y y座標
      * @return 被弾したかどうか
      */
+
     boolean bombed(int x, int y) {
         // 正しい位置にある戦艦に対して呼び出すなら、この判定不要かも。
         switch (direction) {
@@ -70,6 +81,7 @@ public class Ship {
             isBombed[x - posX][y - posY] = true;
             return true;
         }
+
     }
 
 

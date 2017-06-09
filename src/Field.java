@@ -12,18 +12,25 @@ public class Field implements Serializable {
 
     // TODO: 盤面の保存形式を決める 野澤 2017/05/05
 
-    Field(int n) {
+    /*Field(int n) {
         field = new int[10][10];
         numOfGame = n;
     }
+    */
 
     //攻撃した場所を保存
-    void FieldAttacked(int x,int y){
+    void FieldAttack(int x,int y){
         field[y][x] = 1;
     }
     //攻撃された場所を保存
-    void FieldAttack(int x,int y) { field[y][x] = 2 ;}
-    //TODO:Attackerクラスで生成したshipインスタンスが被弾したかどうかで分岐させるべきかな？
+    void FieldAttacked(boolean t, int x, int y ){
+    if(t){
+        field[y][x] = 2;
+    }
+    else{
+        field[y][x] = 3;
+    }
+    }
 
 
     //海の状態を表示するメソッド
@@ -47,6 +54,9 @@ public class Field implements Serializable {
                 }
                 else if(field[i][j] == 2){
                     System.out.println("@\t");
+                }
+                else if (field[i][j] == 3){
+                    System.out.println("*\t");
                 }
 
             }
