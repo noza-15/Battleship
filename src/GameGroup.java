@@ -31,6 +31,9 @@ public class GameGroup {
         }
     }
 
+    void addPrintWriter(PrintWriter writer) {
+        outList.add(writer);
+    }
     int size() {
         return playersList.size();
     }

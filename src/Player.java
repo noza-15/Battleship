@@ -44,7 +44,8 @@ public class Player implements Serializable {
                     System.out.println(cmd.receiveString());
                 }
             }
-
+            cmd.send(Server.START);
+            cmd.receiveInt();
         } else {
             System.out.println("ゲーム開始を待機しています…");
             while (Server.START != cmd.receiveInt()) ;

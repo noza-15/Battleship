@@ -32,6 +32,7 @@ class ConnectionThread extends Thread {
         int groupID, jobCode;
         String name, command;
         GameGroup group = null;
+//        CommandHandler cmdHandler = new CommandHandler(in,out);
         while ((command = in.readLine()) != null) {
             switch (Integer.parseInt(command)) {
                 case Server.REGISTER:
@@ -67,6 +68,7 @@ class ConnectionThread extends Thread {
                     String output = "Registered : " + name + ", " + Server.JOB[jobCode] + ", playerID: " + (Server.allPlayerList.size() - 1);
                     System.out.println(output);
                     out.println(output);
+                    group.addPrintWriter(out);
                     break;
 
                 case Server.NEW_GROUP:
@@ -86,7 +88,6 @@ class ConnectionThread extends Thread {
                     for (int i = 0; i < Server.groupList.size(); i++) {
                         out.println(i + 1 + ": " + Server.groupList.get(i));
                     }
-                    out.println(Server.groupList.size());
                     break;
 
                 case Server.CLOSE_APPLICATIONS:
@@ -100,22 +101,27 @@ class ConnectionThread extends Thread {
                     }
                     break;
                 case Server.SET_SHIPS:
-                    ArrayList<PrintWriter> groupOutList = group.getOutList();
-                    String atkCommand = in.readLine();
-                    for (PrintWriter printWriter : groupOutList) {
-                        printWriter.println(atkCommand);
-                    }
+                    broadcast(group.getOutList(), in.readLine());
                 case Server.START:
-
+                    broadcast(group.getOutList(), Server.START);
                     break;
                 default:
                     System.out.println("?");
                     break;
             }
-
         }
+    }
 
+    void broadcast(ArrayList<PrintWriter> group, String command) {
+        for (PrintWriter printWriter : group) {
+            printWriter.println(command);
+        }
+    }
 
+    void broadcast(ArrayList<PrintWriter> group, int command) {
+        for (PrintWriter printWriter : group) {
+            printWriter.println(command);
+        }
     }
 }
 
