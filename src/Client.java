@@ -15,7 +15,7 @@ public class Client {
     private CommandHandler cmd;
 
     public static void main(String[] args) {
-        System.out.println("*** レーダー作戦ゲームβ ***");
+        System.out.println("\u001b[34m*** レーダー作戦ゲームβ ***\u001b[0m");
         Client client = new Client();
         client.initialize();
         client.play();
@@ -96,7 +96,7 @@ public class Client {
         System.out.println("グループ" + groupID + "に参加しました。");
         System.out.println(cmd.receiveString());
         if (player.isParent()) {
-            System.out.println("あなたはこのゲームの親です。");
+            System.out.println("\u001b[35mあなたはこのゲームの親です。”end”を入力すると参加募集を締め切ります。\u001b[0m");
         }
     }
 
