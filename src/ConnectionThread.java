@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 class ConnectionThread extends Thread {
     private Socket socket;
+    private BufferedReader in;
+    private PrintWriter out;
+    private ObjectOutputStream objOut;
+    private ObjectInputStream objIn;
 
     ConnectionThread(Socket socket) {
         this.socket = socket;
@@ -12,23 +16,26 @@ class ConnectionThread extends Thread {
     public void run() {
         try {
             System.out.println("Connection accepted: " + socket);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(
-                    new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-            handleCommand(in, out);
+            InputStream inputStream = socket.getInputStream();
+            OutputStream outputStream = socket.getOutputStream();
+            in = new BufferedReader(new InputStreamReader(inputStream));
+            out = new PrintWriter(
+                    new BufferedWriter(new OutputStreamWriter(outputStream)), true);
+            objOut = new ObjectOutputStream(outputStream);
+            objIn = new ObjectInputStream(inputStream);
+            handleCommand();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("クライアントとの接続が失われました。");
         } finally {
-            System.out.println("closing...");
+            System.out.println("Closing...");
             try {
                 socket.close();
             } catch (IOException e) {
-                System.out.println("クライアントとの接続が失われました。");
             }
         }
     }
 
-    private void handleCommand(BufferedReader in, PrintWriter out) throws IOException {
+    private void handleCommand() throws IOException {
         int groupID, jobCode;
         String name, command;
         GameGroup group = null;
@@ -91,11 +98,13 @@ class ConnectionThread extends Thread {
                     break;
 
                 case Server.CLOSE_APPLICATIONS:
-                    System.out.println("Close group");
+                    System.out.print("Close group...");
                     if (group.getAttackersCount() > 1) {
                         group.closeGroup();
+                        System.out.println(" done.");
                         out.println(true);
                     } else {
+                        System.out.println(" can't close.");
                         out.println(false);
                         out.println("More than 2 attackers are needed to start a game!");
                     }

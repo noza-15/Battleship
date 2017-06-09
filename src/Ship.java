@@ -16,7 +16,7 @@ public class Ship {
      * @param posY      戦艦の船首のy座標
      * @param direction 戦艦の向き
      */
-    public Ship(String name, int size, int posX, int posY, int direction) {
+    Ship(String name, int size, int posX, int posY, int direction) {
         isBombed = new boolean[size][size];
         this.name = name;
         this.posX = posX;
@@ -83,7 +83,5 @@ public class Ship {
         }
 
     }
-
-
 
 }

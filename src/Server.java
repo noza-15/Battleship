@@ -5,8 +5,9 @@ import java.util.ArrayList;
 
 public class Server {
     static final String[] JOB = {"Attacker", "Bystander"};
-    static final String SHIPS[] = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
-    static final int SHIPS_SIZE[] = {5, 4, 3, 3, 2};
+    static final String[] SHIPS = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
+    static final int[] SHIPS_SIZE = {5, 4, 3, 3, 2};
+
     static final int PORT_NO = 9999;
 
     static final int ATTACKER = 0;
@@ -19,6 +20,7 @@ public class Server {
     static final int CLOSE_APPLICATIONS = 104;
     static final int START = 105;
     static final int SET_SHIPS = 106;
+    static final int ATTACK = 107;
 
     static ArrayList<Player> allPlayerList = new ArrayList<>();
     static ArrayList<GameGroup> groupList = new ArrayList<>();

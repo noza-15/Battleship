@@ -1,21 +1,18 @@
-import java.io.*;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Client {
-    private BufferedReader in;
-    private PrintWriter out;
     private Scanner scanner;
-    //    private ObjectInputStream objIn;
-//    private ObjectOutputStream objOut;
+
     private int groupID;
     private Player player;
     private CommandHandler cmd;
 
     public static void main(String[] args) {
-        System.out.println("\u001b[34m*** レーダー作戦ゲームβ ***\u001b[0m");
+        System.out.println("\u001b[34m*** レーダー作戦ゲームβ ***\u001b[0m"); //TODO: GUI
         Client client = new Client();
         client.initialize();
         client.play();
@@ -35,7 +32,29 @@ public class Client {
         player.nextTurn();
     }
 
+    private void establishConnection() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("サーバーのアドレスを入力してください。"); //TODO: GUI
+        String inputAddr = scanner.nextLine();
+        InetAddress address = null;
+        try {
+            address = InetAddress.getByName(inputAddr);
+        } catch (UnknownHostException e) {
+            System.err.println("サーバーが見つかりませんでした。"); //TODO: GUI
+            System.exit(1);
+        }
+        try {
+            Socket socket = new Socket(address, Server.PORT_NO);
+            System.out.println("socket = " + socket); //TODO: GUI
+            cmd = new CommandHandler(socket);
+        } catch (IOException e) {
+            System.err.println("サーバー接続中にエラーが発生しました。"); //TODO: GUI
+            System.exit(1);
+        }
+    }
+
     private void setPlayer() {
+        //TODO: GUI
         System.out.println("プレイヤー名を入力してください。");
         String inputName = scanner.next();
         System.out.println("役割を選んでください。\nAttacker(攻撃者), Bystander(傍観者)");
@@ -59,9 +78,29 @@ public class Client {
         }
     }
 
+    private void register() {
+        cmd.send(Server.REGISTER);
+        player.setGroupID(groupID);
+        cmd.send(player.getGroupID());
+        cmd.send(player.getPlayerName());
+        cmd.send(player.getJobCode());
+        if (!cmd.receiveBoolean()) {
+            System.out.println("このグループには参加できません"); //TODO: GUI
+        }
+        player.setParent(cmd.receiveBoolean());
+        player.setPlayerID(cmd.receiveInt());
+
+        System.out.println("グループ" + groupID + "に参加しました。"); //TODO: GUI
+        System.out.println(cmd.receiveString());
+        if (player.isParent()) {
+            System.out.println("\u001b[35mあなたはこのゲームの親です。”end”を入力すると参加募集を締め切ります。\u001b[0m"); //TODO: GUI
+        }
+    }
+
     private void setGroup() {
         int groupCount;
         int op;
+        //TODO: GUI
         System.out.println("操作を選択してください。");
         System.out.println("1: 新規グループを作成");
         cmd.send(Server.DOES_EXIST_GROUP);
@@ -84,72 +123,30 @@ public class Client {
         }
     }
 
-    private void register() {
-        cmd.send(Server.REGISTER);
-        player.setGroupID(groupID);
-        cmd.send(player.getGroupID());
-        cmd.send(player.getPlayerName());
-        cmd.send(player.getJobCode());
-        if (!cmd.receiveBoolean()) {
-            System.out.println("このグループには参加できません");
-        }
-        player.setParent(cmd.receiveBoolean());
-        player.setPlayerID(cmd.receiveInt());
-
-        System.out.println("グループ" + groupID + "に参加しました。");
-        System.out.println(cmd.receiveString());
-        if (player.isParent()) {
-            System.out.println("\u001b[35mあなたはこのゲームの親です。”end”を入力すると参加募集を締め切ります。\u001b[0m");
-        }
-    }
-
     private void newGroup() {
         cmd.send(Server.NEW_GROUP);
         groupID = cmd.receiveInt();
-        System.out.println("グループ" + groupID + "を作成します。");
+        System.out.println("グループ" + groupID + "を作成します。"); //TODO: GUI
     }
 
     private void listGroup(int groupCount) {
         Scanner scanner = new Scanner(System.in);
         cmd.send(Server.LIST_GROUP);
         int total = cmd.receiveInt();
+        //TODO: GUI
         System.out.println("グループが " + groupCount + " 個あります。グループを選んでください。");
         for (int i = 0; i < total; i++) {
             System.out.println(cmd.receiveString());
         }
         groupID = scanner.nextInt() - 1;
-        while (groupID + 1 > groupCount || groupID < 0) {
+        //TODO: 0で前に戻れるように
+        if (groupID == -1) {
+            setGroup();
+        }
+        while (groupID + 1 > groupCount || groupID < -1) {
             System.out.println("正しい番号を選んでください");
             groupID = scanner.nextInt() - 1;
         }
 
-    }
-
-    private void establishConnection() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("サーバーのアドレスを入力してください。");
-        String inputAddr = scanner.nextLine();
-        InetAddress address = null;
-        try {
-            address = InetAddress.getByName(inputAddr);
-        } catch (UnknownHostException e) {
-            System.err.println("サーバーが見つかりませんでした。");
-            System.exit(1);
-        }
-        try {
-            Socket socket = new Socket(address, Server.PORT_NO);
-            System.out.println("socket = " + socket);
-            InputStream inputStream = socket.getInputStream();
-            OutputStream outputStream = socket.getOutputStream();
-            in = new BufferedReader(new InputStreamReader(inputStream));
-            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)), true);
-            cmd = new CommandHandler(in, out);
-//            objIn = new ObjectInputStream(inputStream);
-//            objOut = new ObjectOutputStream(outputStream);
-//            objOut.writeObject(new Player("test"));
-        } catch (IOException e) {
-            System.err.println("サーバー接続中にエラーが発生しました。");
-            System.exit(1);
-        }
     }
 }

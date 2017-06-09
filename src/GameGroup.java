@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class GameGroup {
     private ArrayList<Player> playersList = new ArrayList<>();
     private ArrayList<PrintWriter> outList = new ArrayList<>();
-    private int groupID;
+    private int groupID = -1;
     private int parentID = -1;
     private int attackersCount = 0;
     private int bystandersCount = 0;

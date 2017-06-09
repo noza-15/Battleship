@@ -3,13 +3,12 @@ import java.util.Scanner;
 
 public class Player implements Serializable {
     private static final long serialVersionUID = 910896110410228731L;
+    int groupID;
+    int playerID;
+    CommandHandler cmd;
     private String playerName;
     private int jobCode;
-    private int groupID;
-    private int playerID;
-
     private boolean isParent;
-    private CommandHandler cmd;
 
     Player(String inputName) {
         setPlayerName(inputName);
@@ -18,12 +17,6 @@ public class Player implements Serializable {
     Player(String inputName, CommandHandler cmd) {
         setPlayerName(inputName);
         this.cmd = cmd;
-
-    }
-
-    private Player(String playerName, int jobCode) {
-        this.playerName = playerName;
-        this.jobCode = jobCode;
     }
 
     public void newGame() {
