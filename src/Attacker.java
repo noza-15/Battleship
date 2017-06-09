@@ -17,7 +17,7 @@ public class Attacker extends Player {
     }
 
     //船が置けるかどうか判別するメソッド
-    public static boolean check(int size, int x, int y, int d) {
+    private static boolean check(int size, int x, int y, int d) {
         if (x < 0 || y < 0) {
             System.out.println("そこにはおけません！");
             return true;
@@ -38,7 +38,7 @@ public class Attacker extends Player {
         for (int i = 0; i < Server.SHIPS.length; i++) {
             int x, y, d;
             do {
-                System.out.println(Server.SHIPS[0] + "の設定をします、支点の位置を決めてください");
+                System.out.println(Server.SHIPS[i] + "の設定をします、"+Server.SHIPS[i]+"の大きさは"+Server.SHIPS_SIZE[i] +"です。支点の位置を決めてください");
                 System.out.print("x:");
                 x = scan.nextInt();
                 System.out.print("y:");
@@ -64,11 +64,17 @@ public class Attacker extends Player {
         int x = scan.nextInt();//TODO:数字以外が入力されたらそこでエラーになり終了してしまう。
         System.out.print("y:");
         int y = scan.nextInt();
-        sea.FieldAttacked(x - 1, y - 1);
+        sea.FieldAttack(x-1, y-1);
         sea.show();
         System.out.println("他のプレイヤーが選択するのを待っています...");
-
         //TODO:入力されたマスを送信する。
+        // TODO:全員攻撃完了した後の処理
+        sea.FieldAttacked(x-1, y-1);
+        for(int i=0;i<playerNumber;i++){
+            for(int k=0,k<Server.SHIPS.length;j++){
+
+            }
+        }
     }
 
     boolean survive(Ship ship[]) {

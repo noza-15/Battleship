@@ -22,7 +22,8 @@ public class Field implements Serializable {
         field[y][x] = 1;
     }
     //攻撃された場所を保存
-    void FiealdAttack(int x,int y) { field[y][x] = 2 ;}
+    void FieldAttack(int x,int y) { field[y][x] = 2 ;}
+    //TODO:Attackerクラスで生成したshipインスタンスが被弾したかどうかで分岐させるべきかな？
 
 
     //海の状態を表示するメソッド
