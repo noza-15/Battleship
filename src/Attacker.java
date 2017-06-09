@@ -70,8 +70,8 @@ public class Attacker extends Player {
         //TODO:入力されたマスを送信する。
         // TODO:全員攻撃完了した後の処理
         sea.FieldAttacked(x-1, y-1);
-        for(int i=0;i<playerNumber;i++){
-            for(int k=0,k<Server.SHIPS.length;j++){
+        for(int i=0;i<5;i++){ //TODO
+            for(int j=0;j<Server.SHIPS.length;j++){
 
             }
         }
