@@ -34,11 +34,16 @@ public class Player implements Serializable {
             System.out.println("\"end\"を入力するとプレイヤーの募集を終了します。");
             Scanner scanner = new Scanner(System.in);
             String command;
-            do {
-                command = scanner.nextLine();
-            } while (!command.toLowerCase().equals("end"));
-            cmd.send(Server.CLOSE_APPLICATIONS);
-            cmd.send(getGroupID());
+            boolean isClosed = false;
+            while (!isClosed) {
+                do {
+                    command = scanner.nextLine();
+                } while (!command.toLowerCase().equals("end"));
+                cmd.send(Server.CLOSE_APPLICATIONS);
+                if (!(isClosed = cmd.receiveBoolean())) {
+                    System.out.println(cmd.receiveString());
+                }
+            }
 
         } else {
             System.out.println("ゲーム開始を待機しています…");
