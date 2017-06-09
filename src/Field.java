@@ -25,10 +25,10 @@ public class Field implements Serializable {
     //攻撃された場所を保存
     void FieldAttacked(boolean t, int x, int y ){
     if(t){
-        field[y][x] = 2;
+        field[y][x] = 2;//当たり
     }
     else{
-        field[y][x] = 3;
+        field[y][x] = 3;//はずれ
     }
     }
 
@@ -53,10 +53,10 @@ public class Field implements Serializable {
                     System.out.print("◯\t");
                 }
                 else if(field[i][j] == 2){
-                    System.out.println("@\t");
+                    System.out.print("@\t");
                 }
                 else if (field[i][j] == 3){
-                    System.out.println("*\t");
+                    System.out.print("*\t");
                 }
 
             }

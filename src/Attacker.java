@@ -90,7 +90,7 @@ public class Attacker extends Player {
             // TODO:全員攻撃完了した後の処理
             for (int i = 0; i < 5; i++) { //TODO:プレイヤーの人数分の攻撃処理
                 for (int j = 0; j < Server.SHIPS.length; j++) {
-                    mysea.FieldAttacked(ships[j].bombed(X - 1, Y - 1), X - 1, Y - 1);
+                    mysea.FieldAttacked(ships[j].bombed(3 - 1, 2 - 1), 3 - 1, 2 - 1);
                 }
             }
             int life = 3;
