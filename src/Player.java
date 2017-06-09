@@ -36,8 +36,9 @@ public class Player implements Serializable {
             String command;
             do {
                 command = scanner.nextLine();
-            } while (command.toLowerCase().equals("end"));
+            } while (!command.toLowerCase().equals("end"));
             cmd.send(Server.CLOSE_APPLICATIONS);
+            cmd.send(getGroupID());
 
         } else {
             System.out.println("ゲーム開始を待機しています…");
@@ -74,7 +75,7 @@ public class Player implements Serializable {
         this.groupID = groupID;
     }
 
-    private boolean isParent() {
+    public boolean isParent() {
         return isParent;
     }
 

@@ -7,6 +7,7 @@ public class GameGroup {
     private int parentID;
     private int attackersCount = 0;
     private int bystandersCount = 0;
+
     GameGroup(int groupID) {
         this.groupID = groupID;
     }
@@ -14,8 +15,10 @@ public class GameGroup {
     void add(Player player) {
         playersList.add(player);
         if (player instanceof Attacker) {
+            System.out.println("Add an attacker into Group" + groupID);
             attackersCount++;
         } else if (player instanceof Bystander) {
+            System.out.println("Add a bystander into Group" + groupID);
             bystandersCount++;
         }
     }

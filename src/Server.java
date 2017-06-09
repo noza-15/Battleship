@@ -89,6 +89,8 @@ class connectionThread extends Thread {
                         if (group.getAttackersCount() == 1) {
                             out.println(true);
                             group.setParentID(Server.allPlayerList.size() - 1);
+                        } else {
+                            out.println(false);
                         }
                         break;
                     case Server.BYSTANDER:
@@ -122,6 +124,11 @@ class connectionThread extends Thread {
                     out.println(i + 1 + ": " + Server.groupList.get(i));
                 }
                 out.println(Server.groupList.size());
+                break;
+
+            case Server.CLOSE_APPLICATIONS:
+                int id = Integer.parseInt(in.readLine());
+                if (Server.groupList.get(id).getAttackersCount() > 1) ;
                 break;
             default:
                 System.out.println("?");

@@ -30,7 +30,7 @@ public class Client {
     }
 
     private void play() {
-        player.waitStart();
+//        player.waitStart();
         player.newGame();
         player.nextTurn();
     }
@@ -86,15 +86,18 @@ public class Client {
 
     private void register() {
         cmd.send(Server.REGISTER);
+        player.setGroupID(groupID);
         cmd.send(player.getGroupID());
         cmd.send(player.getPlayerName());
         cmd.send(player.getJobCode());
-        player.setGroupID(groupID);
-        player.setPlayerID(cmd.receiveInt());
         player.setParent(cmd.receiveBoolean());
+        player.setPlayerID(cmd.receiveInt());
 
         System.out.println("グループ" + groupID + "に参加しました。");
         System.out.println(cmd.receiveString());
+        if (player.isParent()) {
+            System.out.println("あなたはこのゲームの親です。");
+        }
     }
 
     private void newGroup() {
