@@ -1,3 +1,5 @@
+import java.net.SocketException;
+
 public class Bystander extends Player {
 
     Bystander(String inputName) {
@@ -5,21 +7,15 @@ public class Bystander extends Player {
         setJobCode(Server.BYSTANDER);
     }
 
-    Bystander(String inputName, CommandHandler cmd) {
-        super(inputName, cmd);
-        setJobCode(Server.BYSTANDER);
+    @Override
+    public void newGame() throws SocketException {
+        scanner.next();
+        super.newGame();
     }
 
     @Override
-    public void nextTurn() {
+    public void nextTurn() throws SocketException {
         super.nextTurn();
     }
 
-    @Override
-    public String toString() {
-        return "Bystander {" +
-                "Name= " + getPlayerName() +
-                ", Job= " + Server.JOB[getJobCode()] +
-                "}";
-    }
 }

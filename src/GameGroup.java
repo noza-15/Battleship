@@ -1,39 +1,40 @@
-import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class GameGroup {
     private ArrayList<Player> playersList = new ArrayList<>();
-    private ArrayList<PrintWriter> outList = new ArrayList<>();
+    private ArrayList<CommandHandler> outList = new ArrayList<>();
     private int groupID = -1;
     private int parentID = -1;
     private int attackersCount = 0;
     private int bystandersCount = 0;
 
-    private boolean isOpen;
+    volatile private boolean isOpen;
 
     GameGroup(int groupID) {
         this.groupID = groupID;
         isOpen = true;
     }
 
-    public ArrayList<PrintWriter> getOutList() {
+    public ArrayList<CommandHandler> getOutList() {
         return outList;
     }
 
     void addPlayer(Player player) {
         playersList.add(player);
         if (player instanceof Attacker) {
-            System.out.println("Add an attacker into Group" + groupID);
+            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Add attacker: " + player + groupID);
             attackersCount++;
         } else if (player instanceof Bystander) {
-            System.out.println("Add a bystander into Group" + groupID);
+            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Add bystander: " + player + groupID);
             bystandersCount++;
         }
     }
 
-    void addPrintWriter(PrintWriter writer) {
-        outList.add(writer);
+    void addCommandHandler(CommandHandler handler) {
+        outList.add(handler);
     }
+
     int size() {
         return playersList.size();
     }
@@ -68,6 +69,10 @@ public class GameGroup {
 
     public int getPlayersCount() {
         return attackersCount + bystandersCount;
+    }
+
+    public ArrayList<Player> getPlayersList() {
+        return playersList;
     }
 
     @Override

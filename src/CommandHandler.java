@@ -1,7 +1,9 @@
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class CommandHandler {
+
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
@@ -10,12 +12,7 @@ public class CommandHandler {
     private ObjectInputStream objIn;
     private ObjectOutputStream objOut;
 
-    CommandHandler(BufferedReader in, PrintWriter out) {
-        this.in = in;
-        this.out = out;
-    }
-
-    CommandHandler(Socket socket) {
+    CommandHandler(Socket socket) throws IOException {
         this.socket = socket;
         try {
             InputStream inputStream = socket.getInputStream();
@@ -30,60 +27,81 @@ public class CommandHandler {
 
     }
 
-    void send(String command) {
-        out.println(command);
+    void send(String message) {
+        out.println(message);
     }
 
     void send(int command) {
         out.println(command);
     }
 
-    void send(Object object) {
+    void send(boolean bool) {
+        out.println(bool);
+    }
+
+    void send(Object object) throws SocketException {
         try {
             objOut.writeObject(object);
             objOut.flush();
+        } catch (SocketException se) {
+            throw new SocketException();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    int receiveInt() {
+    int receiveInt() throws SocketException {
         try {
             return Integer.parseInt(in.readLine());
+        } catch (SocketException se) {
+            throw new SocketException();
         } catch (IOException e) {
             e.printStackTrace();
             return 0;
         }
     }
 
-    boolean receiveBoolean() {
+    boolean receiveBoolean() throws SocketException {
         try {
             return Boolean.parseBoolean(in.readLine());
+        } catch (SocketException se) {
+            throw new SocketException();
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    String receiveString() {
+    String receiveString() throws SocketException {
         try {
             return in.readLine();
+        } catch (SocketException se) {
+            throw new SocketException();
         } catch (IOException e) {
             e.printStackTrace();
             return "null";
         }
     }
 
-    Object receiveObject() {
+    Object receiveObject() throws SocketException {
         try {
             return objIn.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;
+        } catch (SocketException se) {
+            throw new SocketException();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

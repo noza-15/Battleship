@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
@@ -14,11 +15,16 @@ public class Client {
     public static void main(String[] args) {
         System.out.println("\u001b[34m*** レーダー作戦ゲームβ ***\u001b[0m"); //TODO: GUI
         Client client = new Client();
-        client.initialize();
-        client.play();
+        try {
+            client.initialize();
+            client.play();
+        } catch (SocketException se) {
+            System.err.println("サーバー接続中にエラーが発生しました。"); //TODO: GUI
+            System.exit(1);
+        }
     }
 
-    private void initialize() {
+    private void initialize() throws SocketException {
         scanner = new Scanner(System.in);
         establishConnection();
         setGroup();
@@ -26,7 +32,7 @@ public class Client {
         register();
     }
 
-    private void play() {
+    private void play() throws SocketException {
         player.waitStart();
         player.newGame();
         player.nextTurn();
@@ -61,14 +67,12 @@ public class Client {
         switch (scanner.next().toLowerCase()) {
             case "a":
             case "attacker":
-                player = new Attacker(inputName, cmd);
-                player.setJobCode(Server.ATTACKER);
+                player = new Attacker(inputName);
                 System.out.println("Attacker(攻撃者)が選択されました。");
                 break;
             case "b":
             case "bystander":
-                player = new Bystander(inputName, cmd);
-                player.setJobCode(Server.BYSTANDER);
+                player = new Bystander(inputName);
                 System.out.println("Bystander(傍観者)が選択されました。");
                 break;
             default:
@@ -78,17 +82,18 @@ public class Client {
         }
     }
 
-    private void register() {
+    private void register() throws SocketException {
         cmd.send(Server.REGISTER);
         player.setGroupID(groupID);
-        cmd.send(player.getGroupID());
-        cmd.send(player.getPlayerName());
-        cmd.send(player.getJobCode());
+        cmd.send(player);
         if (!cmd.receiveBoolean()) {
-            System.out.println("このグループには参加できません"); //TODO: GUI
+            System.out.println("このグループには参加できません。"); //TODO: GUI
+            setGroup();
+            return;
         }
         player.setParent(cmd.receiveBoolean());
         player.setPlayerID(cmd.receiveInt());
+        player.setCmd(cmd);
 
         System.out.println("グループ" + groupID + "に参加しました。"); //TODO: GUI
         System.out.println(cmd.receiveString());
@@ -97,7 +102,7 @@ public class Client {
         }
     }
 
-    private void setGroup() {
+    private void setGroup() throws SocketException {
         int groupCount;
         int op;
         //TODO: GUI
@@ -123,13 +128,13 @@ public class Client {
         }
     }
 
-    private void newGroup() {
+    private void newGroup() throws SocketException {
         cmd.send(Server.NEW_GROUP);
         groupID = cmd.receiveInt();
         System.out.println("グループ" + groupID + "を作成します。"); //TODO: GUI
     }
 
-    private void listGroup(int groupCount) {
+    private void listGroup(int groupCount) throws SocketException {
         Scanner scanner = new Scanner(System.in);
         cmd.send(Server.LIST_GROUP);
         int total = cmd.receiveInt();
@@ -140,8 +145,10 @@ public class Client {
         }
         groupID = scanner.nextInt() - 1;
         //TODO: 0で前に戻れるように
+        //FIXME: 表示が変
         if (groupID == -1) {
             setGroup();
+            return;
         }
         while (groupID + 1 > groupCount || groupID < -1) {
             System.out.println("正しい番号を選んでください");

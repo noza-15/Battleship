@@ -1,11 +1,14 @@
 import java.io.Serializable;
+import java.net.SocketException;
 import java.util.Scanner;
 
 public class Player implements Serializable {
     private static final long serialVersionUID = 910896110410228731L;
-    int groupID;
-    int playerID;
-    CommandHandler cmd;
+    transient Scanner scanner = new Scanner(System.in);
+    transient CommandHandler cmd;
+
+    int groupID = -1;
+    int playerID = -1;
     private String playerName;
     private int jobCode;
     private boolean isParent;
@@ -14,15 +17,10 @@ public class Player implements Serializable {
         setPlayerName(inputName);
     }
 
-    Player(String inputName, CommandHandler cmd) {
-        setPlayerName(inputName);
-        this.cmd = cmd;
+    public void newGame() throws SocketException {
     }
 
-    public void newGame() {
-    }
-
-    public void waitStart() {
+    public void waitStart() throws SocketException {
         if (isParent()) {
             System.out.println("\"end\"を入力するとプレイヤーの募集を終了します。");
             Scanner scanner = new Scanner(System.in);
@@ -45,7 +43,7 @@ public class Player implements Serializable {
         }
     }
 
-    public void nextTurn() {
+    public void nextTurn() throws SocketException {
 
     }
 
@@ -90,12 +88,17 @@ public class Player implements Serializable {
         this.jobCode = jobCode;
     }
 
+    public void setCmd(CommandHandler cmd) {
+        this.cmd = cmd;
+    }
+
     @Override
     public String toString() {
-        return "Player{" +
-//                "score=" + score +
-                "Name= " + playerName +
-                ", Job= " + Server.JOB[jobCode] +
-                '}';
+        return Server.JOB[getJobCode()] + " {" +
+                "Group= " + getGroupID() +
+                ", PlayerID= " + getPlayerID() +
+                ", Name= " + getPlayerName() +
+                ", Parent= " + isParent() +
+                "}";
     }
 }

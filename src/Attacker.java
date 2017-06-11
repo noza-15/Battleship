@@ -1,22 +1,16 @@
-import java.util.Scanner;
+import java.net.SocketException;
 
 public class Attacker extends Player {
 
-    private static final long serialVersionUID = -4256584860549128083L;
+    //    transient Scanner scanner = new Scanner(System.in);
+    //Ship a1 = new Ship ("空母", 5, posX, posY, Ship.VERTICAL);
     int myLife = 3;
     Field mySea = new Field();
     Field sea[] = new Field[5]; //TODO:相手人数分のインスタンスの生成
     Ship ships[] = new Ship[Server.SHIPS.length];
-    //Ship a1 = new Ship ("空母", 5, posX, posY, Ship.VERTICAL);
-    Scanner scan = new Scanner(System.in);
 
     Attacker(String inputName) {
         super(inputName);
-        setJobCode(Server.ATTACKER);
-    }
-
-    Attacker(String inputName, CommandHandler cmd) {
-        super(inputName, cmd);
         setJobCode(Server.ATTACKER);
     }
 
@@ -51,7 +45,7 @@ public class Attacker extends Player {
 
 
     @Override
-    public void newGame() {
+    public void newGame() throws SocketException {
         System.out.println("船の配置を決めます。");
         for (int i = 0; i < Server.SHIPS.length; i++) {
             int x, y, d;
@@ -61,26 +55,26 @@ public class Attacker extends Player {
                         "始点の位置を決めてください");
                 System.out.print("x:");
                 while (true) {
-                    if (scan.hasNextInt()) {
-                        x = scan.nextInt();
+                    if (scanner.hasNextInt()) {
+                        x = scanner.nextInt();
                         break;
                     } else {
-                        scan.next();
+                        scanner.next();
                     }
                 }
                 System.out.print("y:");
                 while (true) {
-                    if (scan.hasNextInt()) {
-                        y = scan.nextInt();
+                    if (scanner.hasNextInt()) {
+                        y = scanner.nextInt();
                         break;
                     } else {
-                        scan.next();
+                        scanner.next();
                     }
                 }
                 System.out.println("設置する方向を決めてください");
                 System.out.println("縦:0");
                 System.out.println("横:1");
-                d = scan.nextInt();
+                d = scanner.nextInt();
             } while (check(Server.SHIPS_SIZE[i], x, y, d));
             //TODO: インスタンスの格納
             ships[i] = new Ship(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, d);
@@ -91,26 +85,26 @@ public class Attacker extends Player {
 
     @Override
     //攻撃する位置を指定する。
-    public void nextTurn() {
+    public void nextTurn() throws SocketException {
         while (true) {
             int x, y;
             System.out.println("どこを攻撃しますか？");//攻撃場所の読み込み
             System.out.print("x:");
             while (true) {
-                if (scan.hasNextInt()) {
-                    x = scan.nextInt();
+                if (scanner.hasNextInt()) {
+                    x = scanner.nextInt();
                     break;
                 } else {
-                    scan.next();
+                    scanner.next();
                 }
             }
             System.out.print("y:");
             while (true) {
-                if (scan.hasNextInt()) {
-                    y = scan.nextInt();
+                if (scanner.hasNextInt()) {
+                    y = scanner.nextInt();
                     break;
                 } else {
-                    scan.next();
+                    scanner.next();
                 }
             }
             mySea.FieldAttack(x - 1, y - 1);
@@ -148,12 +142,4 @@ public class Attacker extends Player {
         }
     }
 
-
-    @Override
-    public String toString() {
-        return "Attacker {" +
-                "Name= " + getPlayerName() +
-                ", Job= " + Server.JOB[getJobCode()] +
-                "}";
-    }
 }
