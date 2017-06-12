@@ -16,7 +16,11 @@ public class Attacker extends Player {
 
     //船が置けるかどうか判別するメソッド
     private static boolean check(int size, int x, int y, int d) {
-        if (x < 0 || y < 0) {
+        if(d != 0 && d != 1){
+            System.out.println("0か1を入力して向きを決めてください！");
+            return true;
+        }
+        else if (x <= 0 || y <= 0) {
             System.out.println("そこにはおけません！");
             return true;
         } else if (d == 1 && x + size >= 10) {
@@ -31,19 +35,17 @@ public class Attacker extends Player {
     }
 
     //自分が戦闘可能かどうか判別するメソッド、いらないかも
-    /*
-    private boolean isurvive(Ship myShips[]) {
+    /*private boolean isurvive(Ship ships[]) {
         int lives = 3;
         for (int i = 0; i < Server.SHIPS.length; i++) {
-            if (myShips[i].getLife() <= 0) {
+            if (ships[i].getLife() <= 0) {
                 lives--;
             }
         }
         if (lives <= 0) {
             return false;
         } else return true;
-    }
-    */
+    }*/
 
 
     @Override
