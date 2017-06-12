@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player implements Serializable {
@@ -9,6 +10,8 @@ public class Player implements Serializable {
 
     int groupID = -1;
     int playerID = -1;
+    ShipManager manager;
+    private ArrayList<Player> otherPlayers;
     private String playerName;
     private int jobCode;
     private boolean isParent;
@@ -40,7 +43,10 @@ public class Player implements Serializable {
         } else {
             System.out.println("ゲーム開始を待機しています…");
             while (Server.START != cmd.receiveInt()) ;
+
         }
+        System.out.println("プレイヤー情報を取得しています…");
+        otherPlayers = (ArrayList<Player>) cmd.receiveObject();
     }
 
     public void nextTurn() throws SocketException {
@@ -94,8 +100,8 @@ public class Player implements Serializable {
 
     @Override
     public String toString() {
-        return Server.JOB[getJobCode()] + " {" +
-                "Group= " + getGroupID() +
+        return Server.JOB[getJobCode()] + "{" +
+                "GroupID= " + getGroupID() +
                 ", PlayerID= " + getPlayerID() +
                 ", Name= " + getPlayerName() +
                 ", Parent= " + isParent() +

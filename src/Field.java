@@ -19,23 +19,23 @@ public class Field implements Serializable {
     */
 
     //攻撃した場所を保存
-    void FieldAttack(int x,int y){
+    void FieldAttack(int x, int y) {
         field[y][x] = 1;
     }
+
     //攻撃された場所を保存
-    void FieldAttacked(boolean t, int x, int y ){
-    if(t){
-        field[y][x] = 2;//当たり
-    }
-    else{
-        field[y][x] = 3;//はずれ
-    }
+    void FieldAttacked(boolean t, int x, int y) {
+        if (t) {
+            field[y][x] = 2;//当たり
+        } else {
+            field[y][x] = 3;//はずれ
+        }
     }
 
 
     //海の状態を表示するメソッド
     void show() {
-        for(int n = 0;n < field.length; n++) {
+        for (int n = 0; n < field.length; n++) {
             System.out.print("\t" + (n + 1));
         }
         System.out.println();
@@ -45,30 +45,19 @@ public class Field implements Serializable {
             for (int j = 0; j < 10; j++) {
                 if (field[i][j] == 0) {
                     System.out.print("-\t");
-                }
-                else if (field[i][j] == 1) {
+                } else if (field[i][j] == 1) {
                     System.out.print("✖\t");
-                }
-                else if (field[i][j] == -1) {
+                } else if (field[i][j] == -1) {
                     System.out.print("◯\t");
-                }
-                else if(field[i][j] == 2){
+                } else if (field[i][j] == 2) {
                     System.out.print("@\t");
-                }
-                else if (field[i][j] == 3){
+                } else if (field[i][j] == 3) {
                     System.out.print("*\t");
                 }
 
             }
             System.out.println();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "グループ" + numOfGame + " - " +
-                "Attacker " + numOfAttackers + "人, " +
-                "Bystander " + numOfBystanders + "人";
     }
 
 }

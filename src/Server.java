@@ -10,6 +10,8 @@ public class Server {
     static final int[] SHIPS_SIZE = {5, 4, 3, 3, 2};
 
     static final int PORT_NO = 9999;
+    static final int FIELD_SIZE_X = 10;
+    static final int FIELD_SIZE_Y = 10;
 
     static final int ATTACKER = 0;
     static final int BYSTANDER = 1;
@@ -17,7 +19,7 @@ public class Server {
     static final int REGISTER = 100;
     static final int NEW_GROUP = 101;
     static final int LIST_GROUP = 102;
-    static final int DOES_EXIST_GROUP = 103;
+    static final int CHECK_GROUP_EXISTENCE = 103;
     static final int CLOSE_APPLICATIONS = 110;
     static final int START = 115;
     static final int SET_SHIPS = 120;

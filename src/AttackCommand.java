@@ -7,10 +7,12 @@ public class AttackCommand implements Serializable {
     private int playerID = -1;
     private int x = -1;
     private int y = -1;
+    private int turnNo;
 
-    AttackCommand(int groupID, int playerID, int x, int y) {
+    AttackCommand(int groupID, int playerID, int turnNo, int x, int y) {
         this.groupID = groupID;
         this.playerID = playerID;
+        this.turnNo = turnNo;
         this.x = x;
         this.y = y;
     }
@@ -21,6 +23,10 @@ public class AttackCommand implements Serializable {
 
     public int getPlayerID() {
         return playerID;
+    }
+
+    public int getTurnNo() {
+        return turnNo;
     }
 
     public int getX() {

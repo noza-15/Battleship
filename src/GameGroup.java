@@ -1,13 +1,18 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class GameGroup {
+public class GameGroup implements Serializable {
+    private static final long serialVersionUID = -7088219024468941214L;
     private ArrayList<Player> playersList = new ArrayList<>();
     private ArrayList<CommandHandler> outList = new ArrayList<>();
     private int groupID = -1;
     private int parentID = -1;
-    private int attackersCount = 0;
-    private int bystandersCount = 0;
+    private int attackersCount;
+    private int bystandersCount;
+    private ShipNew[][][] allShipsMap;
+    private int setMapCount;
+
 
     volatile private boolean isOpen;
 
@@ -21,12 +26,12 @@ public class GameGroup {
     }
 
     void addPlayer(Player player) {
+        System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
+                + "] [Add: " + player + "; GroupID= " + groupID + "]");
         playersList.add(player);
         if (player instanceof Attacker) {
-            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Add attacker: " + player + groupID);
             attackersCount++;
         } else if (player instanceof Bystander) {
-            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Add bystander: " + player + groupID);
             bystandersCount++;
         }
     }
@@ -44,6 +49,7 @@ public class GameGroup {
     }
 
     public void closeGroup() {
+        allShipsMap = new ShipNew[attackersCount][Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
         isOpen = false;
     }
 
@@ -73,6 +79,20 @@ public class GameGroup {
 
     public ArrayList<Player> getPlayersList() {
         return playersList;
+    }
+
+    public void setShipsMap(Player player, ShipNew[][] allShipsMap) {
+        this.allShipsMap[playersList.indexOf(player)] = allShipsMap;
+        setMapCount++;
+    }
+
+    public ShipNew[][][] getAllShipsMap() {
+        return allShipsMap;
+
+    }
+
+    public boolean canStart() {
+        return setMapCount == attackersCount;
     }
 
     @Override

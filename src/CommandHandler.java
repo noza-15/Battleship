@@ -5,8 +5,6 @@ import java.net.SocketException;
 public class CommandHandler {
 
     private Socket socket;
-    private BufferedReader in;
-    private PrintWriter out;
     // 先にOutputを生成。逆はデッドロック発生。
     // https://docs.oracle.com/javase/jp/1.4/guide/serialization/spec/input.doc1.html
     private ObjectInputStream objIn;
@@ -15,10 +13,8 @@ public class CommandHandler {
     CommandHandler(Socket socket) throws IOException {
         this.socket = socket;
         try {
-            InputStream inputStream = socket.getInputStream();
+            InputStream inputStream = new BufferedInputStream(socket.getInputStream());
             OutputStream outputStream = socket.getOutputStream();
-            in = new BufferedReader(new InputStreamReader(inputStream));
-            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)), true);
             objOut = new ObjectOutputStream(outputStream);
             objIn = new ObjectInputStream(inputStream);
         } catch (IOException e) {
@@ -28,15 +24,30 @@ public class CommandHandler {
     }
 
     void send(String message) {
-        out.println(message);
+        try {
+            objOut.writeObject(message);
+            objOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void send(int command) {
-        out.println(command);
+        try {
+            objOut.writeInt(command);
+            objOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void send(boolean bool) {
-        out.println(bool);
+        try {
+            objOut.writeBoolean(bool);
+            objOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void send(Object object) throws SocketException {
@@ -52,7 +63,7 @@ public class CommandHandler {
 
     int receiveInt() throws SocketException {
         try {
-            return Integer.parseInt(in.readLine());
+            return objIn.readInt();
         } catch (SocketException se) {
             throw new SocketException();
         } catch (IOException e) {
@@ -63,7 +74,7 @@ public class CommandHandler {
 
     boolean receiveBoolean() throws SocketException {
         try {
-            return Boolean.parseBoolean(in.readLine());
+            return objIn.readBoolean();
         } catch (SocketException se) {
             throw new SocketException();
         } catch (IOException e) {
@@ -74,9 +85,12 @@ public class CommandHandler {
 
     String receiveString() throws SocketException {
         try {
-            return in.readLine();
+            return (String) objIn.readObject();
         } catch (SocketException se) {
             throw new SocketException();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return "null";
         } catch (IOException e) {
             e.printStackTrace();
             return "null";

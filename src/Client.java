@@ -41,16 +41,23 @@ public class Client {
     private void establishConnection() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("サーバーのアドレスを入力してください。"); //TODO: GUI
-        String inputAddr = scanner.nextLine();
-        InetAddress address = null;
+        String inputAddress = scanner.nextLine();
+        InetAddress address;
         try {
-            address = InetAddress.getByName(inputAddr);
+            address = InetAddress.getByName(inputAddress);
         } catch (UnknownHostException e) {
-            System.err.println("サーバーが見つかりませんでした。"); //TODO: GUI
-            System.exit(1);
+            System.err.println("サーバーが見つかりませんでした。アドレスが正しいか確認してください。"); //TODO: GUI
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            establishConnection();
+            return;
         }
         try {
             Socket socket = new Socket(address, Server.PORT_NO);
+            System.out.println("サーバーとの接続に成功しました。");
             System.out.println("socket = " + socket); //TODO: GUI
             cmd = new CommandHandler(socket);
         } catch (IOException e) {
@@ -85,12 +92,14 @@ public class Client {
     private void register() throws SocketException {
         cmd.send(Server.REGISTER);
         player.setGroupID(groupID);
-        cmd.send(player);
+        cmd.send(groupID);
         if (!cmd.receiveBoolean()) {
             System.out.println("このグループには参加できません。"); //TODO: GUI
             setGroup();
+            register();
             return;
         }
+        cmd.send(player);
         player.setParent(cmd.receiveBoolean());
         player.setPlayerID(cmd.receiveInt());
         player.setCmd(cmd);
@@ -108,7 +117,7 @@ public class Client {
         //TODO: GUI
         System.out.println("操作を選択してください。");
         System.out.println("1: 新規グループを作成");
-        cmd.send(Server.DOES_EXIST_GROUP);
+        cmd.send(Server.CHECK_GROUP_EXISTENCE);
         groupCount = cmd.receiveInt();
         if (groupCount > 0) {
             System.out.println("2: 既存グループに参加");

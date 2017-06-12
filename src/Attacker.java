@@ -3,7 +3,7 @@ import java.net.SocketException;
 public class Attacker extends Player {
 
     //    transient Scanner scanner = new Scanner(System.in);
-    //Ship a1 = new Ship ("空母", 5, posX, posY, Ship.VERTICAL);
+    //Ship a1 = new Ship ("空母", 5, posX, posY, Ship.LEFT);
     int myLife = 3;
     Field mySea = new Field();
     Field sea[] = new Field[5]; //TODO:相手人数分のインスタンスの生成
@@ -31,24 +31,27 @@ public class Attacker extends Player {
     }
 
     //自分が戦闘可能かどうか判別するメソッド、いらないかも
-    /*private boolean isurvive(Ship ships[]) {
+    /*
+    private boolean isurvive(Ship myShips[]) {
         int lives = 3;
         for (int i = 0; i < Server.SHIPS.length; i++) {
-            if (ships[i].getLife() <= 0) {
+            if (myShips[i].getLife() <= 0) {
                 lives--;
             }
         }
         if (lives <= 0) {
             return false;
         } else return true;
-    }*/
+    }
+    */
 
 
     @Override
     public void newGame() throws SocketException {
         System.out.println("船の配置を決めます。");
+        manager = new ShipManager();
         for (int i = 0; i < Server.SHIPS.length; i++) {
-            int x, y, d;
+            int x, y, dir;
             do {
                 System.out.println(Server.SHIPS[i] + "の設定をします。"
                         + Server.SHIPS[i] + "の大きさは" + Server.SHIPS_SIZE[i] + "です。" +
@@ -72,15 +75,19 @@ public class Attacker extends Player {
                     }
                 }
                 System.out.println("設置する方向を決めてください");
-                System.out.println("縦:0");
-                System.out.println("横:1");
-                d = scanner.nextInt();
-            } while (check(Server.SHIPS_SIZE[i], x, y, d));
-            //TODO: インスタンスの格納
-            ships[i] = new Ship(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, d);
-            //TODO: サーバーに船の配置を送信する
+                System.out.print("上:0 ");
+                System.out.print("右:1 ");
+                System.out.print("下:2 ");
+                System.out.println("左:3");
+                dir = scanner.nextInt();
+            } while (!manager.setShip(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, dir));
         }
-
+        //TODO: サーバーに船の配置を送信する
+        cmd.send(Server.SET_SHIPS);
+        cmd.send(manager.getMyShips());
+        System.out.println("他のプレイヤーの選択を待っています…");
+        manager.setOthersShips((ShipNew[][][]) cmd.receiveObject());
+        System.out.println("盤面データを受信しています…");
     }
 
     @Override
@@ -112,16 +119,18 @@ public class Attacker extends Player {
             System.out.println("他のプレイヤーが選択するのを待っています...");
 
             // TODO:入力されたマスを送信する。
-            cmd.send(new AttackCommand(groupID, playerID, x, y));
+            cmd.send(Server.ATTACK);
+            cmd.send(new AttackCommand(groupID, playerID, 0, x, y));
             // TODO:入力されたマスを受信する。
-            for (int i = 0; i < 5; i++) {
-                AttackCommand command = (AttackCommand) cmd.receiveObject();
-                if (command.getGroupID() == groupID && command.getPlayerID() != playerID) {
-                    //TODO: 要処理
-                    command.getX();
-                    command.getY();
-                }
-            }
+            scanner.next();
+//            for (int i = 0; i < 5; i++) {
+//                AttackCommand command = (AttackCommand) cmd.receiveObject();
+//                if (command.getGroupID() == groupID && command.getPlayerID() != playerID) {
+//                    //TODO: 要処理
+//                    command.getX();
+//                    command.getY();
+//                }
+//            }
             // TODO:全員攻撃完了した後の処理
             for (int i = 0; i < 5; i++) { //TODO:プレイヤーの人数分の攻撃処理
                 for (int j = 0; j < Server.SHIPS.length; j++) {
