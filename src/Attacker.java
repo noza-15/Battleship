@@ -16,16 +16,23 @@ public class Attacker extends Player {
 
     //船が置けるかどうか判別するメソッド
     private static boolean check(int size, int x, int y, int d) {
-        if (x < 0 || y < 0) {
+        if(d != 0 && d != 1){
+            System.out.println("0か1を入力して向きを決めてください！");
+            return true;
+        }
+        else if (x <= 0 || y <= 0) {
             System.out.println("そこにはおけません！");
             return true;
-        } else if (d == 1 && x + size >= 10) {
-            System.out.println("そこにはおけません");
+        }
+        else if (d == 1 && x + size > 10 || y > 10) {
+            System.out.println("そこにはおけません!");
             return true;
-        } else if (d == 0 && y + size >= 10) {
-            System.out.println("そこにはおけません");
+        }
+        else if (d == 0 && y + size > 10 || x > 10) {
+            System.out.println("そこにはおけません!");
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -72,9 +79,10 @@ public class Attacker extends Player {
                     }
                 }
                 System.out.println("設置する方向を決めてください");
-                System.out.println("縦:0");
-                System.out.println("横:1");
-                d = scanner.nextInt();
+                    System.out.println("0:縦");
+                    System.out.println("1:横");
+                    d = scanner.nextInt();
+
             } while (check(Server.SHIPS_SIZE[i], x, y, d));
             //TODO: インスタンスの格納
             ships[i] = new Ship(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, d);
