@@ -93,14 +93,17 @@ public class Attacker extends Player {
             cmd.send(Server.ATTACK);
             cmd.send(new AttackCommand(groupID, playerID, turnNo++, x, y));
             // TODO:入力されたマスを受信する。
+            System.out.println("# Turn" + turnNo + " START!");
             for (int i = 0; i < playersList.size(); i++) {
                 AttackCommand command = (AttackCommand) cmd.receiveObject();
 //                if (command.getPlayerID() != playerID) {
                 //TODO: 要処理
                 int state = manager.isBombed(command.getPlayerID(), command.getX(), command.getY());
-                System.out.println(command.getPlayerID() + " : " + state);
+                System.out.println("Turn" + command.getTurnNo() + " " + command.getPlayerID() + " : " + state);
 //                }
-                manager.show(command.getPlayerID());
+            }
+            for (int i = 0; i < playersList.size(); i++) {
+                manager.show(i);
             }
             scanner.next();
 //            // TODO:全員攻撃完了した後の処理

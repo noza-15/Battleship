@@ -110,12 +110,12 @@ class ShipManager {
     }
 
     void show(int ID) {
-        for (int n = 1; n <= Server.FIELD_SIZE_X; n++) {
+        for (int n = 0; n < Server.FIELD_SIZE_X; n++) {
             System.out.print("\t" + n);
         }
         System.out.println();
         for (int i = 0; i < Server.FIELD_SIZE_Y; i++) {
-            System.out.print((i + 1) + "\t");
+            System.out.print(i + "\t");
             for (int j = 0; j < 10; j++) {
                 if (state[ID][i][j] == UNKNOWN) {
                     System.out.print("-\t");
@@ -132,6 +132,7 @@ class ShipManager {
             System.out.println();
         }
     }
+
     /**
      * 攻撃判定をするメソッド
      *

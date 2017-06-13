@@ -129,10 +129,10 @@ class GameServerThread extends Thread {
 
                     case Server.ATTACK:
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                + "] [Receive_command: " + "PlayerID= " + player.getPlayerID() + "]");
+                                + "] [Receive_command: " + "GroupID=" + player.getGroupID() + " PlayerID= " + player.getPlayerID() + "]");
                         broadcast(group.getOutList(), cmd.receiveObject());
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                + "] [Send_command: " + "PlayerID= " + player.getPlayerID() + "]");
+                                + "] [Send_command: " + "GroupID=" + player.getGroupID() + "PlayerID= " + player.getPlayerID() + "]");
                         break;
 
                     default:
