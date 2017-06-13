@@ -5,18 +5,7 @@ public class Field implements Serializable {
     private static final long serialVersionUID = 7418218819592240789L;
     private ArrayList<Player> players = new ArrayList<>();
     private int[][] field = new int[10][10];
-    private int numOfAttackers;
-    private int numOfBystanders;
-    private int numOfGame;
 
-
-    // TODO: 盤面の保存形式を決める 野澤 2017/05/05
-
-    /*Field(int n) {
-        field = new int[10][10];
-        numOfGame = n;
-    }
-    */
 
     //攻撃した場所を保存
     void FieldAttack(int x, int y) {
@@ -35,8 +24,8 @@ public class Field implements Serializable {
 
     //海の状態を表示するメソッド
     void show() {
-        for (int n = 0; n < field.length; n++) {
-            System.out.print("\t" + (n + 1));
+        for (int n = 1; n <= field.length; n++) {
+            System.out.print("\t" + n);
         }
         System.out.println();
 

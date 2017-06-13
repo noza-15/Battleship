@@ -35,6 +35,7 @@ public class Client {
     private void play() throws SocketException {
         player.waitStart();
         player.newGame();
+        System.out.println("\u001b[34mSTART !!\u001b[0m");
         player.nextTurn();
     }
 

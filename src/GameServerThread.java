@@ -18,9 +18,9 @@ class GameServerThread extends Thread {
             cmd = new CommandHandler(socket);
             handleCommand();
         } catch (IOException e) {
-            System.err.println("クライアントとの接続が失われました。");
+            System.err.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [IOException: " + socket + "]");
         } finally {
-            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Close socket:" + socket + "]");
+            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Close_socket:" + socket + "]");
             try {
                 socket.close();
             } catch (IOException e) {
@@ -49,7 +49,6 @@ class GameServerThread extends Thread {
                             cmd.receiveObject();
                             break;
                         }
-
                         switch (player.getJobCode()) {
                             case Server.ATTACKER:
                                 if (group.getAttackersCount() == 0) {
@@ -64,7 +63,6 @@ class GameServerThread extends Thread {
                                 cmd.send(false);
                                 break;
                         }
-
                         player.setPlayerID(Server.allPlayerList.size());
                         group.addPlayer(player);
                         Server.allPlayerList.add(player);
@@ -89,7 +87,6 @@ class GameServerThread extends Thread {
                         cmd.send(Server.groupList.size());
                         break;
 
-
                     case Server.LIST_GROUP:
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
                                 + "] [List_grp: " + socket + "]");
@@ -109,9 +106,15 @@ class GameServerThread extends Thread {
                             System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
                                     + "] [Close_application: " + "failure; GroupID= " + player.getGroupID() + "; PlayerID= " + player.getPlayerID() + "]");
                             cmd.send(false);
-                            cmd.send("More than 2 attackers are needed to start a game!");
+                            cmd.send("Error: 2 attackers are needed to start a game at least.");
                         }
                         break;
+
+                    case Server.START:
+                        broadcast(group.getOutList(), Server.START);
+                        broadcast(group.getOutList(), group.getPlayersList());
+                        break;
+
                     case Server.SET_SHIPS:
                         group.setShipsMap(player, (ShipNew[][]) cmd.receiveObject());
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
@@ -119,18 +122,19 @@ class GameServerThread extends Thread {
                         while (!group.canStart()) {
                             Thread.sleep(200);
                         }
-                        ;
                         cmd.send(group.getAllShipsMap());
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
                                 + "] [Send_map: " + "PlayerID= " + player.getPlayerID() + "]");
                         break;
-                    case Server.START:
-                        broadcast(group.getOutList(), Server.START);
-                        broadcast(group.getOutList(), group.getPlayersList());
-                        break;
+
                     case Server.ATTACK:
-//                        broadcast(group.getOutList(), cmd.receiveObject());
+                        System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
+                                + "] [Receive_command: " + "PlayerID= " + player.getPlayerID() + "]");
+                        broadcast(group.getOutList(), cmd.receiveObject());
+                        System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
+                                + "] [Send_command: " + "PlayerID= " + player.getPlayerID() + "]");
                         break;
+
                     default:
                         System.out.println("?");
                         break;
@@ -144,7 +148,6 @@ class GameServerThread extends Thread {
                     System.err.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
                             + "] [Lost_connection: " + socket + "]");
                 }
-//                se.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -152,12 +155,6 @@ class GameServerThread extends Thread {
     }
 
     private void broadcast(ArrayList<CommandHandler> group, Object command) throws SocketException {
-        for (CommandHandler handler : group) {
-            handler.send(command);
-        }
-    }
-
-    private void broadcast(ArrayList<CommandHandler> group, String command) {
         for (CommandHandler handler : group) {
             handler.send(command);
         }

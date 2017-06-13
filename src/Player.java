@@ -1,6 +1,7 @@
 import java.io.Serializable;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Player implements Serializable {
@@ -11,7 +12,8 @@ public class Player implements Serializable {
     int groupID = -1;
     int playerID = -1;
     ShipManager manager;
-    private ArrayList<Player> otherPlayers;
+    ArrayList<Player> playersList;
+    HashMap<Integer, Integer> IDTable = new HashMap<>();
     private String playerName;
     private int jobCode;
     private boolean isParent;
@@ -46,7 +48,10 @@ public class Player implements Serializable {
 
         }
         System.out.println("プレイヤー情報を取得しています…");
-        otherPlayers = (ArrayList<Player>) cmd.receiveObject();
+        playersList = (ArrayList<Player>) cmd.receiveObject();
+        for (Player p : playersList) {
+            IDTable.put(p.getPlayerID(), playersList.indexOf(p));
+        }
     }
 
     public void nextTurn() throws SocketException {
@@ -106,5 +111,22 @@ public class Player implements Serializable {
                 ", Name= " + getPlayerName() +
                 ", Parent= " + isParent() +
                 "}";
+    }
+
+    int inputInt(int min, int max) {
+        int n;
+        while (true) {
+            if (scanner.hasNextInt()) {
+                n = scanner.nextInt();
+                if (n >= min && n <= max) {
+                    break;
+                } else {
+                    System.out.println("正しい値を入力してください。");
+                }
+            } else {
+                scanner.next();
+            }
+        }
+        return n;
     }
 }

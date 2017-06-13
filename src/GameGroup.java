@@ -88,7 +88,6 @@ public class GameGroup implements Serializable {
 
     public ShipNew[][][] getAllShipsMap() {
         return allShipsMap;
-
     }
 
     public boolean canStart() {

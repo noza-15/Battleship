@@ -1,13 +1,18 @@
 class ShipManager {
+    //    static final int NONE = 0;
+    static final int UNKNOWN = 0;
+    static final int BOMB_HIT = 2;
+    static final int BOMB_MISS = 3;
+    private boolean[][] myAttacks;
     private ShipNew[][] myShips;
-    private ShipNew[][][] othersShips;
-    private boolean[][] isBombed;
-    private int aliveCount;
-    private int sunkenCount;
+    private ShipNew[][][] shipsMap;
+    private int[][][] state;
+    private int[] sunkenCount;
+
 
     ShipManager() {
         myShips = new ShipNew[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
-        isBombed = new boolean[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
+        myAttacks = new boolean[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
     }
 
     /**
@@ -20,7 +25,7 @@ class ShipManager {
      * @param direction 戦艦の向き(上下左右)
      * @return 戦艦を配置できた場合はtrue。できなかった場合はfalse。
      */
-    boolean setShip(String name, int size, int x, int y, int direction) {
+    boolean setMyShip(String name, int size, int x, int y, int direction) {
         boolean settable = true;
         ShipNew ship = new ShipNew(name, size, x, y, direction);
         if (x < 0 || x >= Server.FIELD_SIZE_X || y < 0 || y >= Server.FIELD_SIZE_Y) {
@@ -92,12 +97,41 @@ class ShipManager {
                 }
                 break;
         }
-        if (settable) {
-            aliveCount++;
-        }
         return settable;
     }
 
+    /**
+     * @param ships 他のプレイヤーの盤面
+     */
+    void setOthersShips(ShipNew[][][] ships) {
+        this.shipsMap = ships;
+        state = new int[ships.length][Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
+        sunkenCount = new int[ships.length];
+    }
+
+    void show(int ID) {
+        for (int n = 1; n <= Server.FIELD_SIZE_X; n++) {
+            System.out.print("\t" + n);
+        }
+        System.out.println();
+        for (int i = 0; i < Server.FIELD_SIZE_Y; i++) {
+            System.out.print((i + 1) + "\t");
+            for (int j = 0; j < 10; j++) {
+                if (state[ID][i][j] == UNKNOWN) {
+                    System.out.print("-\t");
+                } else if (state[ID][i][j] == 1) {
+                    System.out.print("✖\t");
+                } else if (state[ID][i][j] == -1) {
+                    System.out.print("◯\t");
+                } else if (state[ID][i][j] == BOMB_HIT) {
+                    System.out.print("@\t");
+                } else if (state[ID][i][j] == BOMB_MISS) {
+                    System.out.print("*\t");
+                }
+            }
+            System.out.println();
+        }
+    }
     /**
      * 攻撃判定をするメソッド
      *
@@ -105,24 +139,30 @@ class ShipManager {
      * @param y y座標
      * @return 今の攻撃で被弾した場合はtrue。すでに被弾したか、そこに戦艦がなかった場合はfalse。
      */
-    boolean isBombed(int x, int y) {
-        if (!isBombed[x][y]) {
-            myShips[x][y].bombed();
-            isBombed[x][y] = true;
-            if (!myShips[x][y].isAlive()) {
-                sunkenCount++;
+    int isBombed(int ID, int x, int y) {
+        if (shipsMap[ID][x][y] == null) {
+            return state[ID][x][y] = BOMB_MISS;
+        } else if (state[ID][x][y] == UNKNOWN) {
+            shipsMap[ID][x][y].bombed();
+            if (!shipsMap[ID][x][y].isAlive()) {
+                sunkenCount[ID]++;
             }
-            return true;
+            return state[ID][x][y] = BOMB_HIT;
         } else {
-            return false;
+            return state[ID][x][y];
         }
     }
 
-    /**
-     * @param ships 他のプレイヤーの盤面
-     */
-    void setOthersShips(ShipNew[][][] ships) {
-        this.othersShips = ships;
+    void setMyAttack(int x, int y) {
+        myAttacks[x][y] = true;
+    }
+
+    public boolean[][] getMyAttacks() {
+        return myAttacks;
+    }
+
+    boolean isAlive(int ID) {
+        return sunkenCount[ID] < 3;
     }
 
     /**
@@ -130,6 +170,10 @@ class ShipManager {
      */
     ShipNew[][] getMyShips() {
         return myShips;
+    }
+
+    ShipNew[][] getShipsMap(int ID) {
+        return shipsMap[ID];
     }
 
 }

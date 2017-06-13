@@ -27,12 +27,10 @@ public class Server {
 
     static ArrayList<Player> allPlayerList = new ArrayList<>();
     static ArrayList<GameGroup> groupList = new ArrayList<>();
-    static Calendar calendar = Calendar.getInstance();
 
-    // TODO: 実際のゲームが始まってからの通信はこれから実装する 野澤 2017/05/05
     public static void main(String[] args) throws IOException {
         ServerSocket s = new ServerSocket(PORT_NO);
-        System.out.println(calendar.getTime() + " [" + Thread.currentThread().getName() + "] [Start: " + s + "]");
+        System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Start: " + s + "]");
         new ServerPrompt().start();
         try {
             while (true) {
