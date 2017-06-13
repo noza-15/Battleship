@@ -20,7 +20,7 @@ class GameServerThread extends Thread {
         } catch (IOException e) {
             System.err.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [IOException: " + socket + "]");
         } finally {
-            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Close_socket:" + socket + "]");
+            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Close_socket: " + socket + "]");
             try {
                 socket.close();
             } catch (IOException e) {
@@ -100,11 +100,11 @@ class GameServerThread extends Thread {
                         if (group.getAttackersCount() > 1) {
                             group.closeGroup();
                             System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                    + "] [Close_application: " + "success; GroupID= " + player.getGroupID() + "; PlayerID= " + player.getPlayerID() + "]");
+                                    + "] [Close_application: " + "success; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
                             cmd.send(true);
                         } else {
                             System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                    + "] [Close_application: " + "failure; GroupID= " + player.getGroupID() + "; PlayerID= " + player.getPlayerID() + "]");
+                                    + "] [Close_application: " + "failure; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
                             cmd.send(false);
                             cmd.send("Error: 2 attackers are needed to start a game at least.");
                         }
@@ -118,21 +118,22 @@ class GameServerThread extends Thread {
                     case Server.SET_SHIPS:
                         group.setShipsMap(player, (ShipNew[][]) cmd.receiveObject());
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                + "] [Receive_map: " + "PlayerID= " + player.getPlayerID() + "]");
+                                + "] [Recv_map: " + "PlayerID=" + player.getPlayerID() + "]");
                         while (!group.canStart()) {
                             Thread.sleep(200);
                         }
                         cmd.send(group.getAllShipsMap());
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                + "] [Send_map: " + "PlayerID= " + player.getPlayerID() + "]");
+                                + "] [Send_map: " + "PlayerID=" + player.getPlayerID() + "]");
                         break;
 
                     case Server.ATTACK:
+                        AttackCommand command = (AttackCommand) cmd.receiveObject();
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                + "] [Receive_command: " + "GroupID=" + player.getGroupID() + " PlayerID= " + player.getPlayerID() + "]");
-                        broadcast(group.getOutList(), cmd.receiveObject());
+                                + "] [Recv_command: " + "GroupID=" + player.getGroupID() + " TurnNo=" + command.getTurnNo() + " PlayerID=" + player.getPlayerID() + "]");
+                        broadcast(group.getOutList(), command);
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                + "] [Send_command: " + "GroupID=" + player.getGroupID() + "PlayerID= " + player.getPlayerID() + "]");
+                                + "] [Send_command: " + "GroupID=" + player.getGroupID() + " TurnNo=" + command.getTurnNo() + " PlayerID=" + player.getPlayerID() + "]");
                         break;
 
                     default:
@@ -143,7 +144,7 @@ class GameServerThread extends Thread {
                 continueFlag = false;
                 try {
                     System.err.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                            + "] [Lost_connection: PlayerID= " + player.getPlayerID() + "]");
+                            + "] [Lost_connection: PlayerID=" + player.getPlayerID() + "]");
                 } catch (NullPointerException npe) {
                     System.err.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
                             + "] [Lost_connection: " + socket + "]");
