@@ -10,7 +10,7 @@ public class GameGroup implements Serializable {
     private int parentID = -1;
     private int attackersCount;
     private int bystandersCount;
-    private ShipNew[][][] allShipsMap;
+    private Ship[][][] allShipsMap;
     private int setMapCount;
 
 
@@ -49,7 +49,7 @@ public class GameGroup implements Serializable {
     }
 
     public void closeGroup() {
-        allShipsMap = new ShipNew[attackersCount][Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
+        allShipsMap = new Ship[attackersCount][Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
         isOpen = false;
     }
 
@@ -81,12 +81,12 @@ public class GameGroup implements Serializable {
         return playersList;
     }
 
-    public void setShipsMap(Player player, ShipNew[][] allShipsMap) {
+    public void setShipsMap(Player player, Ship[][] allShipsMap) {
         this.allShipsMap[playersList.indexOf(player)] = allShipsMap;
         setMapCount++;
     }
 
-    public ShipNew[][][] getAllShipsMap() {
+    public Ship[][][] getAllShipsMap() {
         return allShipsMap;
     }
 

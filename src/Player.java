@@ -26,7 +26,7 @@ public class Player implements Serializable {
     public void newGame() throws SocketException {
         System.out.println("他のプレイヤーの選択を待っています…");
         cmd.send(Server.GET_SHIPS);
-        manager.setOthersShips((ShipNew[][][]) cmd.receiveObject());
+        manager.setOthersShips((Ship[][][]) cmd.receiveObject());
         System.out.println("盤面データを受信しています…");
     }
 

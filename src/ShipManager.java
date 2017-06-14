@@ -6,14 +6,14 @@ class ShipManager {
     static final int BOMB_ALREADY_HIT = 4;
     static final int BOMB_HIT_NEXT = 5;
     private boolean[][] myAttacks;
-    private ShipNew[][] myShips;
-    private ShipNew[][][] shipsMap;
+    private Ship[][] myShips;
+    private Ship[][][] shipsMap;
     private int[][][] state;
     private int[] sunkenCount;
 
 
     ShipManager() {
-        myShips = new ShipNew[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
+        myShips = new Ship[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
         myAttacks = new boolean[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
     }
 
@@ -27,7 +27,7 @@ class ShipManager {
      * @param direction 戦艦の向き(上下左右)
      */
     void setMyShip(String name, int size, int x, int y, int direction) {
-        ShipNew ship = new ShipNew(name, size, x, y, direction);
+        Ship ship = new Ship(name, size, x, y, direction);
         if (x < 0 || x >= Server.FIELD_SIZE_X || y < 0 || y >= Server.FIELD_SIZE_Y) {
             return;
         }
@@ -108,7 +108,7 @@ class ShipManager {
     /**
      * @param ships 他のプレイヤーの盤面
      */
-    void setOthersShips(ShipNew[][][] ships) {
+    void setOthersShips(Ship[][][] ships) {
         this.shipsMap = ships;
         state = new int[ships.length][Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
         sunkenCount = new int[ships.length];
@@ -197,11 +197,11 @@ class ShipManager {
     /**
      * @return 自分の盤面
      */
-    ShipNew[][] getMyShips() {
+    Ship[][] getMyShips() {
         return myShips;
     }
 
-    ShipNew[][] getShipsMap(int ID) {
+    Ship[][] getShipsMap(int ID) {
         return shipsMap[ID];
     }
 

@@ -116,7 +116,7 @@ class GameServerThread extends Thread {
                         break;
 
                     case Server.SET_SHIPS:
-                        group.setShipsMap(player, (ShipNew[][]) cmd.receiveObject());
+                        group.setShipsMap(player, (Ship[][]) cmd.receiveObject());
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
                                 + "] [Recv_map: " + "PlayerID=" + player.getPlayerID() + "]");
                         break;
