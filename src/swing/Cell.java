@@ -1,5 +1,7 @@
-import java.awt.Color;
+package swing;
+
 import javax.swing.*;
+import java.awt.*;
 
 class Cell extends JButton {
 

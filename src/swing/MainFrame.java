@@ -1,6 +1,5 @@
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+package swing;
+
 import javax.swing.*;
 
 public class MainFrame extends JFrame{
@@ -15,10 +14,6 @@ public class MainFrame extends JFrame{
   SettingPanel setp = new SettingPanel(this,"SettingPanel");
   // GamePanel game = new GamePanel(this,"GamePanel");
 
-  public static void main(String[] args){
-    MainFrame main = new MainFrame();
-  }
-
   public MainFrame(){
     this.add(sp);sp.setVisible(true);
     this.add(gp);gp.setVisible(false);
@@ -31,5 +26,9 @@ public class MainFrame extends JFrame{
     this.setResizable(false);//フレームの大きさを変更不可にする
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//フレームを閉じるとプログラムが終了する
     this.setVisible(true);
+  }
+
+  public static void main(String[] args) {
+    MainFrame main = new MainFrame();
   }
 }

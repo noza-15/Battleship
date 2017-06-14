@@ -1,18 +1,17 @@
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+package swing;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class CellPanel extends JPanel{
   private static final int CELL_SIZE = 50;
   private static final Color COLOR_LABEL = Color.WHITE;
-
-  private int cellRows = 10;
-  private int cellCols = 10;
-  private Cell[][] cells;
   MainFrame mf;
   String str;
   SettingPanel setp;
+    private int cellRows = 10;
+    private int cellCols = 10;
+    private Cell[][] cells;
 
   public CellPanel(MainFrame m,SettingPanel sp,String s){
     mf = m;

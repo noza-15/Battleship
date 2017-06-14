@@ -1,7 +1,9 @@
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+package swing;
+
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GroupPanel extends JPanel{
 
@@ -51,21 +53,21 @@ public class GroupPanel extends JPanel{
     button1.setSize(200, 200);
     button1.setFont(new Font("MS ゴシック", Font.BOLD,m.font));
     button1.addActionListener(
-      new ActionListener(){
-        public void actionPerformed(ActionEvent e){
-            group = text.getText();
-            System.out.println(group);
-          if("".equals(group)){
-            JLabel label = new JLabel("グループ名を入力してください");
-            label.setFont(new Font("MS ゴシック", Font.BOLD,m.font));
-            label.setForeground(Color.RED);
-            JOptionPane.showMessageDialog(m, label);
-          }else{
-            setVisible(false);
-            m.rp.setVisible(true);
-          }
-        }
-      }
+            new ActionListener(){
+              public void actionPerformed(ActionEvent e){
+                group = text.getText();
+                System.out.println(group);
+                if("".equals(group)){
+                  JLabel label = new JLabel("グループ名を入力してください");
+                  label.setFont(new Font("MS ゴシック", Font.BOLD,m.font));
+                  label.setForeground(Color.RED);
+                  JOptionPane.showMessageDialog(m, label);
+                }else{
+                  setVisible(false);
+                  m.rp.setVisible(true);
+                }
+              }
+            }
     );
     gbc.gridx = 2;
     gbc.gridy = 0;
@@ -91,13 +93,13 @@ public class GroupPanel extends JPanel{
     button2.setSize(200, 200);
     button2.setFont(new Font("MS ゴシック", Font.BOLD,m.font));
     button2.addActionListener(
-      new ActionListener(){
-        public void actionPerformed(ActionEvent e){
-          group = (String)list.getSelectedValue();
-          setVisible(false);
-          m.rp.setVisible(true);
-        }
-      }
+            new ActionListener(){
+              public void actionPerformed(ActionEvent e){
+                group = (String)list.getSelectedValue();
+                setVisible(false);
+                m.rp.setVisible(true);
+              }
+            }
     );
     gbc.gridx = 2;
     gbc.gridy = 1;
