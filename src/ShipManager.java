@@ -3,7 +3,8 @@ class ShipManager {
     static final int UNKNOWN = 0;
     static final int BOMB_HIT = 2;
     static final int BOMB_MISS = 3;
-    static final int BOMB_HIT_NEXT = 4;
+    static final int BOMB_ALREADY_HIT = 4;
+    static final int BOMB_HIT_NEXT = 5;
     private boolean[][] myAttacks;
     private ShipNew[][] myShips;
     private ShipNew[][][] shipsMap;
@@ -174,6 +175,8 @@ class ShipManager {
                 sunkenCount[ID]++;
             }
             return state[ID][x][y] = BOMB_HIT;
+        } else if (state[ID][x][y] == BOMB_HIT) {
+            return BOMB_ALREADY_HIT;
         } else {
             return state[ID][x][y];
         }
