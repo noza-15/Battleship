@@ -10,7 +10,8 @@ public class StartPanel extends JPanel {
     JButton btn = new JButton("start");
     MainFrame mf;
     String str;
-    public StartPanel(MainFrame m,String s){
+
+    public StartPanel(MainFrame m, String s) {
         mf = m;
         str = s;
         this.setName(s);
@@ -21,20 +22,20 @@ public class StartPanel extends JPanel {
         this.setSize(m.width, m.height);
         JLabel title = new JLabel("ゲーム名");
         title.setHorizontalAlignment(JLabel.CENTER);
-        title.setFont(new Font("MS ゴシック", Font.BOLD,80));
+        title.setFont(new Font("MS ゴシック", Font.BOLD, 80));
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = 1.0d;
         gbc.weighty = 1.0d;
         layout.setConstraints(title, gbc);
-        LineBorder border = new LineBorder(Color.RED, 2 ,true);
+        LineBorder border = new LineBorder(Color.RED, 2, true);
         title.setBorder(border);
         this.add(title);
 
         btn.setSize(500, 500);
-        btn.setFont(new Font("MS ゴシック", Font.BOLD,80));
-        btn.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        btn.setFont(new Font("MS ゴシック", Font.BOLD, 80));
+        btn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 m.gp.setVisible(true);
             }

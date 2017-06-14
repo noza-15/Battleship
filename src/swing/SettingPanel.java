@@ -5,11 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SettingPanel extends JPanel{
+public class SettingPanel extends JPanel {
 
     MainFrame mf;
     String str;
-    String[] name = {"空母","戦艦","巡洋艦","潜水艦","駆逐艦"};
+    String[] name = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
     int[] len = {5, 4, 3, 3, 2};
     int count;
     int index;
@@ -18,7 +18,7 @@ public class SettingPanel extends JPanel{
     JLabel label1;
     JLabel label2;
 
-    public SettingPanel(MainFrame m, String s){
+    public SettingPanel(MainFrame m, String s) {
         mf = m;
         str = s;
         count = 0;
@@ -34,27 +34,27 @@ public class SettingPanel extends JPanel{
 
         label1 = new JLabel("船を配置してください");//label作成
         label1.setHorizontalAlignment(JLabel.CENTER);
-        label1.setFont(new Font("MS ゴシック", Font.BOLD,m.font - 5));
-        label2 = new JLabel(name[index]+":"+len[index]+"マス");
+        label1.setFont(new Font("MS ゴシック", Font.BOLD, m.font - 5));
+        label2 = new JLabel(name[index] + ":" + len[index] + "マス");
         label2.setHorizontalAlignment(JLabel.CENTER);
-        label2.setFont(new Font("MS ゴシック", Font.BOLD,m.font));
+        label2.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
 
         CellPanel cp = new CellPanel(m, this, "CellPanel");
 
         button = new JButton("登録");//button作成
         button.setSize(200, 200);
-        button.setFont(new Font("MS ゴシック", Font.BOLD,m.font));
+        button.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
         // button.setEnabled(false);
         button.addActionListener(
-                new ActionListener(){
-                    public void actionPerformed(ActionEvent e){
-                        if(index == len.length){
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (index == len.length) {
 
-                        }else{
+                        } else {
                             cp.reset();
                             count = 0;
                             ship = len[index];
-                            label2.setText(name[index]+":"+len[index]+"マス");
+                            label2.setText(name[index] + ":" + len[index] + "マス");
                         }
                     }
                 }
