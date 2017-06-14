@@ -23,6 +23,7 @@ public class Server {
     static final int CLOSE_APPLICATIONS = 110;
     static final int START = 115;
     static final int SET_SHIPS = 120;
+    static final int GET_SHIPS = 121;
     static final int ATTACK = 125;
 
     static ArrayList<Player> allPlayerList = new ArrayList<>();

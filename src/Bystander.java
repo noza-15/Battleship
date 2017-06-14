@@ -2,6 +2,8 @@ import java.net.SocketException;
 
 public class Bystander extends Player {
 
+    private static final long serialVersionUID = -1919533918019424969L;
+
     Bystander(String inputName) {
         super(inputName);
         setJobCode(Server.BYSTANDER);
@@ -9,13 +11,15 @@ public class Bystander extends Player {
 
     @Override
     public void newGame() throws SocketException {
-        scanner.next();
+        manager = new ShipManager();
         super.newGame();
     }
 
     @Override
     public void nextTurn() throws SocketException {
-        super.nextTurn();
+        while (true) {
+            super.nextTurn();
+        }
     }
 
 }

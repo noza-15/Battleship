@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.Scanner;
 
 public class Client {
@@ -61,6 +58,10 @@ public class Client {
             System.out.println("サーバーとの接続に成功しました。");
             System.out.println("socket = " + socket); //TODO: GUI
             cmd = new CommandHandler(socket);
+        } catch (ConnectException ce) {
+            System.err.println("サーバーに接続を拒否されました。"); //TODO: GUI
+            establishConnection();
+            return;
         } catch (IOException e) {
             System.err.println("サーバー接続中にエラーが発生しました。"); //TODO: GUI
             System.exit(1);
@@ -120,9 +121,14 @@ public class Client {
         System.out.println("1: 新規グループを作成");
         cmd.send(Server.CHECK_GROUP_EXISTENCE);
         groupCount = cmd.receiveInt();
-        if (groupCount > 0) {
-            System.out.println("2: 既存グループに参加");
+        if (groupCount == 0) {
+            System.out.print("\u001b[37m");
         }
+        System.out.println("2: 既存グループに参加");
+        if (groupCount == 0) {
+            System.out.print("\u001b[0m");
+        }
+
         op = scanner.nextInt();
         while (op != 1 && groupCount == 0 || op > 2 || op < 1) {
             System.out.println("数字を入力してください。");
