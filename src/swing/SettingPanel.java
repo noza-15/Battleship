@@ -34,16 +34,16 @@ public class SettingPanel extends JPanel {
 
         label1 = new JLabel("船を配置してください");//label作成
         label1.setHorizontalAlignment(JLabel.CENTER);
-        label1.setFont(new Font("MS ゴシック", Font.BOLD, m.font - 5));
+        label1.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font - 5));
         label2 = new JLabel(name[index] + ":" + len[index] + "マス");
         label2.setHorizontalAlignment(JLabel.CENTER);
-        label2.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        label2.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
 
         CellPanel cp = new CellPanel(m, this, "CellPanel");
 
         button = new JButton("登録");//button作成
         button.setSize(200, 200);
-        button.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        button.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
         // button.setEnabled(false);
         button.addActionListener(
                 new ActionListener() {

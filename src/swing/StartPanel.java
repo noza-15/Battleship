@@ -22,7 +22,7 @@ public class StartPanel extends JPanel {
         this.setSize(m.width, m.height);
         JLabel title = new JLabel("ゲーム名");
         title.setHorizontalAlignment(JLabel.CENTER);
-        title.setFont(new Font("MS ゴシック", Font.BOLD, 80));
+        title.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, 80));
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = 1.0d;
@@ -33,7 +33,7 @@ public class StartPanel extends JPanel {
         this.add(title);
 
         btn.setSize(500, 500);
-        btn.setFont(new Font("MS ゴシック", Font.BOLD, 80));
+        btn.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, 80));
         btn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);

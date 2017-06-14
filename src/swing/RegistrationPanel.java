@@ -26,21 +26,21 @@ public class RegistrationPanel extends JPanel {
 
         JLabel label1 = new JLabel("ユーザー名");//label作成
         label1.setHorizontalAlignment(JLabel.CENTER);
-        label1.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        label1.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
         JLabel label2 = new JLabel("役職");
         label2.setHorizontalAlignment(JLabel.CENTER);
-        label2.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        label2.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
 
         text = new JTextField(10);//text作成
-        text.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        text.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
 
         String[] initData = {"Player", "Bystander"};//初期データを登録
         JList list = new JList(initData);//リスト作成
-        list.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        list.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
 
         JButton button = new JButton("登録");//button作成
         button.setSize(200, 200);
-        button.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        button.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
         button.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {

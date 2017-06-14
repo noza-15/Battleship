@@ -3,11 +3,14 @@ package swing;
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
+    static final String DISPLAY_FONT = "MS ゴシック";
     private static final String TITLE = "TITLE";//frameのtitle
+    //    int width = 750;
     int width = 1500;
+    //    int height = 500;
     int height = 1000;
+    //    int font = 30;
     int font = 50;
-
     StartPanel sp = new StartPanel(this, "StartPanel");
     GroupPanel gp = new GroupPanel(this, "GroupPanel");
     RegistrationPanel rp = new RegistrationPanel(this, "RegistrationPanel");
@@ -24,7 +27,7 @@ public class MainFrame extends JFrame {
         this.add(setp);
         setp.setVisible(false);
 
-        this.setTitle(MainFrame.TITLE);
+        this.setTitle(TITLE);
         this.setSize(this.width, this.height);
         this.setLocationRelativeTo(null);//フレームを真ん中にセットする
         this.setResizable(false);//フレームの大きさを変更不可にする

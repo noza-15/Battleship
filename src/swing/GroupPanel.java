@@ -25,7 +25,7 @@ public class GroupPanel extends JPanel {
 
         JLabel label1 = new JLabel("グループ新規登録");//label作成
         label1.setHorizontalAlignment(JLabel.CENTER);
-        label1.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        label1.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0d;
@@ -34,7 +34,7 @@ public class GroupPanel extends JPanel {
 
         JLabel label2 = new JLabel("グループ参加");
         label2.setHorizontalAlignment(JLabel.CENTER);
-        label2.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        label2.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 1.0d;
@@ -42,7 +42,7 @@ public class GroupPanel extends JPanel {
         layout.setConstraints(label2, gbc);
 
         text = new JTextField(10);//text作成
-        text.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        text.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.weightx = 1.0d;
@@ -51,7 +51,7 @@ public class GroupPanel extends JPanel {
 
         JButton button1 = new JButton("登録");//button1作成
         button1.setSize(200, 200);
-        button1.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        button1.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
         button1.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -59,7 +59,7 @@ public class GroupPanel extends JPanel {
                         System.out.println(group);
                         if ("".equals(group)) {
                             JLabel label = new JLabel("グループ名を入力してください");
-                            label.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+                            label.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
                             label.setForeground(Color.RED);
                             JOptionPane.showMessageDialog(m, label);
                         } else {
@@ -79,7 +79,7 @@ public class GroupPanel extends JPanel {
         JList list = new JList(initData);//リスト作成
         // list.setFixedCellWidth(100);
         // list.setFixedCellHeight(100);
-        list.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        list.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
         JScrollPane sp = new JScrollPane();
         sp.getViewport().setView(list);
         sp.setPreferredSize(new Dimension(300, 200));
@@ -91,7 +91,7 @@ public class GroupPanel extends JPanel {
 
         JButton button2 = new JButton("参加");
         button2.setSize(200, 200);
-        button2.setFont(new Font("MS ゴシック", Font.BOLD, m.font));
+        button2.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
         button2.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
