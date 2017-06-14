@@ -12,39 +12,6 @@ public class Attacker extends Player {
         setJobCode(Server.ATTACKER);
     }
 
-    //船が置けるかどうか判別するメソッド
-    private static boolean check(int size, int x, int y, int d) {
-        if (d != 0 && d != 1) {
-            System.out.println("0か1を入力して向きを決めてください！");
-            return true;
-        } else if (x <= 0 || y <= 0) {
-            System.out.println("そこにはおけません！");
-            return true;
-        } else if (d == 1 && x + size >= 10) {
-            System.out.println("そこにはおけません");
-            return true;
-        } else if (d == 0 && y + size >= 10) {
-            System.out.println("そこにはおけません");
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    //自分が戦闘可能かどうか判別するメソッド、いらないかも
-    /*private boolean isurvive(Ship ships[]) {
-        int lives = 3;
-        for (int i = 0; i < Server.SHIPS.length; i++) {
-            if (ships[i].getLife() <= 0) {
-                lives--;
-            }
-        }
-        if (lives <= 0) {
-            return false;
-        } else return true;
-    }*/
-
-
     @Override
     public void newGame() throws SocketException {
         //船を配置する
@@ -63,7 +30,8 @@ public class Attacker extends Player {
                 System.out.println("設置する方向を決めてください");
                 System.out.println("上:0 右:1 下:2 左:3");
                 dir = inputInt(0, 3);
-            } while (!manager.setMyShip(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, dir));
+            } while (!manager.canSetShip(Server.SHIPS_SIZE[i], x, y, dir));
+            manager.setMyShip(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, dir);
         }
         //サーバーに船の配置を送信する
         cmd.send(Server.SET_SHIPS);
@@ -76,7 +44,7 @@ public class Attacker extends Player {
     @Override
     //攻撃する位置を指定する。
     public void nextTurn() throws SocketException {
-        int turnNo = 0;
+        int turnNo = 1;
         while (true) {
             int x, y;
             System.out.println("どこを攻撃しますか？");//攻撃場所の読み込み
@@ -104,6 +72,9 @@ public class Attacker extends Player {
             }
             for (int i = 0; i < playersList.size(); i++) {
                 manager.show(i);
+            }
+            if (!manager.isAlive(playerID)) {
+                System.out.println("あなたは死にました。");
             }
             scanner.next();
 //            // TODO:全員攻撃完了した後の処理

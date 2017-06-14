@@ -3,6 +3,7 @@ class ShipManager {
     static final int UNKNOWN = 0;
     static final int BOMB_HIT = 2;
     static final int BOMB_MISS = 3;
+    static final int BOMB_HIT_NEXT = 4;
     private boolean[][] myAttacks;
     private ShipNew[][] myShips;
     private ShipNew[][][] shipsMap;
@@ -97,6 +98,63 @@ class ShipManager {
                 }
                 break;
         }
+        if (!settable) {
+
+        }
+        return settable;
+    }
+
+    boolean canSetShip(int size, int x, int y, int direction) {
+        boolean settable = true;
+        if (x < 0 || x >= Server.FIELD_SIZE_X || y < 0 || y >= Server.FIELD_SIZE_Y) {
+            return false;
+        }
+        switch (direction) {
+            case Ship.UP:
+                for (int i = 0; i < size; i++) {
+                    if (y + i >= Server.FIELD_SIZE_Y) {
+                        settable = false;
+                        break;
+                    } else if (myShips[x][y + i] != null) {
+                        settable = false;
+                        break;
+                    }
+                }
+                break;
+            case Ship.RIGHT:
+                for (int i = 0; i < size; i++) {
+                    if (x + i >= Server.FIELD_SIZE_X) {
+                        settable = false;
+                        break;
+                    } else if (myShips[x + i][y] != null) {
+                        settable = false;
+                        break;
+                    }
+                }
+                break;
+            case Ship.DOWN:
+                for (int i = 0; i < size; i++) {
+                    if (y - i < 0) {
+                        settable = false;
+                        break;
+                    } else if (myShips[x][y - i] != null) {
+                        settable = false;
+                        break;
+                    }
+                }
+                break;
+            case Ship.LEFT:
+                for (int i = 0; i < size; i++) {
+                    if (x - i < 0) {
+                        settable = false;
+                        break;
+                    } else if (myShips[x - i][y] != null) {
+                        settable = false;
+                        break;
+                    }
+                }
+                break;
+        }
         return settable;
     }
 
@@ -114,23 +172,26 @@ class ShipManager {
             System.out.print("\t" + n);
         }
         System.out.println();
-        for (int i = 0; i < Server.FIELD_SIZE_Y; i++) {
-            System.out.print(i + "\t");
-            for (int j = 0; j < 10; j++) {
-                if (state[ID][i][j] == UNKNOWN) {
-                    System.out.print("-\t");
-                } else if (state[ID][i][j] == 1) {
+        for (int y = 0; y < Server.FIELD_SIZE_Y; y++) {
+            System.out.print(y + "\t");
+            for (int x = 0; x < 10; x++) {
+                if (state[ID][x][y] == 1) {
                     System.out.print("✖\t");
-                } else if (state[ID][i][j] == -1) {
+                } else if (state[ID][x][y] == -1) {
                     System.out.print("◯\t");
-                } else if (state[ID][i][j] == BOMB_HIT) {
+                } else if (state[ID][x][y] == BOMB_HIT) {
                     System.out.print("@\t");
-                } else if (state[ID][i][j] == BOMB_MISS) {
+                } else if (state[ID][x][y] == BOMB_MISS) {
                     System.out.print("*\t");
+                } else if (state[ID][x][y] == BOMB_HIT_NEXT) {
+                    System.out.print("%\t");
+                } else if (state[ID][x][y] == UNKNOWN) {
+                    System.out.print("-\t");
                 }
             }
             System.out.println();
         }
+        System.out.println("沈んだ船の数：" + sunkenCount[ID]);
     }
 
     /**
@@ -142,6 +203,18 @@ class ShipManager {
      */
     int isBombed(int ID, int x, int y) {
         if (shipsMap[ID][x][y] == null) {
+            if (y + 1 < Server.FIELD_SIZE_Y && shipsMap[ID][x][y + 1] != null) {
+                return state[ID][x][y] = BOMB_HIT_NEXT;
+            }
+            if (y - 1 >= 0 && shipsMap[ID][x][y - 1] != null) {
+                return state[ID][x][y] = BOMB_HIT_NEXT;
+            }
+            if (x + 1 < Server.FIELD_SIZE_X && shipsMap[ID][x + 1][y] != null) {
+                return state[ID][x][y] = BOMB_HIT_NEXT;
+            }
+            if (x - 1 >= 0 && shipsMap[ID][x - 1][y] != null) {
+                return state[ID][x][y] = BOMB_HIT_NEXT;
+            }
             return state[ID][x][y] = BOMB_MISS;
         } else if (state[ID][x][y] == UNKNOWN) {
             shipsMap[ID][x][y].bombed();
