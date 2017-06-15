@@ -1,21 +1,25 @@
 package BattleShip.swing;
 
+import BattleShip.CommandHandler;
+import BattleShip.Server;
+
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
     static final String DISPLAY_FONT = "MS ゴシック";
-    private static final String TITLE = "TITLE";//frameのtitle
-    //    int width = 750;
-    int width = 1500;
-    //    int height = 500;
-    int height = 1000;
-    //    int font = 30;
-    int font = 50;
+    private static final String TITLE = Server.GAME_NAME;//frameのtitle
+    int width = 750;
+    //    int width = 1500;
+    int height = 500;
+    //    int height = 1000;
+    int font = 20;
+    //    int font = 50;
     StartPanel sp = new StartPanel(this, "StartPanel");
     GroupPanel gp = new GroupPanel(this, "GroupPanel");
     RegistrationPanel rp = new RegistrationPanel(this, "RegistrationPanel");
     SettingPanel setp = new SettingPanel(this, "SettingPanel");
     // GamePanel game = new GamePanel(this,"GamePanel");
+    CommandHandler cmd;
 
     public MainFrame() {
         this.add(sp);
@@ -37,5 +41,6 @@ public class MainFrame extends JFrame {
 
     public static void main(String[] args) {
         MainFrame main = new MainFrame();
+
     }
 }

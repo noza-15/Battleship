@@ -12,7 +12,7 @@ public class Client {
     private CommandHandler cmd;
 
     public static void main(String[] args) {
-        System.out.println(Server.GAME_NAME); //TODO: GUI
+        System.out.println("\u001b[34m" + Server.GAME_NAME + "\u001b[0m"); //TODO: GUI
         Client client = new Client();
         try {
             client.initialize();

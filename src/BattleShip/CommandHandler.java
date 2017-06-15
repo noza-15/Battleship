@@ -12,7 +12,7 @@ public class CommandHandler {
     private ObjectInputStream objIn;
     private ObjectOutputStream objOut;
 
-    CommandHandler(Socket socket) throws IOException {
+    public CommandHandler(Socket socket) throws IOException {
         this.socket = socket;
         try {
             InputStream inputStream = new BufferedInputStream(socket.getInputStream());
