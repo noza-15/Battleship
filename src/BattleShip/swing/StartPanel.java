@@ -44,15 +44,18 @@ public class StartPanel extends JPanel {
         bt_start.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, mf.font));
         bt_start.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                while (!establishConnection()) ;
-                try {
-                    mf.gp = new GroupPanel(mf, "GroupPanel");
-                } catch (SocketException se) {
-                    se.printStackTrace();
+                String inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
+                if (inputAddress != null) {
+                    while (!establishConnection(inputAddress)) ;
+                    try {
+                        mf.gp = new GroupPanel(mf, "GroupPanel");
+                    } catch (SocketException se) {
+                        se.printStackTrace();
+                    }
+                    mf.add(mf.gp);
+                    setVisible(false);
+                    mf.gp.setVisible(true);
                 }
-                mf.add(mf.gp);
-                setVisible(false);
-                mf.gp.setVisible(true);
             }
         });
         gbc.gridx = 1;
@@ -63,18 +66,17 @@ public class StartPanel extends JPanel {
         this.add(bt_start);
     }
 
-    private boolean establishConnection() {
-        String inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
-        InetAddress address;
+    private boolean establishConnection(String address) {
+        InetAddress inetAddress;
         try {
-            address = InetAddress.getByName(inputAddress);
+            inetAddress = InetAddress.getByName(address);
         } catch (UnknownHostException uhe) {
             JOptionPane.showMessageDialog(mf, "サーバーが見つかりませんでした。アドレスが正しいか確認してください。",
                     "サーバーが見つかりません", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         try {
-            Socket socket = new Socket(address, Server.PORT_NO);
+            Socket socket = new Socket(inetAddress, Server.PORT_NO);
             JOptionPane.showMessageDialog(mf.sp, "サーバーとの接続に成功しました。"
                     + "\nsocket = " + socket);
             mf.cmd = new CommandHandler(socket);
