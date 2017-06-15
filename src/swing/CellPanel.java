@@ -79,11 +79,11 @@ public class CellPanel extends JPanel {
         for (int j = 0; j <= maxY; j++) {
             for (int i = 0; i <= maxX; i++) {
                 Cell c = cells[i][j];
-                if (c.color == "RED") {
+                if (c.color.equals("RED")) {
                     c.setBackground(Color.BLACK);
                     c.color = "BLACK";
                     c.setEnabled(false);
-                } else if (c.color != "BLACK") {
+                } else if (c.color.equals("BLACK")) {
                     c.setBackground(COLOR_LABEL);
                     c.color = "WHITE";
                     c.setEnabled(true);

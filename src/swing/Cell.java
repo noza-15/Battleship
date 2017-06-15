@@ -5,6 +5,10 @@ import java.awt.*;
 
 class Cell extends JButton {
 
+    static final int WHITE = 1;
+    static final int RED = 2;
+    static final int YELLOW = 3;
+    static final int BLUE = 3;
     private final int cellX;
     private final int cellY;
     public String color;
