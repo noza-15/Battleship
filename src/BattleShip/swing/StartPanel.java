@@ -3,11 +3,14 @@ package BattleShip.swing;
 import BattleShip.CommandHandler;
 import BattleShip.Server;
 
+import javax.sound.midi.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.*;
 
@@ -21,6 +24,26 @@ public class StartPanel extends JPanel {
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
         this.setLayout(layout);
+
+        try {
+            Sequencer sequencer = MidiSystem.getSequencer();
+            sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
+            sequencer.open();
+            //TODO:MIDIファイルのパスを変えてね
+            FileInputStream in = new FileInputStream("C:\\Users\\康平\\OneDrive\\Univ-Work\\金3 4 情報理工学実験B\\ソフトウェア制作\\Programs\\Battleship\\src\\BattleShip\\swing\\game_maoudamashii_1_battle36.mid");
+            Sequence sequence = MidiSystem.getSequence(in);
+            in.close();
+            sequencer.setSequence(sequence);
+            sequencer.start();
+        } catch (MidiUnavailableException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidMidiDataException e) {
+            e.printStackTrace();
+        }
 
         this.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
         JLabel lb_title = new JLabel(Server.GAME_NAME);
@@ -42,19 +65,19 @@ public class StartPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
                 if (inputAddress != null) {
-                    while (!establishConnection(inputAddress)) {
-                        inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
+                    if (establishConnection(inputAddress)) {
+                        try {
+                            mf.gp = new GroupPanel(mf, "GroupPanel");
+                        } catch (SocketException se) {
+                            JOptionPane.showMessageDialog(mf, "サーバーとの接続が失われました。",
+                                    "接続エラー", JOptionPane.WARNING_MESSAGE);
+                            se.printStackTrace();
+                        }
+                        mf.add(mf.gp);
+                        setVisible(false);
+                        mf.gp.setVisible(true);
                     }
-                    try {
-                        mf.gp = new GroupPanel(mf, "GroupPanel");
-                    } catch (SocketException se) {
-                        JOptionPane.showMessageDialog(mf, "サーバーとの接続が失われました。",
-                                "接続エラー", JOptionPane.WARNING_MESSAGE);
-                        se.printStackTrace();
-                    }
-                    mf.add(mf.gp);
-                    setVisible(false);
-                    mf.gp.setVisible(true);
+
                 }
             }
         });
