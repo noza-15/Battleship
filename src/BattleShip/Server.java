@@ -9,7 +9,7 @@ import java.util.Calendar;
 public class Server {
     public static final String GAME_NAME = "*** レーダー作戦ゲームβ ***";
     public static final int PORT_NO = 9999;
-    public static final String[] JOB = {"BattleShip.Attacker", "BattleShip.Bystander"};
+    public static final String[] JOB = {"Attacker", "Bystander"};
     public static final String[] SHIPS = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
     public static final int[] SHIPS_SIZE = {5, 4, 3, 3, 2};
 

@@ -25,7 +25,7 @@ public class CommandHandler {
 
     }
 
-    void send(String message) {
+    public void send(String message) {
         try {
             objOut.writeObject(message);
             objOut.flush();
@@ -34,7 +34,7 @@ public class CommandHandler {
         }
     }
 
-    void send(int command) {
+    public void send(int command) {
         try {
             objOut.writeInt(command);
             objOut.flush();
@@ -43,7 +43,7 @@ public class CommandHandler {
         }
     }
 
-    void send(boolean bool) {
+    public void send(boolean bool) {
         try {
             objOut.writeBoolean(bool);
             objOut.flush();
@@ -52,7 +52,7 @@ public class CommandHandler {
         }
     }
 
-    void send(Object object) throws SocketException {
+    public void send(Object object) throws SocketException {
         try {
             objOut.writeObject(object);
             objOut.flush();
@@ -63,7 +63,7 @@ public class CommandHandler {
         }
     }
 
-    int receiveInt() throws SocketException {
+    public int receiveInt() throws SocketException {
         try {
             return objIn.readInt();
         } catch (SocketException se) {
@@ -74,7 +74,7 @@ public class CommandHandler {
         }
     }
 
-    boolean receiveBoolean() throws SocketException {
+    public boolean receiveBoolean() throws SocketException {
         try {
             return objIn.readBoolean();
         } catch (SocketException se) {
@@ -85,7 +85,7 @@ public class CommandHandler {
         }
     }
 
-    String receiveString() throws SocketException {
+    public String receiveString() throws SocketException {
         try {
             return (String) objIn.readObject();
         } catch (SocketException se) {
@@ -99,7 +99,7 @@ public class CommandHandler {
         }
     }
 
-    Object receiveObject() throws SocketException {
+    public Object receiveObject() throws SocketException {
         try {
             return objIn.readObject();
         } catch (ClassNotFoundException e) {

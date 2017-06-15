@@ -9,10 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.ConnectException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
 
 
 public class StartPanel extends JPanel {
@@ -48,6 +45,12 @@ public class StartPanel extends JPanel {
         bt_start.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 while (!establishConnection()) ;
+                try {
+                    mf.gp = new GroupPanel(mf, "GroupPanel");
+                } catch (SocketException se) {
+                    se.printStackTrace();
+                }
+                mf.add(mf.gp);
                 setVisible(false);
                 mf.gp.setVisible(true);
             }
@@ -62,7 +65,7 @@ public class StartPanel extends JPanel {
 
     private boolean establishConnection() {
         String inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
-        InetAddress address = null;
+        InetAddress address;
         try {
             address = InetAddress.getByName(inputAddress);
         } catch (UnknownHostException uhe) {
@@ -72,14 +75,17 @@ public class StartPanel extends JPanel {
         }
         try {
             Socket socket = new Socket(address, Server.PORT_NO);
-            JOptionPane.showMessageDialog(mf.sp, "サーバーとの接続に成功しました。" + "\nsocket = " + socket);
+            JOptionPane.showMessageDialog(mf.sp, "サーバーとの接続に成功しました。"
+                    + "\nsocket = " + socket);
             mf.cmd = new CommandHandler(socket);
             return true;
         } catch (ConnectException ce) {
-            JOptionPane.showMessageDialog(mf, "サーバーに接続を拒否されました。", "接続拒否", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(mf, "サーバーに接続を拒否されました。",
+                    "接続拒否", JOptionPane.ERROR_MESSAGE);
             return false;
         } catch (IOException ioe) {
-            JOptionPane.showMessageDialog(mf, "サーバー接続中にエラーが発生しました。", "接続エラー", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(mf, "サーバー接続中にエラーが発生しました。",
+                    "接続エラー", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

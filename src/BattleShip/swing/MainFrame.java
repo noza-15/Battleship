@@ -14,33 +14,38 @@ public class MainFrame extends JFrame {
     //    int height = 1000;
     int font = 20;
     //    int font = 50;
-    StartPanel sp = new StartPanel(this, "StartPanel");
-    GroupPanel gp = new GroupPanel(this, "GroupPanel");
-    RegistrationPanel rp = new RegistrationPanel(this, "RegistrationPanel");
-    SettingPanel setp = new SettingPanel(this, "SettingPanel");
+
+    StartPanel sp;
+    GroupPanel gp;
+    RegistrationPanel rp;
+    SettingPanel setp;
     // GamePanel game = new GamePanel(this,"GamePanel");
     CommandHandler cmd;
 
     public MainFrame() {
-        this.add(sp);
-        sp.setVisible(true);
-        this.add(gp);
-        gp.setVisible(false);
-        this.add(rp);
-        rp.setVisible(false);
-        this.add(setp);
-        setp.setVisible(false);
 
         this.setTitle(TITLE);
         this.setSize(this.width, this.height);
         this.setLocationRelativeTo(null);//フレームを真ん中にセットする
         this.setResizable(false);//フレームの大きさを変更不可にする
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//フレームを閉じるとプログラムが終了する
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//フレームを閉じるとプログラムが終了する
         this.setVisible(true);
+
     }
 
     public static void main(String[] args) {
         MainFrame main = new MainFrame();
+        main.sp = new StartPanel(main, "StartPanel");
+        main.add(main.sp);
+        main.sp.setVisible(true);
+
+        main.rp = new RegistrationPanel(main, "RegistrationPanel");
+        main.setp = new SettingPanel(main, "SettingPanel");
+
+        main.add(main.rp);
+        main.rp.setVisible(false);
+        main.add(main.setp);
+        main.setp.setVisible(false);
 
     }
 }
