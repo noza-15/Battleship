@@ -46,7 +46,9 @@ public class StartPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
                 if (inputAddress != null) {
-                    while (!establishConnection(inputAddress)) ;
+                    while (!establishConnection(inputAddress)) {
+                        inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
+                    }
                     try {
                         mf.gp = new GroupPanel(mf, "GroupPanel");
                     } catch (SocketException se) {
