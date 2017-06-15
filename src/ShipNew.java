@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class ShipNew extends SeaObject implements Serializable {
+public class ShipNew implements Serializable {
 
     public static final int UP = 0;
     public static final int RIGHT = 1;
