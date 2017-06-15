@@ -3,7 +3,10 @@ package BattleShip.swing;
 import BattleShip.CommandHandler;
 import BattleShip.Server;
 
-import javax.sound.midi.*;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequencer;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -26,15 +29,15 @@ public class StartPanel extends JPanel {
         this.setLayout(layout);
 
         try {
-            Sequencer sequencer = MidiSystem.getSequencer();
-            sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
-            sequencer.open();
+            mf.sequencer = MidiSystem.getSequencer();
+            mf.sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
+            mf.sequencer.open();
             //TODO:MIDIファイルのパスを変えてね
             FileInputStream in = new FileInputStream("C:\\Users\\康平\\OneDrive\\Univ-Work\\金3 4 情報理工学実験B\\ソフトウェア制作\\Programs\\Battleship\\src\\BattleShip\\swing\\game_maoudamashii_1_battle36.mid");
-            Sequence sequence = MidiSystem.getSequence(in);
+            mf.sequence = MidiSystem.getSequence(in);
             in.close();
-            sequencer.setSequence(sequence);
-            sequencer.start();
+            mf.sequencer.setSequence(mf.sequence);
+            mf.sequencer.start();
         } catch (MidiUnavailableException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {

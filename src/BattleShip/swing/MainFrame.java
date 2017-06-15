@@ -4,6 +4,8 @@ import BattleShip.CommandHandler;
 import BattleShip.Player;
 import BattleShip.Server;
 
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
@@ -24,6 +26,8 @@ public class MainFrame extends JFrame {
     CommandHandler cmd;
     int groupID;
     Player player;
+    Sequencer sequencer;
+    Sequence sequence;
 
     public MainFrame() {
 
