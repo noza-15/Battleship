@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -98,14 +100,14 @@ public class GameGroup implements Serializable {
     public String toString() {
         if (isOpen) {
             return "グループ" + groupID + " : " +
-                    "Attacker " + attackersCount + "人, " +
-                    "Bystander " + bystandersCount + "人, " +
+                    "BattleShip.Attacker " + attackersCount + "人, " +
+                    "BattleShip.Bystander " + bystandersCount + "人, " +
                     "親のID " + parentID +
                     ", 参加者募集中";
         } else {
             return "\u001b[37mグループ" + groupID + " : " +
-                    "Attacker " + attackersCount + "人, " +
-                    "Bystander " + bystandersCount + "人, " +
+                    "BattleShip.Attacker " + attackersCount + "人, " +
+                    "BattleShip.Bystander " + bystandersCount + "人, " +
                     "親のID " + parentID +
                     ", 開戦中\u001b[0m";
         }

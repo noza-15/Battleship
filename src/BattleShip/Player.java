@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.io.Serializable;
 import java.net.SocketException;
 import java.util.ArrayList;

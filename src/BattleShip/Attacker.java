@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.net.SocketException;
 
 public class Attacker extends Player {
@@ -35,7 +37,7 @@ public class Attacker extends Player {
         cmd.send(manager.getMyShips());
         /*
         System.out.println("他のプレイヤーの選択を待っています…");
-        manager.setOthersShips((Ship[][][]) cmd.receiveObject());
+        manager.setOthersShips((BattleShip.Ship[][][]) cmd.receiveObject());
         System.out.println("盤面データを受信しています…");*/
         super.newGame();
     }

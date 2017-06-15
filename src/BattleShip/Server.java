@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -5,7 +7,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Server {
-    static final String[] JOB = {"Attacker", "Bystander"};
+    public static final String GAME_NAME = "\\u001b[34m*** レーダー作戦ゲームβ ***\\u001b[0m";
+    static final String[] JOB = {"BattleShip.Attacker", "BattleShip.Bystander"};
     static final String[] SHIPS = {"空母", "戦艦", "巡洋艦", "潜水艦", "駆逐艦"};
     static final int[] SHIPS_SIZE = {5, 4, 3, 3, 2};
 

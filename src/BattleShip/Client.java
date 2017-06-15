@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.Scanner;
@@ -10,7 +12,7 @@ public class Client {
     private CommandHandler cmd;
 
     public static void main(String[] args) {
-        System.out.println("\u001b[34m*** レーダー作戦ゲームβ ***\u001b[0m"); //TODO: GUI
+        System.out.println(Server.GAME_NAME); //TODO: GUI
         Client client = new Client();
         try {
             client.initialize();
@@ -72,17 +74,17 @@ public class Client {
         //TODO: GUI
         System.out.println("プレイヤー名を入力してください。");
         String inputName = scanner.next();
-        System.out.println("役割を選んでください。\nAttacker(攻撃者), Bystander(傍観者)");
+        System.out.println("役割を選んでください。\nBattleShip.Attacker(攻撃者), BattleShip.Bystander(傍観者)");
         switch (scanner.next().toLowerCase()) {
             case "a":
             case "attacker":
                 player = new Attacker(inputName);
-                System.out.println("Attacker(攻撃者)が選択されました。");
+                System.out.println("BattleShip.Attacker(攻撃者)が選択されました。");
                 break;
             case "b":
             case "bystander":
                 player = new Bystander(inputName);
-                System.out.println("Bystander(傍観者)が選択されました。");
+                System.out.println("BattleShip.Bystander(傍観者)が選択されました。");
                 break;
             default:
                 System.out.println("AかBを入力してください。");
