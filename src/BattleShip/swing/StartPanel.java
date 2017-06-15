@@ -52,6 +52,8 @@ public class StartPanel extends JPanel {
                     try {
                         mf.gp = new GroupPanel(mf, "GroupPanel");
                     } catch (SocketException se) {
+                        JOptionPane.showMessageDialog(mf, "サーバーとの接続が失われました。",
+                                "接続エラー", JOptionPane.WARNING_MESSAGE);
                         se.printStackTrace();
                     }
                     mf.add(mf.gp);
