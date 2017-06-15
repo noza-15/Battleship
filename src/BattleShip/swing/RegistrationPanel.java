@@ -1,5 +1,7 @@
 package BattleShip.swing;
 
+import BattleShip.Server;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,7 +9,7 @@ import java.awt.event.ActionListener;
 
 public class RegistrationPanel extends JPanel {
 
-    JTextField text;
+    JTextField tf_name;
     MainFrame mf;
     String str;
     String user;//フォームから入力されたプレイヤーの名前
@@ -18,24 +20,24 @@ public class RegistrationPanel extends JPanel {
         str = s;
 
         this.setName(s);
-        this.setSize(m.width, m.height);
+        this.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
         //レイアウトを設定
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JLabel label1 = new JLabel("ユーザー名");//label作成
-        label1.setHorizontalAlignment(JLabel.CENTER);
-        label1.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
-        JLabel label2 = new JLabel("役職");
-        label2.setHorizontalAlignment(JLabel.CENTER);
-        label2.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        JLabel lb_name = new JLabel("プレイヤー名");//label作成
+        lb_name.setHorizontalAlignment(JLabel.CENTER);
+        lb_name.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        JLabel lb_job = new JLabel("役割");
+        lb_job.setHorizontalAlignment(JLabel.CENTER);
+        lb_job.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
 
-        text = new JTextField(10);//text作成
-        text.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        tf_name = new JTextField(10);//text作成
+        tf_name.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
 
-        String[] initData = {"BattleShip.Player", "BattleShip.Bystander"};//初期データを登録
-        JList list = new JList(initData);//リスト作成
+
+        JList<String> list = new JList<>(Server.JOB);//リスト作成
         list.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
 
         JButton button = new JButton("登録");//button作成
@@ -44,9 +46,12 @@ public class RegistrationPanel extends JPanel {
         button.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        user = text.getText();
-                        position = (String) list.getSelectedValue();
-                        m.setSize(1500, 1000);
+                        JOptionPane.showConfirmDialog(mf, "ユーザー名: " + tf_name.getText()
+                                        + "\n役割: " + list.getSelectedValue() + "\nでプレイヤーを登録します。",
+                                "確認", JOptionPane.OK_CANCEL_OPTION);
+                        user = tf_name.getText();
+                        position = list.getSelectedValue();
+                        m.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
                         m.setLocationRelativeTo(null);
                         setVisible(false);
                         m.setp.setVisible(true);
@@ -58,15 +63,15 @@ public class RegistrationPanel extends JPanel {
         gbc.gridy = 0;
         gbc.weightx = 1.0d;
         gbc.weighty = 1.0d;
-        layout.setConstraints(label1, gbc);
+        layout.setConstraints(lb_name, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 0;
-        layout.setConstraints(text, gbc);
+        layout.setConstraints(tf_name, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-        layout.setConstraints(label2, gbc);
+        layout.setConstraints(lb_job, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -76,9 +81,9 @@ public class RegistrationPanel extends JPanel {
         gbc.gridy = 1;
         layout.setConstraints(button, gbc);
 
-        this.add(label1);
-        this.add(text);
-        this.add(label2);
+        this.add(lb_name);
+        this.add(tf_name);
+        this.add(lb_job);
         this.add(list);
         this.add(button);
     }

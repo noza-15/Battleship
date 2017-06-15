@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CellPanel extends JPanel {
-    private static final int CELL_SIZE = 50;
+    private static final int CELL_SIZE = 30;
     private static final Color COLOR_LABEL = Color.WHITE;
     MainFrame mf;
     String str;
@@ -70,7 +70,7 @@ public class CellPanel extends JPanel {
     }
 
     public Color getCOLOR_LABEL() {
-        return this.COLOR_LABEL;
+        return COLOR_LABEL;
     }
 
     public void reset() {

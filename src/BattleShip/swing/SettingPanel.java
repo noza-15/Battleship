@@ -26,7 +26,7 @@ public class SettingPanel extends JPanel {
         ship = len[index];
 
         this.setName(s);
-        this.setSize(m.width, m.height);
+        this.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
         //レイアウトを設定
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);

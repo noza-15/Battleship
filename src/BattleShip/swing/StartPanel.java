@@ -13,21 +13,16 @@ import java.net.*;
 
 
 public class StartPanel extends JPanel {
-    //TODO:メソッド内で良い?
-    JButton bt_start = new JButton("start");
-    //TODO:不要?
-    String str;
     MainFrame mf;
 
     public StartPanel(MainFrame m, String s) {
         this.mf = m;
-//        str = s;
         this.setName(s);
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
         this.setLayout(layout);
 
-        this.setSize(mf.width, mf.height);
+        this.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
         JLabel lb_title = new JLabel(Server.GAME_NAME);
         lb_title.setHorizontalAlignment(JLabel.CENTER);
         lb_title.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, 50));
@@ -40,6 +35,7 @@ public class StartPanel extends JPanel {
         lb_title.setBorder(border);
         this.add(lb_title);
 
+        JButton bt_start = new JButton("Start");
         bt_start.setSize(200, 200);
         bt_start.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, mf.font));
         bt_start.addActionListener(new ActionListener() {
