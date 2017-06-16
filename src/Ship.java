@@ -1,15 +1,19 @@
-public class Ship {
+import java.io.Serializable;
+
+public class Ship extends SeaObject implements Serializable {
+
     public static final int UP = 0;
     public static final int RIGHT = 1;
     public static final int DOWN = 2;
     public static final int LEFT = 3;
+    private static final long serialVersionUID = -2081082270419630874L;
     private String name;
     private int size;
     private int life;
     private int posX;
     private int posY;
     private int direction;
-    private boolean isBombed[][];
+    private boolean isAlive;
 
     /**
      * @param name      戦艦の名前
@@ -19,13 +23,13 @@ public class Ship {
      * @param direction 戦艦の向き
      */
     Ship(String name, int size, int posX, int posY, int direction) {
-        isBombed = new boolean[size][size];
         this.name = name;
         this.posX = posX;
         this.posY = posY;
         this.size = size;
         this.life = size;
         this.direction = direction;
+        this.isAlive = true;
     }
 
     /**
@@ -49,40 +53,20 @@ public class Ship {
         return name;
     }
 
-
-    boolean shipLife() {
-        if (this.life <= 0) {
-            return true;
-        } else {
-            return false;
+    /**
+     * ライフを減らす。
+     */
+    void bombed() {
+        life--;
+        if (life == 0) {
+            isAlive = false;
         }
     }
 
     /**
-     * 被弾したかを返す。同じ位置の2回目の被弾はfalse。
-     *
-     * @param x x座標
-     * @param y y座標
-     * @return 被弾したかどうか
+     * @return 生存しているか
      */
-
-    boolean bombed(int x, int y) {
-        // 正しい位置にある戦艦に対して呼び出すなら、この判定不要かも。
-        switch (direction) {
-            case UP:
-                if (x != posX || (y - posY) > size) return false;
-            case LEFT:
-                if (y != posY || (x - posX) > size) return false;
-                break;
-        }
-        if (isBombed[x - posX][y - posY]) {
-            return false;
-        } else {
-            life--;
-            isBombed[x - posX][y - posY] = true;
-            return true;
-        }
-
+    public boolean isAlive() {
+        return isAlive;
     }
-
 }

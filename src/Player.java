@@ -17,12 +17,17 @@ public class Player implements Serializable {
     private String playerName;
     private int jobCode;
     private boolean isParent;
+    private boolean isAlive;
 
     Player(String inputName) {
         setPlayerName(inputName);
     }
 
     public void newGame() throws SocketException {
+        System.out.println("他のプレイヤーの選択を待っています…");
+        cmd.send(Server.GET_SHIPS);
+        manager.setOthersShips((Ship[][][]) cmd.receiveObject());
+        System.out.println("盤面データを受信しています…");
     }
 
     public void waitStart() throws SocketException {
@@ -45,7 +50,6 @@ public class Player implements Serializable {
         } else {
             System.out.println("ゲーム開始を待機しています…");
             while (Server.START != cmd.receiveInt()) ;
-
         }
         System.out.println("プレイヤー情報を取得しています…");
         playersList = (ArrayList<Player>) cmd.receiveObject();
@@ -56,6 +60,27 @@ public class Player implements Serializable {
 
     public void nextTurn() throws SocketException {
 
+        System.out.println("他のプレイヤーが選択するのを待っています...");
+        for (int i = 0; i < playersList.size(); i++) {
+            AttackCommand command = null;
+            if (playersList.get(i).getJobCode() == Server.ATTACKER) {
+                command = (AttackCommand) cmd.receiveObject();
+            }
+            if (i == 0) {
+                System.out.println("# Turn" + command.getTurnNo() + " START!");
+            }
+            for (int j = 0; j < playersList.size(); j++) {
+                if (playersList.get(i).getJobCode() == Server.ATTACKER) {
+                    int state = manager.isBombed(IDTable.get(command.getPlayerID()), j, command.getX(), command.getY());
+                    System.out.println("Turn" + command.getTurnNo() + " " + command.getPlayerID() + " : " + state);
+                }
+            }
+        }
+        for (int i = 0; i < playersList.size(); i++) {
+            if (playersList.get(i).getJobCode() == Server.ATTACKER) {
+                manager.show(i);
+            }
+        }
     }
 
     public String getPlayerName() {
@@ -79,7 +104,6 @@ public class Player implements Serializable {
     }
 
     public void setGroupID(int groupID) {
-
         this.groupID = groupID;
     }
 

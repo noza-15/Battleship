@@ -3,15 +3,17 @@ class ShipManager {
     static final int UNKNOWN = 0;
     static final int BOMB_HIT = 2;
     static final int BOMB_MISS = 3;
+    static final int BOMB_ALREADY_HIT = 4;
+    static final int BOMB_HIT_NEXT = 5;
     private boolean[][] myAttacks;
-    private ShipNew[][] myShips;
-    private ShipNew[][][] shipsMap;
+    private Ship[][] myShips;
+    private Ship[][][] shipsMap;
     private int[][][] state;
     private int[] sunkenCount;
 
 
     ShipManager() {
-        myShips = new ShipNew[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
+        myShips = new Ship[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
         myAttacks = new boolean[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
     }
 
@@ -23,11 +25,34 @@ class ShipManager {
      * @param x         戦艦のx座標
      * @param y         戦艦のy座標
      * @param direction 戦艦の向き(上下左右)
-     * @return 戦艦を配置できた場合はtrue。できなかった場合はfalse。
      */
-    boolean setMyShip(String name, int size, int x, int y, int direction) {
+    void setMyShip(String name, int size, int x, int y, int direction) {
+        Ship ship = new Ship(name, size, x, y, direction);
+        if (x < 0 || x >= Server.FIELD_SIZE_X || y < 0 || y >= Server.FIELD_SIZE_Y) {
+            return;
+        }
+        if (canSetShip(size, x, y, direction)) {
+            for (int i = 0; i < size; i++) {
+                switch (direction) {
+                    case Ship.UP:
+                        myShips[x][y + i] = ship;
+                        break;
+                    case Ship.RIGHT:
+                        myShips[x + i][y] = ship;
+                        break;
+                    case Ship.DOWN:
+                        myShips[x][y - i] = ship;
+                        break;
+                    case Ship.LEFT:
+                        myShips[x - i][y] = ship;
+                        break;
+                }
+            }
+        }
+    }
+
+    boolean canSetShip(int size, int x, int y, int direction) {
         boolean settable = true;
-        ShipNew ship = new ShipNew(name, size, x, y, direction);
         if (x < 0 || x >= Server.FIELD_SIZE_X || y < 0 || y >= Server.FIELD_SIZE_Y) {
             return false;
         }
@@ -42,11 +67,6 @@ class ShipManager {
                         break;
                     }
                 }
-                if (settable) {
-                    for (int i = 0; i < size; i++) {
-                        myShips[x][y + i] = ship;
-                    }
-                }
                 break;
             case Ship.RIGHT:
                 for (int i = 0; i < size; i++) {
@@ -56,11 +76,6 @@ class ShipManager {
                     } else if (myShips[x + i][y] != null) {
                         settable = false;
                         break;
-                    }
-                }
-                if (settable) {
-                    for (int i = 0; i < size; i++) {
-                        myShips[x + i][y] = ship;
                     }
                 }
                 break;
@@ -74,11 +89,6 @@ class ShipManager {
                         break;
                     }
                 }
-                if (settable) {
-                    for (int i = 0; i < size; i++) {
-                        myShips[x][y - i] = ship;
-                    }
-                }
                 break;
             case Ship.LEFT:
                 for (int i = 0; i < size; i++) {
@@ -90,11 +100,6 @@ class ShipManager {
                         break;
                     }
                 }
-                if (settable) {
-                    for (int i = 0; i < size; i++) {
-                        myShips[x - i][y] = ship;
-                    }
-                }
                 break;
         }
         return settable;
@@ -103,7 +108,7 @@ class ShipManager {
     /**
      * @param ships 他のプレイヤーの盤面
      */
-    void setOthersShips(ShipNew[][][] ships) {
+    void setOthersShips(Ship[][][] ships) {
         this.shipsMap = ships;
         state = new int[ships.length][Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
         sunkenCount = new int[ships.length];
@@ -114,23 +119,26 @@ class ShipManager {
             System.out.print("\t" + n);
         }
         System.out.println();
-        for (int i = 0; i < Server.FIELD_SIZE_Y; i++) {
-            System.out.print(i + "\t");
-            for (int j = 0; j < 10; j++) {
-                if (state[ID][i][j] == UNKNOWN) {
-                    System.out.print("-\t");
-                } else if (state[ID][i][j] == 1) {
+        for (int y = 0; y < Server.FIELD_SIZE_Y; y++) {
+            System.out.print(y + "\t");
+            for (int x = 0; x < 10; x++) {
+                if (state[ID][x][y] == 1) {
                     System.out.print("✖\t");
-                } else if (state[ID][i][j] == -1) {
+                } else if (state[ID][x][y] == -1) {
                     System.out.print("◯\t");
-                } else if (state[ID][i][j] == BOMB_HIT) {
+                } else if (state[ID][x][y] == BOMB_HIT) {
                     System.out.print("@\t");
-                } else if (state[ID][i][j] == BOMB_MISS) {
+                } else if (state[ID][x][y] == BOMB_MISS) {
                     System.out.print("*\t");
+                } else if (state[ID][x][y] == BOMB_HIT_NEXT) {
+                    System.out.print("%\t");
+                } else if (state[ID][x][y] == UNKNOWN) {
+                    System.out.print("-\t");
                 }
             }
             System.out.println();
         }
+        System.out.println("沈んだ船の数：" + sunkenCount[ID]);
     }
 
     /**
@@ -140,8 +148,26 @@ class ShipManager {
      * @param y y座標
      * @return 今の攻撃で被弾した場合はtrue。すでに被弾したか、そこに戦艦がなかった場合はfalse。
      */
-    int isBombed(int ID, int x, int y) {
+    int isBombed(int attackerID, int ID, int x, int y) {
+        if (attackerID == ID) {
+            return 0;
+        }
+        if (x == -1) {
+            return 0;
+        }
         if (shipsMap[ID][x][y] == null) {
+            if (y + 1 < Server.FIELD_SIZE_Y && shipsMap[ID][x][y + 1] != null) {
+                return state[ID][x][y] = BOMB_HIT_NEXT;
+            }
+            if (y - 1 >= 0 && shipsMap[ID][x][y - 1] != null) {
+                return state[ID][x][y] = BOMB_HIT_NEXT;
+            }
+            if (x + 1 < Server.FIELD_SIZE_X && shipsMap[ID][x + 1][y] != null) {
+                return state[ID][x][y] = BOMB_HIT_NEXT;
+            }
+            if (x - 1 >= 0 && shipsMap[ID][x - 1][y] != null) {
+                return state[ID][x][y] = BOMB_HIT_NEXT;
+            }
             return state[ID][x][y] = BOMB_MISS;
         } else if (state[ID][x][y] == UNKNOWN) {
             shipsMap[ID][x][y].bombed();
@@ -149,6 +175,8 @@ class ShipManager {
                 sunkenCount[ID]++;
             }
             return state[ID][x][y] = BOMB_HIT;
+        } else if (state[ID][x][y] == BOMB_HIT) {
+            return BOMB_ALREADY_HIT;
         } else {
             return state[ID][x][y];
         }
@@ -169,11 +197,11 @@ class ShipManager {
     /**
      * @return 自分の盤面
      */
-    ShipNew[][] getMyShips() {
+    Ship[][] getMyShips() {
         return myShips;
     }
 
-    ShipNew[][] getShipsMap(int ID) {
+    Ship[][] getShipsMap(int ID) {
         return shipsMap[ID];
     }
 
