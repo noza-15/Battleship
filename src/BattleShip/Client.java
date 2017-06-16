@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.Scanner;
@@ -10,7 +12,7 @@ public class Client {
     private CommandHandler cmd;
 
     public static void main(String[] args) {
-        System.out.println("\u001b[34m*** レーダー作戦ゲームβ ***\u001b[0m"); //TODO: GUI
+        System.out.println("\u001b[34m" + Server.GAME_NAME + "\u001b[0m"); //TODO: GUI
         Client client = new Client();
         try {
             client.initialize();
@@ -160,8 +162,7 @@ public class Client {
             System.out.println(cmd.receiveString());
         }
         groupID = scanner.nextInt() - 1;
-        //TODO: 0で前に戻れるように
-        //FIXME: 表示が変
+        //0で前に戻れるように
         if (groupID == -1) {
             setGroup();
             return;

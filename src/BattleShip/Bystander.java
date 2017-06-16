@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.net.SocketException;
 
 public class Bystander extends Player {

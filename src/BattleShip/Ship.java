@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.io.Serializable;
 
 public class Ship extends SeaObject implements Serializable {

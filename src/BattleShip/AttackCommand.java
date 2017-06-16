@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.io.Serializable;
 
 public class AttackCommand implements Serializable {

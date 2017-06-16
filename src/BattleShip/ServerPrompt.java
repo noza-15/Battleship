@@ -1,3 +1,5 @@
+package BattleShip;
+
 import java.util.Scanner;
 
 class ServerPrompt extends Thread {

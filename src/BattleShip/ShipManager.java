@@ -1,3 +1,5 @@
+package BattleShip;
+
 class ShipManager {
     //    static final int NONE = 0;
     static final int UNKNOWN = 0;
