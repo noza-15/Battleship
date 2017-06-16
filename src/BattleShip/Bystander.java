@@ -6,7 +6,7 @@ public class Bystander extends Player {
 
     private static final long serialVersionUID = -1919533918019424969L;
 
-    Bystander(String inputName) {
+    public Bystander(String inputName) {
         super(inputName);
         setJobCode(Server.BYSTANDER);
     }

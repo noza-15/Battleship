@@ -97,10 +97,10 @@ public class GroupPanel extends JPanel {
                     public void actionPerformed(ActionEvent e) {
                         String o = (String) JOptionPane.showInputDialog(mf, "参加するグループを選んでください。",
                                 "グループ選択", JOptionPane.PLAIN_MESSAGE, null, grpList[0], grpList[0][0]);
-                        System.out.println(new Scanner(o).useDelimiter(":").nextInt());
+                        mf.groupID = new Scanner(o).useDelimiter(":").nextInt() - 1;
                         group = list.getSelectedValue();
                         setVisible(false);
-                        m.rp.setVisible(true);
+                        mf.rp.setVisible(true);
                     }
                 }
         );
@@ -131,10 +131,10 @@ public class GroupPanel extends JPanel {
 
         // list.setFixedCellWidth(100);
         // list.setFixedCellHeight(100);
-        list.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        list.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, m.font - 5));
         JScrollPane sp = new JScrollPane();
         sp.getViewport().setView(list);
-        sp.setPreferredSize(new Dimension(300, 200));
+        sp.setPreferredSize(new Dimension(400, 200));
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.weightx = 1.0d;
@@ -157,6 +157,7 @@ public class GroupPanel extends JPanel {
                             for (int i = 0; i < grpCnt; i++) {
                                 grpList[0][i] = mf.cmd.receiveString();
                                 JList<String> list = new JList<>(grpList[0]);
+                                list.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, m.font - 5));
                                 sp.getViewport().setView(list);
                             }
 

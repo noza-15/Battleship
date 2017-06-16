@@ -9,7 +9,8 @@ import javax.sound.midi.Sequencer;
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
-    static final String DISPLAY_FONT = "MS ゴシック";
+    //    static final String DISPLAY_FONT = "MS ゴシック";
+    static final String DISPLAY_FONT = "メイリオ";
     static final int WIN_WIDTH = 750;
     //    int WIN_WIDTH = 1500;
     static final int WIN_HEIGHT = 500;
@@ -45,6 +46,7 @@ public class MainFrame extends JFrame {
         main.sp = new StartPanel(main, "StartPanel");
         main.add(main.sp);
         main.sp.setVisible(true);
+
 
         main.rp = new RegistrationPanel(main, "RegistrationPanel");
         main.setp = new SettingPanel(main, "SettingPanel");

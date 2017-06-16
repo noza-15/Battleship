@@ -6,7 +6,7 @@ public class Attacker extends Player {
 
     private static final long serialVersionUID = -1038402005141356247L;
 
-    Attacker(String inputName) {
+    public Attacker(String inputName) {
         super(inputName);
         setJobCode(Server.ATTACKER);
     }

@@ -34,6 +34,7 @@ public class StartPanel extends JPanel {
             mf.sequencer.open();
             //TODO:MIDIファイルのパスを変えてね
             FileInputStream in = new FileInputStream("C:\\Users\\康平\\OneDrive\\Univ-Work\\金3 4 情報理工学実験B\\ソフトウェア制作\\Programs\\Battleship\\src\\BattleShip\\swing\\game_maoudamashii_1_battle36.mid");
+//            FileInputStream in = new FileInputStream("game_maoudamashii_1_battle36.mid");
             mf.sequence = MidiSystem.getSequence(in);
             in.close();
             mf.sequencer.setSequence(mf.sequence);
