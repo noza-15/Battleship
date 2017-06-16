@@ -66,12 +66,12 @@ class GameServerThread extends Thread {
                                 break;
                         }
                         player.setPlayerID(Server.allPlayerList.size());
-                        group.addPlayer(player);
                         cmd.send(Server.allPlayerList.size());
-                        String output = "Register: " + player;
+                        String output = "Reg: " + player;
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
                                 + "] [" + output + "]");
                         Server.allPlayerList.add(player);
+                        group.addPlayer(player);
                         cmd.send(output);
                         group.addCommandHandler(cmd);
                         break;
