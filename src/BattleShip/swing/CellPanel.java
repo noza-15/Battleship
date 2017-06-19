@@ -40,7 +40,7 @@ public class CellPanel extends JPanel {
                 Cell cell = new Cell(j, i);
                 this.cells[j][i] = cell;
                 cell.setBackground(COLOR_LABEL);
-                cell.addActionListener(new CellEventListenerNew(m, sp, this));
+                cell.addActionListener(new CellEventListener(m, sp, this));
                 this.addComponent(cell, j, i, 1, 1);
             }
         }

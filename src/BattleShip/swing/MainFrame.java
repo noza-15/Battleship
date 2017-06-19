@@ -31,12 +31,9 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         try {
-            String look =
-                    // "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
-                    UIManager.getSystemLookAndFeelClassName();
+            String look = UIManager.getSystemLookAndFeelClassName();
             UIManager.setLookAndFeel(look);
         } catch (Exception e) {
-            // 駄目なときは諦める
             e.printStackTrace();
         }
         this.setTitle(TITLE);
