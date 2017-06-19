@@ -16,13 +16,13 @@ class GameServerThread extends Thread {
 
     public void run() {
         try {
-            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Accept: " + socket + "]");
+            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Acp: " + socket + "]");
             cmd = new CommandHandler(socket);
             handleCommand();
         } catch (IOException e) {
             System.err.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [IOException: " + socket + "]");
         } finally {
-            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Close_socket: " + socket + "]");
+            System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName() + "] [Cls_socket: " + socket + "]");
             try {
                 socket.close();
             } catch (IOException e) {
@@ -80,21 +80,31 @@ class GameServerThread extends Thread {
                         Server.groupList.add(new GameGroup(Server.groupList.size()));
                         cmd.send(Server.groupList.size() - 1);
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                + "] [Crate_grp: " + (Server.groupList.size() - 1) + "]");
-                        break;
-
-                    case Server.CHECK_GROUP_EXISTENCE:
-                        System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                + "] [Check_grp_existence: " + socket + "]");
-                        cmd.send(Server.groupList.size());
+                                + "] [Crt_grp: " + (Server.groupList.size() - 1) + "]");
                         break;
 
                     case Server.LIST_GROUP:
                         System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                + "] [List_grp: " + socket + "]");
+                                + "] [Lst_grp: " + socket + "]");
                         cmd.send(Server.groupList.size()); //グループ数出力
                         for (int i = 0; i < Server.groupList.size(); i++) {
                             cmd.send(i + 1 + ": " + Server.groupList.get(i));
+                        }
+                        break;
+
+                    case Server.CHECK_GROUP_EXISTENCE:
+                        System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
+                                + "] [Chk_grp_existence: " + socket + "]");
+                        cmd.send(Server.groupList.size());
+                        break;
+
+                    case Server.LIST_MEMBERS:
+                        System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
+                                + "] [Lst_mem: " + "GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
+                        cmd.send(group.getAttackersCount());
+                        cmd.send(group.getBystandersCount());
+                        for (int i = 0; i < group.getPlayersList().size(); i++) {
+                            cmd.send(i + 1 + ": " + group.getPlayersList().get(i));
                         }
                         break;
 
@@ -102,11 +112,11 @@ class GameServerThread extends Thread {
                         if (group.getAttackersCount() > 1) {
                             group.closeGroup();
                             System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                    + "] [Close_application: " + "success; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
+                                    + "] [Cls_application: " + "success; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
                             cmd.send(true);
                         } else {
                             System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                    + "] [Close_application: " + "failure; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
+                                    + "] [Cls_application: " + "failure; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
                             cmd.send(false);
                             cmd.send("Error: 2 attackers are needed to start a game at least.");
                         }
@@ -149,10 +159,10 @@ class GameServerThread extends Thread {
                 continueFlag = false;
                 try {
                     System.err.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                            + "] [Lost_connection: PlayerID=" + player.getPlayerID() + "]");
+                            + "] [Disconnected: PlayerID=" + player.getPlayerID() + "]");
                 } catch (NullPointerException npe) {
                     System.err.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                            + "] [Lost_connection: " + socket + "]");
+                            + "] [Disconnected: " + socket + "]");
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();

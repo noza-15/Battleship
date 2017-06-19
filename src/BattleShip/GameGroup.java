@@ -105,11 +105,11 @@ public class GameGroup implements Serializable {
                     "親のID " + parentID +
                     ", 参加者募集中";
         } else {
-            return "\u001b[37mグループ" + groupID + " : " +
+            return /*\u001b[37m*/"グループ" + groupID + " : " +
                     "Attacker " + attackersCount + "人, " +
                     "Bystander " + bystandersCount + "人, " +
                     "親のID " + parentID +
-                    ", 開戦中\u001b[0m";
+                    ", 開戦中"/*\u001b[0m*/;
         }
     }
 }

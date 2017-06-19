@@ -129,6 +129,19 @@ public class Player implements Serializable {
         this.cmd = cmd;
     }
 
+    public ArrayList<Player> getPlayersList() {
+        return playersList;
+    }
+
+    public void setPlayersList(ArrayList<Player> playersList) {
+
+        this.playersList = playersList;
+    }
+
+    public void setIDTable(HashMap<Integer, Integer> IDTable) {
+        this.IDTable = IDTable;
+    }
+
     @Override
     public String toString() {
         return Server.JOB[getJobCode()] + "{" +

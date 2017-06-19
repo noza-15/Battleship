@@ -24,6 +24,19 @@ class ServerPrompt extends Thread {
                         System.out.println(i + 1 + ": " + Server.groupList.get(i));
                     }
                     break;
+                case "remove group":
+                    System.out.println("削除するグループのIDを入力してください。");
+                    int id = Integer.parseInt(scanner.nextLine());
+                    if (id >= Server.groupList.size()) {
+                        System.out.println("グループが存在しません。");
+                        break;
+                    }
+                    System.out.println("次のグループを削除します。 y/n\n" + Server.groupList.get(id));
+                    if (scanner.nextLine().toLowerCase().equals("y")) {
+                        Server.groupList.set(id, new GameGroup(id));
+                    }
+                    System.out.println("削除が完了しました。");
+                    break;
                 case "quit":
                 case "exit":
                     System.exit(1);

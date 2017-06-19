@@ -23,6 +23,7 @@ public class Server {
     public static final int NEW_GROUP = 101;
     public static final int LIST_GROUP = 102;
     public static final int CHECK_GROUP_EXISTENCE = 103;
+    public static final int LIST_MEMBERS = 105;
     public static final int CLOSE_APPLICATIONS = 110;
     public static final int START = 115;
     public static final int SET_SHIPS = 120;
