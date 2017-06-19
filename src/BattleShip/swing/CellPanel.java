@@ -1,5 +1,7 @@
 package BattleShip.swing;
 
+import BattleShip.Server;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,6 +11,9 @@ public class CellPanel extends JPanel {
     MainFrame mf;
     String str;
     SettingPanel setp;
+    int direction = -1;
+    int selectedX = -1;
+    int selectedY = -1;
     private int cellRows = 10;
     private int cellCols = 10;
     private Cell[][] cells;
@@ -35,7 +40,7 @@ public class CellPanel extends JPanel {
                 Cell cell = new Cell(j, i);
                 this.cells[j][i] = cell;
                 cell.setBackground(COLOR_LABEL);
-                cell.addActionListener(new CellEventListener(m, sp, this));
+                cell.addActionListener(new CellEventListenerNew(m, sp, this));
                 this.addComponent(cell, j, i, 1, 1);
             }
         }
@@ -74,20 +79,22 @@ public class CellPanel extends JPanel {
     }
 
     public void reset() {
-        int maxX = cellCols - 1;
-        int maxY = cellRows - 1;
-        for (int j = 0; j <= maxY; j++) {
-            for (int i = 0; i <= maxX; i++) {
+        for (int j = 0; j < Server.FIELD_SIZE_Y; j++) {
+            for (int i = 0; i < Server.FIELD_SIZE_X; i++) {
                 Cell c = cells[i][j];
                 if (c.color == Cell.RED) {
-                    c.setBackground(Color.BLACK);
-                    c.color = Cell.BLACK;
-                    c.setEnabled(false);
-                } else if (c.color == Cell.BLACK) {
-                    c.setBackground(COLOR_LABEL);
-                    c.color = Cell.WHITE;
+                    c.setColor(Cell.BLACK);
+                } else if (c.color == Cell.WHITE) {
                     c.setEnabled(true);
                 }
+            }
+        }
+    }
+
+    public void disableAll() {
+        for (int j = 0; j < Server.FIELD_SIZE_Y; j++) {
+            for (int i = 0; i < Server.FIELD_SIZE_X; i++) {
+                cells[i][j].setEnabled(false);
             }
         }
     }

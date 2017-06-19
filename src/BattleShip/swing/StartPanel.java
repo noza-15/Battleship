@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 
-
 public class StartPanel extends JPanel {
     MainFrame mf;
 
@@ -29,20 +28,16 @@ public class StartPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         this.setLayout(layout);
 
-
         this.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
         JLabel lb_title = new JLabel(Server.GAME_NAME);
         lb_title.setHorizontalAlignment(JLabel.CENTER);
-        lb_title.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, 40));
+        lb_title.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, 40));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0d;
         gbc.weighty = 1.0d;
         layout.setConstraints(lb_title, gbc);
-//        LineBorder border = new LineBorder(Color.RED, 2, true);
-//        lb_title.setBorder(border);
         this.add(lb_title);
-
 
         JLabel lb_imgShip = null;
         try {
@@ -63,7 +58,7 @@ public class StartPanel extends JPanel {
 
         JButton bt_start = new JButton("Start");
         bt_start.setSize(200, 200);
-        bt_start.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, mf.font));
+        bt_start.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_start.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
@@ -76,9 +71,9 @@ public class StartPanel extends JPanel {
                                     "接続エラー", JOptionPane.WARNING_MESSAGE);
                             se.printStackTrace();
                         }
-                        mf.add(mf.gp);
                         setVisible(false);
                         mf.sequencer.stop();
+                        mf.add(mf.gp);
                         mf.gp.setVisible(true);
                     }
 

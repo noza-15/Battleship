@@ -1,6 +1,6 @@
 package BattleShip;
 
-class ShipManager {
+public class ShipManager {
     //    static final int NONE = 0;
     static final int UNKNOWN = 0;
     static final int BOMB_HIT = 2;
@@ -14,7 +14,7 @@ class ShipManager {
     private int[] sunkenCount;
 
 
-    ShipManager() {
+    public ShipManager() {
         myShips = new Ship[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
         myAttacks = new boolean[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
     }
@@ -28,7 +28,7 @@ class ShipManager {
      * @param y         戦艦のy座標
      * @param direction 戦艦の向き(上下左右)
      */
-    void setMyShip(String name, int size, int x, int y, int direction) {
+    public void setMyShip(String name, int size, int x, int y, int direction) {
         Ship ship = new Ship(name, size, x, y, direction);
         if (x < 0 || x >= Server.FIELD_SIZE_X || y < 0 || y >= Server.FIELD_SIZE_Y) {
             return;
@@ -53,7 +53,7 @@ class ShipManager {
         }
     }
 
-    boolean canSetShip(int size, int x, int y, int direction) {
+    public boolean canSetShip(int size, int x, int y, int direction) {
         boolean settable = true;
         if (x < 0 || x >= Server.FIELD_SIZE_X || y < 0 || y >= Server.FIELD_SIZE_Y) {
             return false;
@@ -61,10 +61,10 @@ class ShipManager {
         switch (direction) {
             case Ship.UP:
                 for (int i = 0; i < size; i++) {
-                    if (y + i >= Server.FIELD_SIZE_Y) {
+                    if (y - i < 0) {
                         settable = false;
                         break;
-                    } else if (myShips[x][y + i] != null) {
+                    } else if (myShips[x][y - i] != null) {
                         settable = false;
                         break;
                     }
@@ -83,10 +83,10 @@ class ShipManager {
                 break;
             case Ship.DOWN:
                 for (int i = 0; i < size; i++) {
-                    if (y - i < 0) {
+                    if (y + i >= Server.FIELD_SIZE_Y) {
                         settable = false;
                         break;
-                    } else if (myShips[x][y - i] != null) {
+                    } else if (myShips[x][y + i] != null) {
                         settable = false;
                         break;
                     }

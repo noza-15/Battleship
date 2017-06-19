@@ -9,16 +9,15 @@ import javax.sound.midi.Sequencer;
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
-    //    static final String DISPLAY_FONT = "MS ゴシック";
-    static final String DISPLAY_FONT = "メイリオ";
+    static final String FONT_NAME = "メイリオ";
+    //    static final String FONT_NAME = "MS ゴシック";
+    static final int FONT_SIZE = 20;
+    //    int FONT_SIZE = 50;
     static final int WIN_WIDTH = 750;
     //    int WIN_WIDTH = 1500;
     static final int WIN_HEIGHT = 500;
-    private static final String TITLE = Server.GAME_NAME;//frameのtitle
     //    int WIN_HEIGHT = 1000;
-    int font = 20;
-    //    int font = 50;
-
+    private static final String TITLE = Server.GAME_NAME;//frameのtitle
     StartPanel sp;
     GroupPanel gp;
     RegistrationPanel rp;
@@ -31,14 +30,21 @@ public class MainFrame extends JFrame {
     Sequence sequence;
 
     public MainFrame() {
-
+        try {
+            String look =
+                    // "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+                    UIManager.getSystemLookAndFeelClassName();
+            UIManager.setLookAndFeel(look);
+        } catch (Exception e) {
+            // 駄目なときは諦める
+            e.printStackTrace();
+        }
         this.setTitle(TITLE);
         this.setSize(WIN_WIDTH, WIN_HEIGHT);
         this.setLocationRelativeTo(null);//フレームを真ん中にセットする
         this.setResizable(false);//フレームの大きさを変更不可にする
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);//フレームを閉じるとプログラムが終了する
         this.setVisible(true);
-
     }
 
     public static void main(String[] args) {
@@ -47,14 +53,12 @@ public class MainFrame extends JFrame {
         main.add(main.sp);
         main.sp.setVisible(true);
 
-
         main.rp = new RegistrationPanel(main, "RegistrationPanel");
-        main.setp = new SettingPanel(main, "SettingPanel");
-
         main.add(main.rp);
         main.rp.setVisible(false);
+
+        main.setp = new SettingPanel(main, "SettingPanel");
         main.add(main.setp);
         main.setp.setVisible(false);
-
     }
 }

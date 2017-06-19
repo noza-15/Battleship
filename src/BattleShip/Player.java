@@ -8,12 +8,11 @@ import java.util.Scanner;
 
 public class Player implements Serializable {
     private static final long serialVersionUID = 910896110410228731L;
+    public ShipManager manager;
     transient Scanner scanner = new Scanner(System.in);
     transient CommandHandler cmd;
-
     int groupID = -1;
     int playerID = -1;
-    ShipManager manager;
     ArrayList<Player> playersList;
     HashMap<Integer, Integer> IDTable = new HashMap<>();
     private String playerName;

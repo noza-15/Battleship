@@ -40,7 +40,7 @@ class Cell extends JButton {
     public void setRED() {
         this.setBackground(Color.RED);
         this.color = RED;
-        this.setEnabled(false);
+//        this.setEnabled(false);
     }
 
     public void setYELLOW() {
@@ -61,6 +61,10 @@ class Cell extends JButton {
         this.setEnabled(false);
     }
 
+    public int getColor() {
+        return color;
+    }
+
     public void setColor(int color) {
         switch (color) {
             case YELLOW:
@@ -73,7 +77,7 @@ class Cell extends JButton {
                 break;
             case RED:
                 this.setBackground(Color.RED);
-                setEnabled(false);
+                setEnabled(true);
                 break;
             case BLUE:
                 this.setBackground(Color.BLUE);
@@ -86,5 +90,4 @@ class Cell extends JButton {
         }
         this.color = color;
     }
-
 }

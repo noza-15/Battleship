@@ -1,9 +1,6 @@
 package BattleShip.swing;
 
-import BattleShip.Attacker;
-import BattleShip.Bystander;
-import BattleShip.Player;
-import BattleShip.Server;
+import BattleShip.*;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -38,18 +35,18 @@ public class RegistrationPanel extends JPanel {
         GridBagLayout lo_name = new GridBagLayout();
         pn_name.setLayout(lo_name);
         TitledBorder bd_name = new TitledBorder(new EtchedBorder(), "プレイヤー名", TitledBorder.LEFT, TitledBorder.TOP);
-        bd_name.setTitleFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, 20));
+        bd_name.setTitleFont(new Font(MainFrame.FONT_NAME, Font.BOLD, 20));
         pn_name.setBorder(bd_name);
 
         JLabel lb_name = new JLabel("プレイヤー名を入力してください。");
-        lb_name.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, m.font));
+        lb_name.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, m.FONT_SIZE));
         gbc_in.gridx = 0;
         gbc_in.gridy = 0;
         lo_name.setConstraints(lb_name, gbc_in);
         pn_name.add(lb_name);
 
         JTextField tf_name = new JTextField(10);
-        tf_name.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        tf_name.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, m.FONT_SIZE));
         gbc_in.gridx = 0;
         gbc_in.gridy = 1;
         gbc_in.insets = new Insets(5, 5, 10, 5);
@@ -71,11 +68,11 @@ public class RegistrationPanel extends JPanel {
         pn_job.setLayout(lo_job);
 
         TitledBorder bd_job = new TitledBorder(new EtchedBorder(), "役割", TitledBorder.LEFT, TitledBorder.TOP);
-        bd_job.setTitleFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, 20));
+        bd_job.setTitleFont(new Font(MainFrame.FONT_NAME, Font.BOLD, 20));
         pn_job.setBorder(bd_job);
 
         JLabel lb_job = new JLabel("役割を選択してください。");
-        lb_job.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, m.font));
+        lb_job.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, m.FONT_SIZE));
         gbc_in.gridx = 0;
         gbc_in.gridy = 0;
         gbc_in.anchor = GridBagConstraints.LINE_START;
@@ -90,7 +87,7 @@ public class RegistrationPanel extends JPanel {
         ButtonGroup group = new ButtonGroup();
         for (int i = 0; i < Server.JOB.length; i++) {
             rbt_job[i] = new JRadioButton(Server.JOB[i]);
-            rbt_job[i].setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, 20));
+            rbt_job[i].setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 20));
             group.add(rbt_job[i]);
             gbc_in.gridx = 0;
             gbc_in.gridy = i;
@@ -116,7 +113,7 @@ public class RegistrationPanel extends JPanel {
         //登録
         JButton bt_reg = new JButton("登録");//button作成
         bt_reg.setSize(200, 200);
-        bt_reg.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        bt_reg.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, m.FONT_SIZE));
         bt_reg.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -160,6 +157,7 @@ public class RegistrationPanel extends JPanel {
                         m.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
                         m.setLocationRelativeTo(null);
                         setVisible(false);
+                        mf.player.manager = new ShipManager();
                         m.setp.setVisible(true);
                     }
                 }
@@ -199,7 +197,7 @@ public class RegistrationPanel extends JPanel {
             dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
             JLabel lb_wait = new JLabel("ゲーム開始を待機しています…");
-            lb_wait.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, 16));
+            lb_wait.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 16));
             lb_wait.setHorizontalAlignment(SwingConstants.CENTER);
             pane.add(lb_wait);
 
@@ -249,7 +247,7 @@ public class RegistrationPanel extends JPanel {
         di_mem.setLocationRelativeTo(null);
 
         JLabel lb_mem = new JLabel("以下のメンバーでゲームを開始します。");
-        lb_mem.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, 16));
+        lb_mem.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 16));
         lb_mem.setHorizontalAlignment(SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -261,7 +259,7 @@ public class RegistrationPanel extends JPanel {
         JTable tb_mem = new JTable(memList, column);
         JScrollPane sp = new JScrollPane(tb_mem);
         sp.setPreferredSize(new Dimension(500, 200));
-        tb_mem.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, mf.font - 5));
+        tb_mem.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, mf.FONT_SIZE - 5));
         tb_mem.setFocusable(false);
         tb_mem.setCellSelectionEnabled(false);
         tb_mem.setEnabled(false);
@@ -275,7 +273,7 @@ public class RegistrationPanel extends JPanel {
         pn_mem.add(sp);
 
         JButton bt_OK = new JButton("OK");
-        bt_OK.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, mf.font - 5));
+        bt_OK.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, mf.FONT_SIZE - 5));
         bt_OK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -316,9 +314,10 @@ class ParentDialog extends JDialog {
         this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
         setTitle("参加募集締め切り");
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
         lb_mes = new JTextArea("あなたはこのゲームの親です。\n「締め切る」ボタンを押すと参加募集を締め切ります。");
-        lb_mes.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, 16));
+        lb_mes.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 16));
         lb_mes.setOpaque(false);
         lb_mes.setEditable(false);
         lb_mes.setFocusable(false);
@@ -360,6 +359,7 @@ class ParentDialog extends JDialog {
         bt_end.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                getList();
                 if (atkCnt[0] < 2) {
                     JOptionPane.showMessageDialog(mf, "ゲームを開始するには、2人以上のAttackerが必要です。",
                             "エラー", JOptionPane.WARNING_MESSAGE);
@@ -418,7 +418,7 @@ class ParentDialog extends JDialog {
                 memList[0][i] = mf.cmd.receiveString();
             }
             ls_member = new JList<>(memList[0]);
-            ls_member.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, mf.font - 5));
+            ls_member.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, mf.FONT_SIZE - 5));
             sp.getViewport().setView(ls_member);
             lb_mes.setText("あなたはこのゲームの親です。\n" +
                     "「締め切る」ボタンを押すと参加募集を締め切ります。\n" +

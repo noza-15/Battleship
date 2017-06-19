@@ -30,7 +30,7 @@ public class GroupPanel extends JPanel {
 
         JLabel lb_inst = new JLabel("操作を選択してください。");
         lb_inst.setHorizontalAlignment(JLabel.CENTER);
-        lb_inst.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, 20));
+        lb_inst.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 20));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0d;
@@ -40,15 +40,19 @@ public class GroupPanel extends JPanel {
 
         JButton bt_newGrp = new JButton("新規グループを作成");
         bt_newGrp.setSize(200, 200);
-        bt_newGrp.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        bt_newGrp.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_newGrp.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        mf.cmd.send(Server.NEW_GROUP);
+                        int choice = 0;
+                        choice = JOptionPane.showConfirmDialog(mf, "新しくグループ " + mf.groupID + " を作成します。",
+                                "グループの新規作成", JOptionPane.YES_NO_OPTION);
+                        if (choice == JOptionPane.NO_OPTION) {
+                            return;
+                        }
                         try {
+                            mf.cmd.send(Server.NEW_GROUP);
                             mf.groupID = mf.cmd.receiveInt();
-                            JOptionPane.showMessageDialog(mf, "新しくグループ " + mf.groupID + " を作成します。",
-                                    "グループの新規作成", JOptionPane.INFORMATION_MESSAGE);
                         } catch (SocketException se) {
                             JOptionPane.showMessageDialog(mf, "サーバーとの接続が失われました。",
                                     "接続エラー", JOptionPane.WARNING_MESSAGE);
@@ -69,8 +73,7 @@ public class GroupPanel extends JPanel {
         this.add(bt_newGrp);
 
         JTextArea lb_newGrp = new JTextArea("新規にグループを作成します。\n親は最初にそのグループの" + Server.JOB[0] + "になった人です。");
-//        lb_newGrp.setHorizontalAlignment(JLabel.CENTER);
-        lb_newGrp.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, m.font - 5));
+        lb_newGrp.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, MainFrame.FONT_SIZE - 5));
         lb_newGrp.setOpaque(false);
         lb_newGrp.setEditable(false);
         lb_newGrp.setFocusable(false);
@@ -92,7 +95,7 @@ public class GroupPanel extends JPanel {
 
         JButton bt_joinGrp = new JButton("既存グループに参加");
         bt_joinGrp.setSize(200, 200);
-        bt_joinGrp.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        bt_joinGrp.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_joinGrp.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -104,6 +107,8 @@ public class GroupPanel extends JPanel {
                             return;
                         }
                         setVisible(false);
+                        mf.rp = new RegistrationPanel(mf, "RegistrationPanel");
+                        mf.add(mf.rp);
                         mf.rp.setVisible(true);
                     }
                 }
@@ -124,7 +129,7 @@ public class GroupPanel extends JPanel {
                     + "グループあります。\n親は最初にそのグループの" + Server.JOB[0] + "になった人です。");
         }
 //        lb_newGrp.setHorizontalAlignment(JLabel.CENTER);
-        lb_joinGrp[0].setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, m.font - 5));
+        lb_joinGrp[0].setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, MainFrame.FONT_SIZE - 5));
         lb_joinGrp[0].setOpaque(false);
         lb_joinGrp[0].setEditable(false);
         lb_joinGrp[0].setFocusable(false);
@@ -137,7 +142,7 @@ public class GroupPanel extends JPanel {
         this.add(lb_joinGrp[0]);
 
         JList<String> ls_group = new JList<>(grpList[0]);
-        ls_group.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, m.font - 5));
+        ls_group.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, MainFrame.FONT_SIZE - 5));
         JScrollPane sp = new JScrollPane();
         sp.getViewport().setView(ls_group);
         sp.setPreferredSize(new Dimension(500, 200));
@@ -150,7 +155,7 @@ public class GroupPanel extends JPanel {
 
         JButton bt_refresh = new JButton("更新");
         bt_refresh.setSize(200, 200);
-        bt_refresh.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        bt_refresh.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_refresh.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
@@ -164,7 +169,7 @@ public class GroupPanel extends JPanel {
                             for (int i = 0; i < grpCnt; i++) {
                                 grpList[0][i] = mf.cmd.receiveString();
                                 JList<String> list = new JList<>(grpList[0]);
-                                list.setFont(new Font(MainFrame.DISPLAY_FONT, Font.PLAIN, m.font - 5));
+                                list.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, MainFrame.FONT_SIZE - 5));
                                 sp.getViewport().setView(list);
                             }
 
