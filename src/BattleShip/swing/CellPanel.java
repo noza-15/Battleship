@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CellPanel extends JPanel {
-    private static final int CELL_SIZE = 30;
+    private static final int CELL_SIZE = 5;
     private static final Color COLOR_LABEL = Color.WHITE;
     MainFrame mf;
     String str;
@@ -19,7 +19,7 @@ public class CellPanel extends JPanel {
         setp = sp;
 
         int width = this.cellCols * CELL_SIZE;
-        int height = (this.cellRows + 2) * CELL_SIZE;
+        int height = (this.cellRows) * CELL_SIZE;
 
         this.setName(s);
         this.setSize(width, height);
@@ -35,8 +35,8 @@ public class CellPanel extends JPanel {
                 Cell cell = new Cell(j, i);
                 this.cells[j][i] = cell;
                 cell.setBackground(COLOR_LABEL);
-                cell.addActionListener(new SetCellEventListener(m, sp, this));
-                this.addComponent(cell, j, i + 1, 1, 1);
+                cell.addActionListener(new CellEventListener(m, sp, this));
+                this.addComponent(cell, j, i, 1, 1);
             }
         }
     }
@@ -79,13 +79,13 @@ public class CellPanel extends JPanel {
         for (int j = 0; j <= maxY; j++) {
             for (int i = 0; i <= maxX; i++) {
                 Cell c = cells[i][j];
-                if (c.color.equals("RED")) {
+                if (c.color == Cell.RED) {
                     c.setBackground(Color.BLACK);
-                    c.color = "BLACK";
+                    c.color = Cell.BLACK;
                     c.setEnabled(false);
-                } else if (c.color.equals("BLACK")) {
+                } else if (c.color == Cell.BLACK) {
                     c.setBackground(COLOR_LABEL);
-                    c.color = "WHITE";
+                    c.color = Cell.WHITE;
                     c.setEnabled(true);
                 }
             }

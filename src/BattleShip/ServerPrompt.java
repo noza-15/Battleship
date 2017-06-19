@@ -25,7 +25,12 @@ class ServerPrompt extends Thread {
                     }
                     break;
                 case "remove group":
-                    System.out.println("削除するグループのIDを入力してください。");
+                    try {
+                        System.out.println("削除するグループのIDを入力してください。");
+                    } catch (NumberFormatException ne) {
+                        System.err.println("数字を入力して下さい。");
+                        break;
+                    }
                     int id = Integer.parseInt(scanner.nextLine());
                     if (id >= Server.groupList.size()) {
                         System.out.println("グループが存在しません。");

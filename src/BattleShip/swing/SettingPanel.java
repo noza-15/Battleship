@@ -15,8 +15,8 @@ public class SettingPanel extends JPanel {
     int index;
     int ship;
     JButton button;
-    JLabel label1;
-    JLabel label2;
+    JLabel lb_inst;
+    JLabel lb_size;
 
     public SettingPanel(MainFrame m, String s) {
         mf = m;
@@ -32,12 +32,12 @@ public class SettingPanel extends JPanel {
         this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
 
-        label1 = new JLabel("船を配置してください");//label作成
-        label1.setHorizontalAlignment(JLabel.CENTER);
-        label1.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font - 5));
-        label2 = new JLabel(name[index] + ":" + len[index] + "マス");
-        label2.setHorizontalAlignment(JLabel.CENTER);
-        label2.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
+        lb_inst = new JLabel("船を配置してください");//label作成
+        lb_inst.setHorizontalAlignment(JLabel.CENTER);
+        lb_inst.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font - 5));
+        lb_size = new JLabel(name[index] + ":" + len[index] + "マス");
+        lb_size.setHorizontalAlignment(JLabel.CENTER);
+        lb_size.setFont(new Font(MainFrame.DISPLAY_FONT, Font.BOLD, m.font));
 
         CellPanel cp = new CellPanel(m, this, "CellPanel");
 
@@ -54,37 +54,39 @@ public class SettingPanel extends JPanel {
                             cp.reset();
                             count = 0;
                             ship = len[index];
-                            label2.setText(name[index] + ":" + len[index] + "マス");
+                            lb_size.setText(name[index] + ":" + len[index] + "マス");
                         }
                     }
                 }
         );
         button.setEnabled(false);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        layout.setConstraints(label1, gbc);
-
         gbc.gridx = 1;
         gbc.gridy = 0;
-        layout.setConstraints(label2, gbc);
+        layout.setConstraints(lb_inst, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.weightx = 5.0d;
-        gbc.weighty = 1.0d;
-        gbc.fill = GridBagConstraints.BOTH;
-        layout.setConstraints(cp, gbc);
+        layout.setConstraints(lb_size, gbc);
 
-        gbc.gridx = 2;
-        gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         gbc.weightx = 1.0d;
         gbc.weighty = 1.0d;
+        gbc.gridheight = 2;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        layout.setConstraints(cp, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.weightx = 1.0d;
+        gbc.weighty = 1.0d;
+        gbc.gridheight = 1;
         gbc.fill = GridBagConstraints.NONE;
         layout.setConstraints(button, gbc);
 
-        this.add(label1);
-        this.add(label2);
+        this.add(lb_inst);
+        this.add(lb_size);
         this.add(cp);
         this.add(button);
     }

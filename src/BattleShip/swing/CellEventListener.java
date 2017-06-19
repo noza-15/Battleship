@@ -3,7 +3,7 @@ package BattleShip.swing;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SetCellEventListener implements ActionListener {
+public class CellEventListener implements ActionListener {
     private MainFrame main;
     private CellPanel cp;
     private SettingPanel setp;
@@ -11,7 +11,7 @@ public class SetCellEventListener implements ActionListener {
     private int ship;
     private int index;
 
-    public SetCellEventListener(MainFrame main, SettingPanel setp, CellPanel cp) {
+    public CellEventListener(MainFrame main, SettingPanel setp, CellPanel cp) {
         this.main = main;
         this.cp = cp;
         this.setp = setp;
@@ -38,9 +38,9 @@ public class SetCellEventListener implements ActionListener {
                 for (int i = 0; i <= maxX; i++) {
                     c = this.cp.getCell(i, j);
                     if (i == x && j == y) {
-                        c.setRED();
+                        c.setColor(Cell.RED);
                     } else if ((i == x - 1 && j == y) || (i == x + 1 && j == y) || (i == x && j == y - 1) || (i == x && j == y + 1)) {
-                        c.setYELLOW();
+                        c.setColor(Cell.YELLOW);
                     } else {
                         c.setEnabled(false);
                     }
@@ -54,9 +54,9 @@ public class SetCellEventListener implements ActionListener {
                     for (int i = 0; i <= maxX; i++) {
                         c = this.cp.getCell(i, j);
                         if (i == x && j == y) {
-                            c.setRED();
+                            c.setColor(Cell.RED);
                         } else if ((i == x - 1 && j == y) || (i == x + 1 && j == y) || (i == x && j == y - 1) || (i == x && j == y + 1)) {
-                            if (c.color != "BLACK" && c.color != "BLUE") c.setYELLOW();
+                            if (c.color != Cell.BLACK && c.color != Cell.BLUE) c.setColor(Cell.YELLOW);
                         } else {
                             c.setEnabled(false);
                         }
@@ -65,63 +65,63 @@ public class SetCellEventListener implements ActionListener {
                 this.setp.count += 1;
             }
         } else {//船を設置中
-            cell.setRED();
-            if (x - 1 >= 0 && this.cp.getCell(x - 1, y).color == "RED") {
-                if (x + 1 <= maxX && this.cp.getCell(x + 1, y).color != "BLACK") {
-                    this.cp.getCell(x + 1, y).setYELLOW();
+            cell.setColor(Cell.RED);
+            if (x - 1 >= 0 && this.cp.getCell(x - 1, y).color == Cell.RED) {
+                if (x + 1 <= maxX && this.cp.getCell(x + 1, y).color != Cell.BLACK) {
+                    this.cp.getCell(x + 1, y).setColor(Cell.YELLOW);
                 }
                 if (this.count == 1) {
-                    if (y - 1 >= 0 && this.cp.getCell(x - 1, y - 1).color == "YELLOW") {
-                        this.cp.getCell(x - 1, y - 1).setWHITE();
+                    if (y - 1 >= 0 && this.cp.getCell(x - 1, y - 1).color == Cell.YELLOW) {
+                        this.cp.getCell(x - 1, y - 1).setColor(Cell.WHITE);
                         this.cp.getCell(x - 1, y - 1).setEnabled(false);
                     }
-                    if (y + 1 <= maxY && this.cp.getCell(x - 1, y + 1).color == "YELLOW") {
-                        this.cp.getCell(x - 1, y + 1).setWHITE();
+                    if (y + 1 <= maxY && this.cp.getCell(x - 1, y + 1).color == Cell.YELLOW) {
+                        this.cp.getCell(x - 1, y + 1).setColor(Cell.WHITE);
                         this.cp.getCell(x - 1, y + 1).setEnabled(false);
                     }
                 }
                 this.setp.count += 1;
-            } else if (x + 1 <= maxX && this.cp.getCell(x + 1, y).color == "RED") {
-                if (x - 1 >= 0 && this.cp.getCell(x - 1, y).color != "BLACK") {
-                    this.cp.getCell(x - 1, y).setYELLOW();
+            } else if (x + 1 <= maxX && this.cp.getCell(x + 1, y).color == Cell.RED) {
+                if (x - 1 >= 0 && this.cp.getCell(x - 1, y).color != Cell.BLACK) {
+                    this.cp.getCell(x - 1, y).setColor(Cell.YELLOW);
                 }
                 if (this.count == 1) {
-                    if (y - 1 >= 0 && this.cp.getCell(x + 1, y - 1).color == "YELLOW") {
-                        this.cp.getCell(x + 1, y - 1).setWHITE();
+                    if (y - 1 >= 0 && this.cp.getCell(x + 1, y - 1).color == Cell.YELLOW) {
+                        this.cp.getCell(x + 1, y - 1).setColor(Cell.WHITE);
                         this.cp.getCell(x + 1, y - 1).setEnabled(false);
                     }
-                    if (y + 1 <= maxY && this.cp.getCell(x + 1, y + 1).color == "YELLOW") {
-                        this.cp.getCell(x + 1, y + 1).setWHITE();
+                    if (y + 1 <= maxY && this.cp.getCell(x + 1, y + 1).color == Cell.YELLOW) {
+                        this.cp.getCell(x + 1, y + 1).setColor(Cell.WHITE);
                         this.cp.getCell(x + 1, y + 1).setEnabled(false);
                     }
                 }
                 this.setp.count += 1;
-            } else if (y - 1 >= 0 && this.cp.getCell(x, y - 1).color == "RED") {
-                if (y + 1 <= maxY && this.cp.getCell(x, y + 1).color != "BLACK") {
-                    this.cp.getCell(x, y + 1).setYELLOW();
+            } else if (y - 1 >= 0 && this.cp.getCell(x, y - 1).color == Cell.RED) {
+                if (y + 1 <= maxY && this.cp.getCell(x, y + 1).color != Cell.BLACK) {
+                    this.cp.getCell(x, y + 1).setColor(Cell.YELLOW);
                 }
                 if (this.count == 1) {
-                    if (x - 1 >= 0 && this.cp.getCell(x - 1, y - 1).color == "YELLOW") {
-                        this.cp.getCell(x - 1, y - 1).setWHITE();
+                    if (x - 1 >= 0 && this.cp.getCell(x - 1, y - 1).color == Cell.YELLOW) {
+                        this.cp.getCell(x - 1, y - 1).setColor(Cell.WHITE);
                         this.cp.getCell(x - 1, y - 1).setEnabled(false);
                     }
-                    if (x + 1 <= maxX && this.cp.getCell(x + 1, y - 1).color == "YELLOW") {
-                        this.cp.getCell(x + 1, y - 1).setWHITE();
+                    if (x + 1 <= maxX && this.cp.getCell(x + 1, y - 1).color == Cell.YELLOW) {
+                        this.cp.getCell(x + 1, y - 1).setColor(Cell.WHITE);
                         this.cp.getCell(x + 1, y - 1).setEnabled(false);
                     }
                 }
                 this.setp.count += 1;
-            } else if (y + 1 <= maxY && this.cp.getCell(x, y + 1).color == "RED") {
-                if (y - 1 >= 0 && this.cp.getCell(x, y - 1).color != "BLACK") {
-                    this.cp.getCell(x, y - 1).setYELLOW();
+            } else if (y + 1 <= maxY && this.cp.getCell(x, y + 1).color == Cell.RED) {
+                if (y - 1 >= 0 && this.cp.getCell(x, y - 1).color != Cell.BLACK) {
+                    this.cp.getCell(x, y - 1).setColor(Cell.YELLOW);
                 }
                 if (this.count == 1) {
-                    if (x - 1 >= 0 && this.cp.getCell(x - 1, y + 1).color == "YELLOW") {
-                        this.cp.getCell(x - 1, y + 1).setWHITE();
+                    if (x - 1 >= 0 && this.cp.getCell(x - 1, y + 1).color == Cell.YELLOW) {
+                        this.cp.getCell(x - 1, y + 1).setColor(Cell.WHITE);
                         this.cp.getCell(x - 1, y + 1).setEnabled(false);
                     }
-                    if (x + 1 <= maxX && this.cp.getCell(x + 1, y + 1).color == "YELLOW") {
-                        this.cp.getCell(x + 1, y + 1).setWHITE();
+                    if (x + 1 <= maxX && this.cp.getCell(x + 1, y + 1).color == Cell.YELLOW) {
+                        this.cp.getCell(x + 1, y + 1).setColor(Cell.WHITE);
                         this.cp.getCell(x + 1, y + 1).setEnabled(false);
                     }
                 }
@@ -134,8 +134,8 @@ public class SetCellEventListener implements ActionListener {
             for (int j = 0; j <= maxY; j++) {
                 for (int i = 0; i <= maxX; i++) {
                     c = this.cp.getCell(i, j);
-                    if (c.color == "YELLOW") {
-                        c.setWHITE();
+                    if (c.color == Cell.YELLOW) {
+                        c.setColor(Cell.WHITE);
                     }
                 }
             }
@@ -152,48 +152,48 @@ public class SetCellEventListener implements ActionListener {
 
         for (int i = x - 1; i >= 0; i--) {
             Cell c = this.cp.getCell(i, y);
-            if (c.color != "BLACK") {
+            if (c.color != Cell.BLACK) {
                 lengthX++;
             } else break;
         }
         for (int i = x + 1; i <= maxX; i++) {
             Cell c = this.cp.getCell(i, y);
-            if (c.color != "BLACK") {
+            if (c.color != Cell.BLACK) {
                 lengthX++;
             } else break;
         }
         for (int i = y - 1; i >= 0; i--) {
             Cell c = this.cp.getCell(x, i);
-            if (c.color != "BLACK") {
+            if (c.color != Cell.BLACK) {
                 lengthY++;
             } else break;
         }
         for (int i = y + 1; i <= maxY; i++) {
             Cell c = this.cp.getCell(x, i);
-            if (c.color != "BLACK") {
+            if (c.color != Cell.BLACK) {
                 lengthY++;
             } else break;
         }
         if (lengthX < ship - 1 && lengthY < ship - 1) {
-            for (int i = x - 1; i >= 0 && this.cp.getCell(i, y).color != "BLACK"; i--)
-                this.cp.getCell(i, y).setBLUE();
-            for (int i = x + 1; i <= maxX && this.cp.getCell(i, y).color != "BLACK"; i++)
-                this.cp.getCell(i, y).setBLUE();
-            for (int i = y; i >= 0 && this.cp.getCell(x, i).color != "BLACK"; i--)
-                this.cp.getCell(x, i).setBLUE();
-            for (int i = y + 1; i <= maxY && this.cp.getCell(x, i).color != "BLACK"; i++)
-                this.cp.getCell(x, i).setBLUE();
+            for (int i = x - 1; i >= 0 && this.cp.getCell(i, y).color != Cell.BLACK; i--)
+                this.cp.getCell(i, y).setColor(Cell.BLUE);
+            for (int i = x + 1; i <= maxX && this.cp.getCell(i, y).color != Cell.BLACK; i++)
+                this.cp.getCell(i, y).setColor(Cell.BLUE);
+            for (int i = y; i >= 0 && this.cp.getCell(x, i).color != Cell.BLACK; i--)
+                this.cp.getCell(x, i).setColor(Cell.BLUE);
+            for (int i = y + 1; i <= maxY && this.cp.getCell(x, i).color != Cell.BLACK; i++)
+                this.cp.getCell(x, i).setColor(Cell.BLUE);
             return false;
         } else if (lengthX < ship - 1) {
-            for (int i = x - 1; i >= 0 && this.cp.getCell(i, y).color != "BLACK"; i--)
-                this.cp.getCell(i, y).setBLUE();
-            for (int i = x + 1; i <= maxX && this.cp.getCell(i, y).color != "BLACK"; i++)
-                this.cp.getCell(i, y).setBLUE();
+            for (int i = x - 1; i >= 0 && this.cp.getCell(i, y).color != Cell.BLACK; i--)
+                this.cp.getCell(i, y).setColor(Cell.BLUE);
+            for (int i = x + 1; i <= maxX && this.cp.getCell(i, y).color != Cell.BLACK; i++)
+                this.cp.getCell(i, y).setColor(Cell.BLUE);
         } else if (lengthY < ship - 1) {
-            for (int i = y - 1; i >= 0 && this.cp.getCell(x, i).color != "BLACK"; i--)
-                this.cp.getCell(x, i).setBLUE();
-            for (int i = y + 1; i <= maxY && this.cp.getCell(x, i).color != "BLACK"; i++)
-                this.cp.getCell(x, i).setBLUE();
+            for (int i = y - 1; i >= 0 && this.cp.getCell(x, i).color != Cell.BLACK; i--)
+                this.cp.getCell(x, i).setColor(Cell.BLUE);
+            for (int i = y + 1; i <= maxY && this.cp.getCell(x, i).color != Cell.BLACK; i++)
+                this.cp.getCell(x, i).setColor(Cell.BLUE);
         }
         return true;
     }

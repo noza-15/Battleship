@@ -15,6 +15,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class RegistrationPanel extends JPanel {
 
     MainFrame mf;
@@ -302,6 +303,8 @@ class ParentDialog extends JDialog {
     JScrollPane sp = new JScrollPane();
     JTextArea lb_mes;
     ParentDialog pd = this;
+    Thread thread;
+    Boolean continuable;
 
     ParentDialog(MainFrame mf) {
         super(mf);
@@ -373,6 +376,7 @@ class ParentDialog extends JDialog {
                     JOptionPane.showMessageDialog(mf, "サーバーとの接続が失われました。",
                             "接続エラー", JOptionPane.WARNING_MESSAGE);
                 }
+                continuable = false;
                 pd.dispose();
 
             }
@@ -383,6 +387,22 @@ class ParentDialog extends JDialog {
         gbc.weighty = 0.5d;
         layout.setConstraints(bt_end, gbc);
         this.add(bt_end);
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                while (continuable) {
+                    getList();
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+        };
+        continuable = true;
+        thread = new Thread(runnable);
+        thread.start();
 
         setVisible(true);
 
