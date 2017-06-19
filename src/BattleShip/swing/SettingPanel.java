@@ -94,7 +94,7 @@ public class SettingPanel extends JPanel {
         bt_sendShip.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-
+                        JOptionPane.showMessageDialog(mf, "送信はまだ実装してないよ!!", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
         );
