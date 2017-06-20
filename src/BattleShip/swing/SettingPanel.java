@@ -1,11 +1,13 @@
 package BattleShip.swing;
 
 import BattleShip.Server;
+import BattleShip.Ship;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.SocketException;
 
 public class SettingPanel extends JPanel {
 
@@ -59,6 +61,7 @@ public class SettingPanel extends JPanel {
         bt_regShip.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_regShip.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         mf.player.manager.setMyShip(Server.SHIPS[shipIndex], Server.SHIPS_SIZE[shipIndex],
                                 cp.selectedX, cp.selectedY, cp.direction);
@@ -93,8 +96,25 @@ public class SettingPanel extends JPanel {
         bt_sendShip.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_sendShip.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         JOptionPane.showMessageDialog(mf, "送信はまだ実装してないよ!!", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
+
+                        mf.cmd.send(Server.SET_SHIPS);
+                        JOptionPane.showMessageDialog(mf, "送信しています…", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
+                        try {
+                            mf.cmd.send(mf.player.manager.getMyShips());
+                        } catch (SocketException e1) {
+                            e1.printStackTrace();
+                        }
+                        mf.cmd.send(Server.GET_SHIPS);
+                        try {
+                            JOptionPane.showMessageDialog(mf, "他のプレイヤーの選択を待っています…", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
+                            mf.player.manager.setOthersShips((Ship[][][]) mf.cmd.receiveObject());
+                        } catch (SocketException e1) {
+                            e1.printStackTrace();
+                        }
+                        JOptionPane.showMessageDialog(mf, "受信が完了しました", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
         );

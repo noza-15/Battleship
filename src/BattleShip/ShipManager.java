@@ -110,7 +110,7 @@ public class ShipManager {
     /**
      * @param ships 他のプレイヤーの盤面
      */
-    void setOthersShips(Ship[][][] ships) {
+    public void setOthersShips(Ship[][][] ships) {
         this.shipsMap = ships;
         state = new int[ships.length][Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
         sunkenCount = new int[ships.length];
@@ -199,7 +199,7 @@ public class ShipManager {
     /**
      * @return 自分の盤面
      */
-    Ship[][] getMyShips() {
+    public Ship[][] getMyShips() {
         return myShips;
     }
 

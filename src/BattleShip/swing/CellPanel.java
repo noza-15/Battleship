@@ -14,8 +14,6 @@ public class CellPanel extends JPanel {
     int direction = -1;
     int selectedX = -1;
     int selectedY = -1;
-    private int cellRows = 10;
-    private int cellCols = 10;
     private Cell[][] cells;
 
     public CellPanel(MainFrame m, SettingPanel sp, String s) {
@@ -23,8 +21,8 @@ public class CellPanel extends JPanel {
         str = s;
         setp = sp;
 
-        int width = this.cellCols * CELL_SIZE;
-        int height = (this.cellRows) * CELL_SIZE;
+        int width = Server.FIELD_SIZE_X * CELL_SIZE;
+        int height = Server.FIELD_SIZE_Y * CELL_SIZE;
 
         this.setName(s);
         this.setSize(width, height);
@@ -32,11 +30,11 @@ public class CellPanel extends JPanel {
         this.setLayout(new GridBagLayout());
 
         //配列確保
-        this.cells = new Cell[this.cellCols][this.cellRows];
+        this.cells = new Cell[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
 
         //セルの新規作成
-        for (int i = 0; i < this.cellRows; i++) {
-            for (int j = 0; j < this.cellCols; j++) {
+        for (int i = 0; i < Server.FIELD_SIZE_Y; i++) {
+            for (int j = 0; j < Server.FIELD_SIZE_X; j++) {
                 Cell cell = new Cell(j, i);
                 this.cells[j][i] = cell;
                 cell.setBackground(COLOR_LABEL);
@@ -64,18 +62,6 @@ public class CellPanel extends JPanel {
 
     public Cell getCell(int x, int y) {
         return this.cells[x][y];
-    }
-
-    public int getCellRows() {
-        return this.cellRows;
-    }
-
-    public int getCellCols() {
-        return this.cellCols;
-    }
-
-    public Color getCOLOR_LABEL() {
-        return COLOR_LABEL;
     }
 
     public void reset() {

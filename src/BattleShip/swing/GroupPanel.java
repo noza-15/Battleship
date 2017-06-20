@@ -43,6 +43,7 @@ public class GroupPanel extends JPanel {
         bt_newGrp.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_newGrp.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         int choice = 0;
                         choice = JOptionPane.showConfirmDialog(mf, "新しくグループ " + mf.groupID + " を作成します。",
@@ -98,6 +99,7 @@ public class GroupPanel extends JPanel {
         bt_joinGrp.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_joinGrp.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         String o = (String) JOptionPane.showInputDialog(mf, "参加するグループを選んでください。",
                                 "グループ選択", JOptionPane.PLAIN_MESSAGE, null, grpList[0], grpList[0][0]);
@@ -158,6 +160,7 @@ public class GroupPanel extends JPanel {
         bt_refresh.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_refresh.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         mf.cmd.send(Server.CHECK_GROUP_EXISTENCE);
                         int groupCount = 0;

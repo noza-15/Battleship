@@ -60,6 +60,7 @@ public class StartPanel extends JPanel {
         bt_start.setSize(200, 200);
         bt_start.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
         bt_start.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 String inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
                 if (inputAddress != null) {

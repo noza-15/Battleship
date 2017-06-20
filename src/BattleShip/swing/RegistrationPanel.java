@@ -116,6 +116,7 @@ public class RegistrationPanel extends JPanel {
         bt_reg.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, m.FONT_SIZE));
         bt_reg.addActionListener(
                 new ActionListener() {
+                    @Override
                     public void actionPerformed(ActionEvent e) {
                         String name = tf_name.getText();
                         int selectedJob = -1;
