@@ -18,10 +18,18 @@ public class Attacker extends Player {
         System.out.println("船の配置を決めます。");
         for (int i = 0; i < Server.SHIPS.length; i++) {
             int x, y, dir;
-            do {
-                System.out.println(Server.SHIPS[i] + "の設定をします。"
-                        + Server.SHIPS[i] + "の大きさは" + Server.SHIPS_SIZE[i] + "です。" +
-                        "始点の位置を決めてください");
+            System.out.println(Server.SHIPS[i] + "の設定をします。"
+                    + Server.SHIPS[i] + "の大きさは" + Server.SHIPS_SIZE[i] + "です。" +
+                    "始点の位置を決めてください");
+            System.out.print("x:");
+            x = inputInt(0, Server.FIELD_SIZE_X);
+            System.out.print("y:");
+            y = inputInt(0, Server.FIELD_SIZE_Y);
+            System.out.println("設置する方向を決めてください");
+            System.out.println("上:0 右:1 下:2 左:3");
+            dir = inputInt(0, 3);
+            while (!manager.canSetShip(Server.SHIPS_SIZE[i], x, y, dir)) {
+                System.out.print("そこにはおけません。もう一度入力してください。");
                 System.out.print("x:");
                 x = inputInt(0, Server.FIELD_SIZE_X);
                 System.out.print("y:");
@@ -29,7 +37,7 @@ public class Attacker extends Player {
                 System.out.println("設置する方向を決めてください");
                 System.out.println("上:0 右:1 下:2 左:3");
                 dir = inputInt(0, 3);
-            } while (!manager.canSetShip(Server.SHIPS_SIZE[i], x, y, dir));
+            }
             manager.setMyShip(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, dir);
         }
         //サーバーに船の配置を送信する
