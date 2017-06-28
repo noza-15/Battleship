@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
     GroupPanel gp;
     RegistrationPanel rp;
     SettingPanel setp;
-    // GamePanel game = new GamePanel(this,"GamePanel");
+    BattlePanel bp;
     CommandHandler cmd;
     int groupID;
     Player player;

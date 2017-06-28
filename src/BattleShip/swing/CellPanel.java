@@ -6,41 +6,28 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CellPanel extends JPanel {
-
-    private static final Color COLOR_LABEL = Color.WHITE;
+    static final Color COLOR_LABEL = Color.WHITE;
     MainFrame mf;
-    SettingPanel setp;
+    JPanel setp;
     int direction = -1;
     int selectedX = -1;
     int selectedY = -1;
-    private Cell[][] cells;
+    Cell[][] cells;
 
-    public CellPanel(MainFrame m, SettingPanel sp, int cellSize) {
-        mf = m;
-        setp = sp;
-
+    public CellPanel(MainFrame mf, JPanel setp, int cellSize) {
+        this.mf = mf;
+        this.setp = setp;
         int width = Server.FIELD_SIZE_X * cellSize;
         int height = Server.FIELD_SIZE_Y * cellSize;
         this.setSize(width, height);
+        this.setPreferredSize(new Dimension(width, height));
         //レイアウトを設定
         this.setLayout(new GridBagLayout());
-
         //配列確保
         this.cells = new Cell[Server.FIELD_SIZE_X][Server.FIELD_SIZE_Y];
-
-        //セルの新規作成
-        for (int i = 0; i < Server.FIELD_SIZE_Y; i++) {
-            for (int j = 0; j < Server.FIELD_SIZE_X; j++) {
-                Cell cell = new Cell(j, i, cellSize);
-                this.cells[j][i] = cell;
-                cell.setBackground(COLOR_LABEL);
-                cell.addActionListener(new CellEventListener(m, sp, this));
-                this.addComponent(cell, j, i, 1, 1);
-            }
-        }
     }
 
-    private void addComponent(Component c, int x, int y, int w, int h) {
+    void addComponent(Component c, int x, int y, int w, int h) {
         GridBagConstraints gbc = new GridBagConstraints();
         GridBagLayout mgr = (GridBagLayout) this.getLayout();
 
@@ -81,3 +68,4 @@ public class CellPanel extends JPanel {
         }
     }
 }
+

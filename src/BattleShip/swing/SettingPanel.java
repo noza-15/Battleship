@@ -18,15 +18,15 @@ public class SettingPanel extends JPanel {
     //    JLabel lb_size;
     int shipIndex = 0;
 
-    public SettingPanel(MainFrame m) {
-        mf = m;
+    public SettingPanel(MainFrame mf) {
+        this.mf = mf;
         this.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
         //レイアウトを設定
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
 
-        CellPanel cp = new CellPanel(m, this, 40);
+        SetCellPanel cp = new SetCellPanel(mf, this, 40);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0d;
@@ -59,7 +59,7 @@ public class SettingPanel extends JPanel {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        mf.player.manager.setMyShip(Server.SHIPS[shipIndex], Server.SHIPS_SIZE[shipIndex],
+                        SettingPanel.this.mf.player.manager.setMyShip(Server.SHIPS[shipIndex], Server.SHIPS_SIZE[shipIndex],
                                 cp.selectedX, cp.selectedY, cp.direction);
                         cp.reset();
                         shipIndex++;
@@ -91,8 +91,8 @@ public class SettingPanel extends JPanel {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        mf.cmd.send(Server.SET_SHIPS);
-                        JDialog dialog = new JDialog(mf, "待機中", true);
+                        SettingPanel.this.mf.cmd.send(Server.SET_SHIPS);
+                        JDialog dialog = new JDialog(SettingPanel.this.mf, "待機中", true);
                         JLabel lb_wait = new JLabel("他のプレイヤーの選択を待っています…");
                         Container pane = dialog.getContentPane();
                         dialog.setSize(400, 100);
@@ -106,18 +106,22 @@ public class SettingPanel extends JPanel {
                             @Override
                             public void run() {
                                 try {
-                                    mf.cmd.send(mf.player.manager.getMyShips());
+                                    SettingPanel.this.mf.cmd.send(SettingPanel.this.mf.player.manager.getMyShips());
                                 } catch (SocketException e1) {
                                     e1.printStackTrace();
                                 }
-                                mf.cmd.send(Server.GET_SHIPS);
+                                SettingPanel.this.mf.cmd.send(Server.GET_SHIPS);
                                 try {
-                                    mf.player.manager.setOthersShips((Ship[][][]) mf.cmd.receiveObject());
+                                    SettingPanel.this.mf.player.manager.setOthersShips((Ship[][][]) SettingPanel.this.mf.cmd.receiveObject());
                                 } catch (SocketException e1) {
                                     e1.printStackTrace();
                                 }
                                 dialog.dispose();
-                                JOptionPane.showMessageDialog(mf, "盤面データの受信が完了しました。", "受信完了", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(SettingPanel.this.mf, "盤面データの受信が完了しました。", "受信完了", JOptionPane.INFORMATION_MESSAGE);
+                                mf.bp = new BattlePanel(mf);
+                                mf.add(mf.bp);
+                                mf.setp.setVisible(false);
+                                mf.bp.setVisible(true);
                             }
                         }.start();
                         dialog.setVisible(true);

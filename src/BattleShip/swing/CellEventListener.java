@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 
 public class CellEventListener implements ActionListener {
     private MainFrame main;
-    private CellPanel cp;
+    private SetCellPanel cp;
     private SettingPanel setp;
 
-    public CellEventListener(MainFrame main, SettingPanel setp, CellPanel cp) {
+    public CellEventListener(MainFrame main, SettingPanel setp, SetCellPanel cp) {
         this.main = main;
         this.cp = cp;
         this.setp = setp;
