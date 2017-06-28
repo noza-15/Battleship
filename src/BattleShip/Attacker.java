@@ -47,7 +47,7 @@ public class Attacker extends Player {
     public void nextTurn() throws SocketException {
         int turnNo = 1;
         while (true) {
-            if (manager.isAlive(playerID)) {
+            if (manager.isAlive(IDTable.get(playerID))) {
                 int x, y;
                 System.out.println("どこを攻撃しますか？");//攻撃場所の読み込み
                 System.out.print("x:");
@@ -62,7 +62,7 @@ public class Attacker extends Player {
                 cmd.send(new AttackCommand(groupID, playerID, turnNo++, -1, -1));
             }
             super.nextTurn();
-            if (!manager.isAlive(playerID)) {
+            if (!manager.isAlive(IDTable.get(playerID))) {
                 System.out.println("あなたは死にました。戦闘不能です");
             }
             scanner.next();
