@@ -88,11 +88,6 @@ public class CellEventListener implements ActionListener {
             setColorEnabled(Cell.YELLOW, true);
             setp.bt_regShip.setEnabled(false);
         }
-
-        System.out.println("x: " + x);
-        System.out.println("y: " + y);
-        System.out.println("dir: " + cp.direction);
-
     }
 
     private void turnNextColor(int x, int y, int color) {

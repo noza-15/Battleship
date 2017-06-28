@@ -42,16 +42,13 @@ public class GroupPanel extends JPanel {
         JButton bt_newGrp = new JButton("新規グループを作成");
         bt_newGrp.setSize(200, 200);
         bt_newGrp.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE));
+        int finalGroupCount = groupCount;
         bt_newGrp.addActionListener(
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        int choice = 0;
-                        choice = JOptionPane.showConfirmDialog(mf, "新しくグループ " + mf.groupID + " を作成します。",
+                        int choice = JOptionPane.showConfirmDialog(mf, "新しくグループ " + finalGroupCount + " を作成します。",
                                 "グループの新規作成", JOptionPane.YES_NO_OPTION);
-                        if (choice == JOptionPane.NO_OPTION) {
-                            return;
-                        }
                         try {
                             mf.cmd.send(Server.NEW_GROUP);
                             mf.groupID = mf.cmd.receiveInt();
@@ -59,6 +56,9 @@ public class GroupPanel extends JPanel {
                             JOptionPane.showMessageDialog(mf, "サーバーとの接続が失われました。",
                                     "接続エラー", JOptionPane.WARNING_MESSAGE);
                             se.printStackTrace();
+                        }
+                        if (choice == JOptionPane.NO_OPTION) {
+                            return;
                         }
                         mf.rp = new RegistrationPanel(mf);
                         mf.add(mf.rp);

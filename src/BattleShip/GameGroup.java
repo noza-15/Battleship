@@ -15,7 +15,6 @@ public class GameGroup implements Serializable {
     private Ship[][][] allShipsMap;
     private int setMapCount;
 
-
     volatile private boolean isOpen;
 
     GameGroup(int groupID) {
@@ -84,9 +83,7 @@ public class GameGroup implements Serializable {
     }
 
     public void setShipsMap(Player player, Ship[][] shipsMap) {
-        if (this.allShipsMap[playersList.indexOf(player)] == null) {
-            setMapCount++;
-        }
+        setMapCount++;
         this.allShipsMap[playersList.indexOf(player)] = shipsMap;
     }
 

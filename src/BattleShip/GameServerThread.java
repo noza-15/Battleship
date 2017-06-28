@@ -112,13 +112,12 @@ class GameServerThread extends Thread {
                         if (group.getAttackersCount() > 1) {
                             group.closeGroup();
                             System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                    + "] [Cls_application: " + "success; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
+                                    + "] [Start_game: " + "success; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
                             cmd.send(true);
                         } else {
                             System.out.println(Calendar.getInstance().getTime() + " [" + Thread.currentThread().getName()
-                                    + "] [Cls_application: " + "failure; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
+                                    + "] [Start_game: " + "failure; GroupID=" + player.getGroupID() + "; PlayerID=" + player.getPlayerID() + "]");
                             cmd.send(false);
-                            cmd.send("Error: 2 attackers are needed to start a game at least.");
                         }
                         break;
 

@@ -63,10 +63,11 @@ public class SettingPanel extends JPanel {
                                 cp.selectedX, cp.selectedY, cp.direction);
                         cp.reset();
                         shipIndex++;
-                        if (shipIndex == Server.SHIPS.length) {
+                        if (shipIndex >= Server.SHIPS.length) {
                             bt_regShip.setEnabled(false);
                             cp.disableAll();
                             bt_sendShip.setEnabled(true);
+                            return;
                         }
                         cp.direction = -1;
                         cp.selectedX = -1;
@@ -94,23 +95,36 @@ public class SettingPanel extends JPanel {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        JOptionPane.showMessageDialog(mf, "送信はまだ実装してないよ!!", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
-
                         mf.cmd.send(Server.SET_SHIPS);
-                        JOptionPane.showMessageDialog(mf, "送信しています…", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
-                        try {
-                            mf.cmd.send(mf.player.manager.getMyShips());
-                        } catch (SocketException e1) {
-                            e1.printStackTrace();
-                        }
-                        mf.cmd.send(Server.GET_SHIPS);
-                        try {
-                            JOptionPane.showMessageDialog(mf, "他のプレイヤーの選択を待っています…", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
-                            mf.player.manager.setOthersShips((Ship[][][]) mf.cmd.receiveObject());
-                        } catch (SocketException e1) {
-                            e1.printStackTrace();
-                        }
-                        JOptionPane.showMessageDialog(mf, "受信が完了しました", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
+                        JDialog dialog = new JDialog(mf, "待機中", true);
+                        JLabel lb_wait = new JLabel("他のプレイヤーの選択を待っています…");
+                        Container pane = dialog.getContentPane();
+                        dialog.setSize(300, 100);
+                        dialog.setLocationRelativeTo(null);
+                        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                        lb_wait.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 16));
+                        lb_wait.setHorizontalAlignment(SwingConstants.CENTER);
+                        pane.add(lb_wait);
+                        pane.setVisible(true);
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    mf.cmd.send(mf.player.manager.getMyShips());
+                                } catch (SocketException e1) {
+                                    e1.printStackTrace();
+                                }
+                                mf.cmd.send(Server.GET_SHIPS);
+                                try {
+                                    mf.player.manager.setOthersShips((Ship[][][]) mf.cmd.receiveObject());
+                                } catch (SocketException e1) {
+                                    e1.printStackTrace();
+                                }
+                                dialog.dispose();
+                                JOptionPane.showMessageDialog(mf, "受信が完了しました", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        }.start();
+                        dialog.setVisible(true);
                     }
                 }
         );

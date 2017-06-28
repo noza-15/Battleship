@@ -43,7 +43,7 @@ public class Player implements Serializable {
                 } while (!command.toLowerCase().equals("end"));
                 cmd.send(Server.CLOSE_APPLICATIONS);
                 if (!(isClosed = cmd.receiveBoolean())) {
-                    System.out.println(cmd.receiveString());
+                    System.out.println("Error: 2 attackers are needed to start a game at least.");
                 }
             }
             cmd.send(Server.START);
