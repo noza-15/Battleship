@@ -9,22 +9,19 @@ public class CellPanel extends JPanel {
     private static final int CELL_SIZE = 5;
     private static final Color COLOR_LABEL = Color.WHITE;
     MainFrame mf;
-    String str;
     SettingPanel setp;
     int direction = -1;
     int selectedX = -1;
     int selectedY = -1;
     private Cell[][] cells;
 
-    public CellPanel(MainFrame m, SettingPanel sp, String s) {
+    public CellPanel(MainFrame m, SettingPanel sp) {
         mf = m;
-        str = s;
         setp = sp;
 
         int width = Server.FIELD_SIZE_X * CELL_SIZE;
         int height = Server.FIELD_SIZE_Y * CELL_SIZE;
 
-        this.setName(s);
         this.setSize(width, height);
         //レイアウトを設定
         this.setLayout(new GridBagLayout());

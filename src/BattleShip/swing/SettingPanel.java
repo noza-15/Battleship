@@ -12,18 +12,14 @@ import java.net.SocketException;
 public class SettingPanel extends JPanel {
 
     MainFrame mf;
-    String str;
     JButton bt_regShip;
     JButton bt_sendShip;
     //    JLabel lb_inst;
     //    JLabel lb_size;
     int shipIndex = 0;
 
-    public SettingPanel(MainFrame m, String s) {
+    public SettingPanel(MainFrame m) {
         mf = m;
-        str = s;
-
-        this.setName(s);
         this.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
         //レイアウトを設定
         GridBagLayout layout = new GridBagLayout();
@@ -46,7 +42,7 @@ public class SettingPanel extends JPanel {
         layout.setConstraints(lb_size, gbc);
         this.add(lb_size);
 
-        CellPanel cp = new CellPanel(m, this, "CellPanel");
+        CellPanel cp = new CellPanel(m, this);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0d;

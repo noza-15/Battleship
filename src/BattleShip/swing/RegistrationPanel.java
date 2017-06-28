@@ -16,13 +16,10 @@ import java.util.HashMap;
 public class RegistrationPanel extends JPanel {
 
     MainFrame mf;
-    String str;
 
-    public RegistrationPanel(MainFrame m, String s) {
+    public RegistrationPanel(MainFrame m) {
         mf = m;
-        str = s;
 
-        this.setName(s);
         this.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
         //レイアウトを設定
         GridBagLayout layout = new GridBagLayout();

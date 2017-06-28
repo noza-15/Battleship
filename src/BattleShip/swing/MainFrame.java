@@ -46,15 +46,15 @@ public class MainFrame extends JFrame {
 
     public static void main(String[] args) {
         MainFrame main = new MainFrame();
-        main.sp = new StartPanel(main, "StartPanel");
+        main.sp = new StartPanel(main);
         main.add(main.sp);
-        main.sp.setVisible(true);
+//        main.sp.setVisible(true);
 
-        main.rp = new RegistrationPanel(main, "RegistrationPanel");
+        main.rp = new RegistrationPanel(main);
         main.add(main.rp);
         main.rp.setVisible(false);
 
-        main.setp = new SettingPanel(main, "SettingPanel");
+        main.setp = new SettingPanel(main);
         main.add(main.setp);
         main.setp.setVisible(false);
     }

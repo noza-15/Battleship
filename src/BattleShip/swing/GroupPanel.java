@@ -12,21 +12,22 @@ import java.util.Scanner;
 public class GroupPanel extends JPanel {
 
     MainFrame mf;
-    String str;
 
-    public GroupPanel(MainFrame m, String s) throws SocketException {
+    public GroupPanel(MainFrame m) {
         mf = m;
-        str = s;
-        int groupCount;
+        int groupCount = 0;
 
-        this.setName(s);
         this.setSize(MainFrame.WIN_WIDTH, MainFrame.WIN_HEIGHT);
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
 
         mf.cmd.send(Server.CHECK_GROUP_EXISTENCE);
-        groupCount = mf.cmd.receiveInt();
+        try {
+            groupCount = mf.cmd.receiveInt();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
 
         JLabel lb_inst = new JLabel("操作を選択してください。");
         lb_inst.setHorizontalAlignment(JLabel.CENTER);
@@ -59,7 +60,7 @@ public class GroupPanel extends JPanel {
                                     "接続エラー", JOptionPane.WARNING_MESSAGE);
                             se.printStackTrace();
                         }
-                        mf.rp = new RegistrationPanel(mf, "RegistrationPanel");
+                        mf.rp = new RegistrationPanel(mf);
                         mf.add(mf.rp);
                         setVisible(false);
                         mf.rp.setVisible(true);
@@ -73,10 +74,9 @@ public class GroupPanel extends JPanel {
         layout.setConstraints(bt_newGrp, gbc);
         this.add(bt_newGrp);
 
-        JTextArea lb_newGrp = new JTextArea("新規にグループを作成します。\n親は最初にそのグループの" + Server.JOB[0] + "になった人です。");
+        JLabel lb_newGrp = new JLabel("<html>新規にグループを作成します。<br>親は最初にそのグループの" + Server.JOB[0] + "になった人です。");
         lb_newGrp.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, MainFrame.FONT_SIZE - 5));
-        lb_newGrp.setOpaque(false);
-        lb_newGrp.setEditable(false);
+        lb_newGrp.setHorizontalAlignment(SwingConstants.CENTER);
         lb_newGrp.setFocusable(false);
 
         gbc.gridx = 0;
@@ -87,11 +87,20 @@ public class GroupPanel extends JPanel {
         this.add(lb_newGrp);
 
         mf.cmd.send(Server.LIST_GROUP);
-        int grpCnt = mf.cmd.receiveInt();
+        int grpCnt = 0;
+        try {
+            grpCnt = mf.cmd.receiveInt();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
 
         final String[][] grpList = {new String[grpCnt]};
-        for (int i = 0; i < grpCnt; i++) {
-            grpList[0][i] = mf.cmd.receiveString();
+        try {
+            for (int i = 0; i < grpCnt; i++) {
+                grpList[0][i] = mf.cmd.receiveString();
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
         }
 
         JButton bt_joinGrp = new JButton("既存グループに参加");
@@ -109,7 +118,7 @@ public class GroupPanel extends JPanel {
                             return;
                         }
                         setVisible(false);
-                        mf.rp = new RegistrationPanel(mf, "RegistrationPanel");
+                        mf.rp = new RegistrationPanel(mf);
                         mf.add(mf.rp);
                         mf.rp.setVisible(true);
                     }

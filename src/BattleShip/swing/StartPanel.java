@@ -3,7 +3,6 @@ package BattleShip.swing;
 import BattleShip.CommandHandler;
 import BattleShip.Server;
 
-import javax.imageio.ImageIO;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -12,18 +11,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.*;
+import java.net.ConnectException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class StartPanel extends JPanel {
     MainFrame mf;
 
-    public StartPanel(MainFrame m, String s) {
+    public StartPanel(MainFrame m) {
         this.mf = m;
-        this.setName(s);
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints gbc = new GridBagConstraints();
         this.setLayout(layout);
@@ -39,16 +38,9 @@ public class StartPanel extends JPanel {
         layout.setConstraints(lb_title, gbc);
         this.add(lb_title);
 
-        JLabel lb_imgShip = null;
-        try {
-            BufferedImage bufimg_ship = ImageIO.read(ClassLoader.getSystemResource("BattleShip/res/title.png"));
-            Image img_ship = bufimg_ship.getScaledInstance((int) (bufimg_ship.getWidth() * 0.3), (int) (bufimg_ship.getHeight() * 0.3), Image.SCALE_SMOOTH);
-            ImageIcon ico_ship = new ImageIcon(img_ship);
-            lb_imgShip = new JLabel(ico_ship);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        JLabel lb_imgShip;
+        ImageIcon ico_ship = new ImageIcon(ClassLoader.getSystemResource("BattleShip/res/title_s.png"));
+        lb_imgShip = new JLabel(ico_ship);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0.5d;
@@ -65,14 +57,8 @@ public class StartPanel extends JPanel {
                 String inputAddress = JOptionPane.showInputDialog("サーバーのアドレスを入力してください。", "localhost");
                 if (inputAddress != null) {
                     if (establishConnection(inputAddress)) {
-                        try {
-                            mf.gp = new GroupPanel(mf, "GroupPanel");
-                        } catch (SocketException se) {
-                            JOptionPane.showMessageDialog(mf, "サーバーとの接続が失われました。",
-                                    "接続エラー", JOptionPane.WARNING_MESSAGE);
-                            se.printStackTrace();
-                        }
-                        setVisible(false);
+                        mf.gp = new GroupPanel(mf);
+                        mf.sp.setVisible(false);
                         mf.sequencer.stop();
                         mf.add(mf.gp);
                         mf.gp.setVisible(true);
@@ -88,6 +74,7 @@ public class StartPanel extends JPanel {
         layout.setConstraints(bt_start, gbc);
         this.add(bt_start);
 
+
         try {
             mf.sequencer = MidiSystem.getSequencer();
             mf.sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
@@ -97,15 +84,11 @@ public class StartPanel extends JPanel {
             inputStream.close();
             mf.sequencer.setSequence(mf.sequence);
             mf.sequencer.start();
-        } catch (MidiUnavailableException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidMidiDataException e) {
+        } catch (MidiUnavailableException | IOException | InvalidMidiDataException e) {
             e.printStackTrace();
         }
+
+        this.setVisible(true);
     }
 
     private boolean establishConnection(String address) {

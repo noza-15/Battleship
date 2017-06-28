@@ -83,9 +83,11 @@ public class GameGroup implements Serializable {
         return playersList;
     }
 
-    public void setShipsMap(Player player, Ship[][] allShipsMap) {
-        this.allShipsMap[playersList.indexOf(player)] = allShipsMap;
-        setMapCount++;
+    public void setShipsMap(Player player, Ship[][] shipsMap) {
+        if (this.allShipsMap[playersList.indexOf(player)] == null) {
+            setMapCount++;
+        }
+        this.allShipsMap[playersList.indexOf(player)] = shipsMap;
     }
 
     public Ship[][][] getAllShipsMap() {
