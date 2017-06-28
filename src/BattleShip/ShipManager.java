@@ -123,7 +123,7 @@ public class ShipManager {
         System.out.println();
         for (int y = 0; y < Server.FIELD_SIZE_Y; y++) {
             System.out.print(y + "\t");
-            for (int x = 0; x < 10; x++) {
+            for (int x = 0; x < Server.FIELD_SIZE_X; x++) {
                 if (state[ID][x][y] == 1) {
                     System.out.print("✖\t");
                 } else if (state[ID][x][y] == -1) {
