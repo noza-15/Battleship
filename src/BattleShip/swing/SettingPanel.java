@@ -26,11 +26,21 @@ public class SettingPanel extends JPanel {
         this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
 
+        CellPanel cp = new CellPanel(m, this, 40);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0d;
+        gbc.weighty = 1.0d;
+        gbc.gridheight = 4;
+        layout.setConstraints(cp, gbc);
+        this.add(cp);
+
         JLabel lb_inst = new JLabel("船を配置してください");//label作成
         lb_inst.setHorizontalAlignment(JLabel.CENTER);
-        lb_inst.setFont(new Font(MainFrame.FONT_NAME, Font.BOLD, MainFrame.FONT_SIZE - 5));
+        lb_inst.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, MainFrame.FONT_SIZE - 3));
         gbc.gridx = 1;
         gbc.gridy = 0;
+        gbc.gridheight = 1;
         layout.setConstraints(lb_inst, gbc);
         this.add(lb_inst);
 
@@ -41,16 +51,6 @@ public class SettingPanel extends JPanel {
         gbc.gridy = 1;
         layout.setConstraints(lb_size, gbc);
         this.add(lb_size);
-
-        CellPanel cp = new CellPanel(m, this);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0d;
-        gbc.weighty = 1.0d;
-        gbc.gridheight = 3;
-        gbc.fill = GridBagConstraints.VERTICAL;
-        layout.setConstraints(cp, gbc);
-        this.add(cp);
 
         bt_regShip = new JButton("登録");//button作成
         bt_regShip.setSize(200, 200);
@@ -81,10 +81,6 @@ public class SettingPanel extends JPanel {
         bt_regShip.setEnabled(false);
         gbc.gridx = 1;
         gbc.gridy = 2;
-        gbc.weightx = 1.0d;
-        gbc.weighty = 1.0d;
-        gbc.gridheight = 1;
-        gbc.fill = GridBagConstraints.NONE;
         layout.setConstraints(bt_regShip, gbc);
         this.add(bt_regShip);
 
@@ -99,7 +95,7 @@ public class SettingPanel extends JPanel {
                         JDialog dialog = new JDialog(mf, "待機中", true);
                         JLabel lb_wait = new JLabel("他のプレイヤーの選択を待っています…");
                         Container pane = dialog.getContentPane();
-                        dialog.setSize(300, 100);
+                        dialog.setSize(400, 100);
                         dialog.setLocationRelativeTo(null);
                         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                         lb_wait.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 16));
@@ -121,7 +117,7 @@ public class SettingPanel extends JPanel {
                                     e1.printStackTrace();
                                 }
                                 dialog.dispose();
-                                JOptionPane.showMessageDialog(mf, "受信が完了しました", "終わるのか?", JOptionPane.INFORMATION_MESSAGE);
+                                JOptionPane.showMessageDialog(mf, "盤面データの受信が完了しました。", "受信完了", JOptionPane.INFORMATION_MESSAGE);
                             }
                         }.start();
                         dialog.setVisible(true);
@@ -132,8 +128,6 @@ public class SettingPanel extends JPanel {
         bt_sendShip.setEnabled(false);
         gbc.gridx = 1;
         gbc.gridy = 3;
-        gbc.weightx = 1.0d;
-        gbc.weighty = 1.0d;
         gbc.fill = GridBagConstraints.NONE;
         layout.setConstraints(bt_sendShip, gbc);
         this.add(bt_sendShip);

@@ -14,10 +14,11 @@ class Cell extends JButton {
     private final int cellY;
     public int color;
 
-    public Cell(int cellX, int cellY) {
+    public Cell(int cellX, int cellY, int size) {
         super();
         this.cellX = cellX;
         this.cellY = cellY;
+        this.setPreferredSize(new Dimension(size, size));
         this.color = WHITE;
     }
 

@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CellPanel extends JPanel {
-    private static final int CELL_SIZE = 5;
+
     private static final Color COLOR_LABEL = Color.WHITE;
     MainFrame mf;
     SettingPanel setp;
@@ -15,13 +15,12 @@ public class CellPanel extends JPanel {
     int selectedY = -1;
     private Cell[][] cells;
 
-    public CellPanel(MainFrame m, SettingPanel sp) {
+    public CellPanel(MainFrame m, SettingPanel sp, int cellSize) {
         mf = m;
         setp = sp;
 
-        int width = Server.FIELD_SIZE_X * CELL_SIZE;
-        int height = Server.FIELD_SIZE_Y * CELL_SIZE;
-
+        int width = Server.FIELD_SIZE_X * cellSize;
+        int height = Server.FIELD_SIZE_Y * cellSize;
         this.setSize(width, height);
         //レイアウトを設定
         this.setLayout(new GridBagLayout());
@@ -32,7 +31,7 @@ public class CellPanel extends JPanel {
         //セルの新規作成
         for (int i = 0; i < Server.FIELD_SIZE_Y; i++) {
             for (int j = 0; j < Server.FIELD_SIZE_X; j++) {
-                Cell cell = new Cell(j, i);
+                Cell cell = new Cell(j, i, cellSize);
                 this.cells[j][i] = cell;
                 cell.setBackground(COLOR_LABEL);
                 cell.addActionListener(new CellEventListener(m, sp, this));

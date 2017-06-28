@@ -28,7 +28,7 @@ public class CellEventListener implements ActionListener {
             cp.selectedX = x;
             cp.selectedY = y;
             turnNextColor(x, y, Cell.YELLOW);
-            setColorEnabled(Cell.WHITE, false);
+            setEnabledByColor(Cell.WHITE, false);
         } else if (cell.getColor() == Cell.YELLOW) {
             turnNextColor(cp.selectedX, cp.selectedY, Cell.WHITE);
             if (cp.selectedX < x) {
@@ -41,18 +41,18 @@ public class CellEventListener implements ActionListener {
                 for (int i = 0; i < Server.SHIPS_SIZE[setp.shipIndex]; i++) {
                     cp.getCell(cp.selectedX - i, y).setColor(Cell.RED);
                 }
-            } else if (cp.selectedY > y) {
-                cp.direction = Ship.DOWN;
-                for (int i = 0; i < Server.SHIPS_SIZE[setp.shipIndex]; i++) {
-                    cp.getCell(x, cp.selectedY - i).setColor(Cell.RED);
-                }
             } else if (cp.selectedY < y) {
-                cp.direction = Ship.UP;
+                cp.direction = Ship.DOWN;
                 for (int i = 0; i < Server.SHIPS_SIZE[setp.shipIndex]; i++) {
                     cp.getCell(x, cp.selectedY + i).setColor(Cell.RED);
                 }
+            } else if (cp.selectedY > y) {
+                cp.direction = Ship.UP;
+                for (int i = 0; i < Server.SHIPS_SIZE[setp.shipIndex]; i++) {
+                    cp.getCell(x, cp.selectedY - i).setColor(Cell.RED);
+                }
             }
-            setColorEnabled(Cell.WHITE, false);
+            setEnabledByColor(Cell.WHITE, false);
             setp.bt_regShip.setEnabled(true);
         } else if (cell.getColor() == Cell.RED && cp.selectedX == x && cp.selectedY == y) {
             if (cp.direction == -1) {
@@ -65,7 +65,7 @@ public class CellEventListener implements ActionListener {
             }
             cp.selectedX = -1;
             cp.selectedY = -1;
-            setColorEnabled(Cell.WHITE, true);
+            setEnabledByColor(Cell.WHITE, true);
         } else if (cell.getColor() == Cell.RED && (cp.selectedX != x || cp.selectedY != y)) {
             if (cp.direction == Ship.UP || cp.direction == Ship.DOWN) {
                 for (int i = 0; i < Server.FIELD_SIZE_Y; i++) {
@@ -84,10 +84,14 @@ public class CellEventListener implements ActionListener {
             cp.getCell(cp.selectedX, cp.selectedY).setColor(Cell.RED);
             cp.getCell(cp.selectedX, cp.selectedY).setEnabled(true);
             turnNextColor(cp.selectedX, cp.selectedY, Cell.YELLOW);
-            setColorEnabled(Cell.WHITE, false);
-            setColorEnabled(Cell.YELLOW, true);
+            setEnabledByColor(Cell.WHITE, false);
+            setEnabledByColor(Cell.YELLOW, true);
             setp.bt_regShip.setEnabled(false);
         }
+
+        System.out.println("x: " + x);
+        System.out.println("y: " + y);
+        System.out.println("dir: " + cp.direction);
     }
 
     private void turnNextColor(int x, int y, int color) {
@@ -119,7 +123,7 @@ public class CellEventListener implements ActionListener {
         }
     }
 
-    private void setColorEnabled(int color, boolean bool) {
+    private void setEnabledByColor(int color, boolean bool) {
         for (int j = 0; j < Server.FIELD_SIZE_Y; j++) {
             for (int i = 0; i < Server.FIELD_SIZE_X; i++) {
                 Cell c = cp.getCell(i, j);

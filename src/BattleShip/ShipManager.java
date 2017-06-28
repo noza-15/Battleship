@@ -37,13 +37,13 @@ public class ShipManager {
             for (int i = 0; i < size; i++) {
                 switch (direction) {
                     case Ship.UP:
-                        myShips[x][y + i] = ship;
+                        myShips[x][y - i] = ship;
                         break;
                     case Ship.RIGHT:
                         myShips[x + i][y] = ship;
                         break;
                     case Ship.DOWN:
-                        myShips[x][y - i] = ship;
+                        myShips[x][y + i] = ship;
                         break;
                     case Ship.LEFT:
                         myShips[x - i][y] = ship;
