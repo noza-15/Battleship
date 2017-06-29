@@ -65,7 +65,7 @@ public class SettingPanel extends JPanel {
                         shipIndex++;
                         if (shipIndex >= Server.SHIPS.length) {
                             bt_regShip.setEnabled(false);
-                            cp.disableAll();
+                            cp.setEnabledAll(false);
                             bt_sendShip.setEnabled(true);
                             return;
                         }

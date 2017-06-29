@@ -137,6 +137,10 @@ public class Player implements Serializable {
         this.playersList = playersList;
     }
 
+    public HashMap<Integer, Integer> getIDTable() {
+        return IDTable;
+    }
+
     public void setIDTable(HashMap<Integer, Integer> IDTable) {
         this.IDTable = IDTable;
     }

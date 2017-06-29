@@ -3,8 +3,14 @@ package BattleShip.swing;
 import BattleShip.Server;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AttackCellPanel extends CellPanel {
+    int x = -1;
+    int y = -1;
+
     public AttackCellPanel(MainFrame m, JPanel sp, int cellSize) {
         super(m, sp, cellSize);
         //セルの新規作成
@@ -13,8 +19,34 @@ public class AttackCellPanel extends CellPanel {
                 Cell cell = new Cell(j, i, cellSize);
                 this.cells[j][i] = cell;
                 cell.setBackground(COLOR_LABEL);
+                cell.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (x == -1 && y == -1) {
+                            cell.setText("●");
+                            x = cell.getCellX();
+                            y = cell.getCellY();
+                            setEnabledAll(false);
+                            cell.setEnabled(true);
+                        } else {
+                            cell.setText(null);
+                            x = -1;
+                            y = -1;
+                            setEnabledAll(true);
+                        }
+                        cell.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 5));
+                    }
+                });
                 this.addComponent(cell, j, i, 1, 1);
             }
         }
+    }
+
+    public int getSelectedX() {
+        return x;
+    }
+
+    public int getSelectedY() {
+        return y;
     }
 }

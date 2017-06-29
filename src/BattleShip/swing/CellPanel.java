@@ -60,10 +60,10 @@ public class CellPanel extends JPanel {
         }
     }
 
-    public void disableAll() {
+    public void setEnabledAll(boolean bool) {
         for (int j = 0; j < Server.FIELD_SIZE_Y; j++) {
             for (int i = 0; i < Server.FIELD_SIZE_X; i++) {
-                cells[i][j].setEnabled(false);
+                cells[i][j].setEnabled(bool);
             }
         }
     }

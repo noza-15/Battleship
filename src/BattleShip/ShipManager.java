@@ -116,7 +116,11 @@ public class ShipManager {
         sunkenCount = new int[ships.length];
     }
 
-    void show(int ID) {
+    public int getAttackersCount() {
+        return shipsMap.length;
+    }
+
+    public void show(int ID) {
         for (int n = 0; n < Server.FIELD_SIZE_X; n++) {
             System.out.print("\t" + n);
         }
@@ -150,7 +154,7 @@ public class ShipManager {
      * @param y y座標
      * @return 今の攻撃で被弾した場合はtrue。すでに被弾したか、そこに戦艦がなかった場合はfalse。
      */
-    int isBombed(int attackerID, int ID, int x, int y) {
+    public int isBombed(int attackerID, int ID, int x, int y) {
         if (attackerID == ID) {
             return 0;
         }
@@ -192,7 +196,7 @@ public class ShipManager {
         return myAttacks;
     }
 
-    boolean isAlive(int ID) {
+    public boolean isAlive(int ID) {
         return sunkenCount[ID] < 3;
     }
 

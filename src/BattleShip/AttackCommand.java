@@ -11,7 +11,7 @@ public class AttackCommand implements Serializable {
     private int y = -1;
     private int turnNo;
 
-    AttackCommand(int groupID, int playerID, int turnNo, int x, int y) {
+    public AttackCommand(int groupID, int playerID, int turnNo, int x, int y) {
         this.groupID = groupID;
         this.playerID = playerID;
         this.turnNo = turnNo;
