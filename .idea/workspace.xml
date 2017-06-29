@@ -7,49 +7,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="175975b6-4e85-49d0-a0b4-f6ecbc621e1d" name="Default" comment="先頭画面　画面のみ完成(見た目だけ)">
+    <list default="true" id="175975b6-4e85-49d0-a0b4-f6ecbc621e1d" name="Default" comment=".class削除">
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/AttackCommand.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/Attacker.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/Bystander.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/Client.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/CommandHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/GameGroup.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/GameServerThread.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/Player.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/SeaObject.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/Server.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/ServerPrompt.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/Ship.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/ShipManager.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/AttackCellPanel.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/BattlePanel.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/Cell.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/CellEventListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/CellPanel.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/GroupPanel$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/GroupPanel$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/GroupPanel$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/GroupPanel.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/MainFrame.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/ParentDialog$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/ParentDialog$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/ParentDialog$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/ParentDialog.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/RegistrationPanel$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/RegistrationPanel$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/RegistrationPanel$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/RegistrationPanel.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/SetCellEventListener.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/SetCellPanel.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/SettingPanel$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/SettingPanel$2$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/SettingPanel$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/SettingPanel.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/StartPanel$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/BattleShip/swing/StartPanel.class" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -95,8 +56,8 @@
           <file leaf-file-name="MainFrame.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/BattleShip/swing/MainFrame.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="144">
-                  <caret line="32" column="13" lean-forward="false" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+                <state relative-caret-position="128">
+                  <caret line="31" column="13" lean-forward="false" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -372,60 +333,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Battleship" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Battleship" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Battleship" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Battleship" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Battleship" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BattleShip" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Battleship" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Battleship" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BattleShip" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="swing" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1012,14 +919,7 @@
       <workItem from="1498636206617" duration="9794000" />
       <workItem from="1498661410817" duration="13318000" />
       <workItem from="1498760429213" duration="804000" />
-      <workItem from="1498763662737" duration="333000" />
-    </task>
-    <task id="LOCAL-00020" summary="CommandHandlerの実装">
-      <created>1495782554830</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1495782554830</updated>
+      <workItem from="1498763662737" duration="674000" />
     </task>
     <task id="LOCAL-00021" summary="README 改訂">
       <created>1496376734113</created>
@@ -1357,11 +1257,18 @@
       <option name="project" value="LOCAL" />
       <updated>1498675150748</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary=".class削除">
+      <created>1498764070220</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1498764070221</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="380922000" />
+    <option name="totallyTimeSpent" value="381263000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1491,7 +1398,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="隣に被弾したときの判定追加。" />
     <MESSAGE value="Field暮らす削除。Bystander実装完了。ゲーム進行確認。ゲーム終了直前まで完成。" />
     <MESSAGE value="Fieldクラス削除。Bystander実装完了。ゲーム進行確認。ゲーム終了直前まで完成。" />
     <MESSAGE value=".classはプッシュしないでね" />
@@ -1516,7 +1422,8 @@
     <MESSAGE value="Clientの設置画面修正" />
     <MESSAGE value="GUI設置バグ修正&#10;船設置画面レイアウト修正" />
     <MESSAGE value="先頭画面　画面のみ完成(見た目だけ)" />
-    <option name="LAST_COMMIT_MESSAGE" value="先頭画面　画面のみ完成(見た目だけ)" />
+    <MESSAGE value=".class削除" />
+    <option name="LAST_COMMIT_MESSAGE" value=".class削除" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1972,8 +1879,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/BattleShip/swing/MainFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="32" column="13" lean-forward="false" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+        <state relative-caret-position="128">
+          <caret line="31" column="13" lean-forward="false" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
