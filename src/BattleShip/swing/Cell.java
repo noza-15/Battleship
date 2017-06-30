@@ -19,6 +19,7 @@ class Cell extends JButton {
         this.cellX = cellX;
         this.cellY = cellY;
         this.setPreferredSize(new Dimension(size, size));
+        this.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 5));
         this.color = WHITE;
     }
 

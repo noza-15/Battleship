@@ -19,6 +19,7 @@ public class BattlePanel extends JPanel {
     JButton bt_nextTurn;
     JButton bt_confirm;
     int turnNo = 1;
+    AttackCellPanel[] pn_maps;
 
     public BattlePanel(MainFrame mf) {
         this.mf = mf;
@@ -94,7 +95,8 @@ public class BattlePanel extends JPanel {
                     return;
                 }
                 lb_bombGrid.setText("(" + x + ", " + y + ")");
-                cp_bomb.setEnabledAll(false);
+//                cp_bomb.setEnabledAll(false);
+
                 bt_confirm.setEnabled(false);
                 nextTurn();
             }
@@ -134,7 +136,7 @@ public class BattlePanel extends JPanel {
         JPanel pn_others = new JPanel();
         GridBagLayout scrollLayout = new GridBagLayout();
         GridBagConstraints gbc_maps = new GridBagConstraints();
-        AttackCellPanel[] pn_maps = new AttackCellPanel[mf.player.manager.getAttackersCount()];
+        pn_maps = new AttackCellPanel[mf.player.manager.getAttackersCount()];
         pn_others.setLayout(scrollLayout);
         for (int i = 0; i < pn_maps.length; i++) {
             pn_maps[i] = new AttackCellPanel(mf, this, 25);
@@ -173,8 +175,10 @@ public class BattlePanel extends JPanel {
         if (manager.isAlive(idTable.get(playerID))) {
             int x = cp_bomb.getSelectedX();
             int y = cp_bomb.getSelectedY();
-            lb_bombGrid.setText("(" + x + ", " + y + ")");
+            lb_bombGrid.setText("他のプレイヤーが選択するのを待っています...");
+//            lb_bombGrid.setText("(" + x + ", " + y + ")");
             cp_bomb.setEnabledAll(false);
+            cp_bomb.restXY();
             cmd.send(Server.ATTACK);
             try {
                 cmd.send(new AttackCommand(groupID, playerID, turnNo++, x, y));
@@ -195,7 +199,6 @@ public class BattlePanel extends JPanel {
             if (pList.get(i).getJobCode() == Server.ATTACKER) {
                 try {
                     command = (AttackCommand) cmd.receiveObject();
-                    lb_bombGrid.setText("他のプレイヤーが選択するのを待っています...");
                 } catch (SocketException e) {
                     e.printStackTrace();
                 }
@@ -212,6 +215,24 @@ public class BattlePanel extends JPanel {
         }
         for (int i = 0; i < pList.size(); i++) {
             if (pList.get(i).getJobCode() == Server.ATTACKER) {
+                for (int y = 0; y < Server.FIELD_SIZE_Y; y++) {
+                    for (int x = 0; x < Server.FIELD_SIZE_X; x++) {
+                        switch (manager.getState(i, x, y)) {
+                            case ShipManager.BOMB_HIT:
+                                pn_maps[i].getCell(x, y).setColor(Cell.RED);
+                                break;
+                            case ShipManager.BOMB_HIT_NEXT:
+                                pn_maps[i].getCell(x, y).setColor(Cell.YELLOW);
+                                break;
+                            case ShipManager.BOMB_MISS:
+                                pn_maps[i].getCell(x, y).setColor(Cell.BLUE);
+                                break;
+                            case ShipManager.UNKNOWN:
+                            case ShipManager.BOMB_ALREADY_HIT:
+                                break;
+                        }
+                    }
+                }
                 manager.show(i);
             }
         }

@@ -2,11 +2,11 @@ package BattleShip;
 
 public class ShipManager {
     //    static final int NONE = 0;
-    static final int UNKNOWN = 0;
-    static final int BOMB_HIT = 2;
-    static final int BOMB_MISS = 3;
-    static final int BOMB_ALREADY_HIT = 4;
-    static final int BOMB_HIT_NEXT = 5;
+    public static final int UNKNOWN = 0;
+    public static final int BOMB_HIT = 2;
+    public static final int BOMB_MISS = 3;
+    public static final int BOMB_ALREADY_HIT = 4;
+    public static final int BOMB_HIT_NEXT = 5;
     private boolean[][] myAttacks;
     private Ship[][] myShips;
     private Ship[][][] shipsMap;
@@ -118,6 +118,10 @@ public class ShipManager {
 
     public int getAttackersCount() {
         return shipsMap.length;
+    }
+
+    public int getState(int ID, int x, int y) {
+        return state[ID][x][y];
     }
 
     public void show(int ID) {

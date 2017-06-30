@@ -3,7 +3,6 @@ package BattleShip.swing;
 import BattleShip.Server;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,9 +22,10 @@ public class AttackCellPanel extends CellPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (x == -1 && y == -1) {
-                            cell.setText("●");
                             x = cell.getCellX();
                             y = cell.getCellY();
+                            cell.setText("●");
+                            cell.setColor(Cell.BLACK);
                             setEnabledAll(false);
                             cell.setEnabled(true);
                         } else {
@@ -34,7 +34,6 @@ public class AttackCellPanel extends CellPanel {
                             y = -1;
                             setEnabledAll(true);
                         }
-                        cell.setFont(new Font(MainFrame.FONT_NAME, Font.PLAIN, 5));
                     }
                 });
                 this.addComponent(cell, j, i, 1, 1);
@@ -48,5 +47,10 @@ public class AttackCellPanel extends CellPanel {
 
     public int getSelectedY() {
         return y;
+    }
+
+    public void restXY() {
+        x = -1;
+        y = -1;
     }
 }
