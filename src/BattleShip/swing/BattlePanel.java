@@ -253,7 +253,7 @@ public class BattlePanel extends JPanel {
                                 pn_maps[i].getCell(x, y).setColor(Cell.RED);
                                 se1.start();
                                 try {
-                                    Thread.sleep(3000);
+                                    Thread.sleep(1000);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -273,7 +273,7 @@ public class BattlePanel extends JPanel {
                             pn_maps[i].getCell(x, y).setColor(Cell.BLACK);
                             se2.start();
                             try {
-                                Thread.sleep(3000);
+                                Thread.sleep(1000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -289,7 +289,7 @@ public class BattlePanel extends JPanel {
         }
         if (!manager.isAlive(idTable.get(playerID))) {
             lb_bombGrid.setText("あなたは死にました。戦闘不能です。");
-            JOptionPane.showInputDialog(this, "あなたは死にました。戦闘不能です。",
+            JOptionPane.showMessageDialog(this, "あなたは死にました。戦闘不能です。",
                     "敗戦", JOptionPane.WARNING_MESSAGE);
         }
         bt_nextTurn.setEnabled(true);
