@@ -121,6 +121,7 @@ public class BattlePanel extends JPanel {
                     lb_bombGrid.setText("攻撃地点が選ばれていません");
                     return;
                 }
+                cp_bomb.getCell(x, y).setColor(Cell.BLACK);
                 lb_bombGrid.setText("(" + x + ", " + y + ")");
 //                cp_bomb.setEnabledAll(false);
 
@@ -172,7 +173,7 @@ public class BattlePanel extends JPanel {
             gbc_maps.weightx = 1.0d;
             gbc_maps.weighty = 1.0d;
             gbc_maps.insets = new Insets(10, 10, 10, 10);
-            if (i == mf.player.getPlayerID()) {
+            if (i == mf.player.getIDTable().get(mf.player.getPlayerID())) {
                 pn_maps[i].setBorder(new LineBorder(Color.RED));
             }
             scrollLayout.setConstraints(pn_maps[i], gbc_maps);
@@ -252,11 +253,6 @@ public class BattlePanel extends JPanel {
                             case ShipManager.BOMB_HIT:
                                 pn_maps[i].getCell(x, y).setColor(Cell.RED);
                                 se1.start();
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
                                 break;
                             case ShipManager.BOMB_HIT_NEXT:
                                 pn_maps[i].getCell(x, y).setColor(Cell.YELLOW);
@@ -271,13 +267,6 @@ public class BattlePanel extends JPanel {
                         if (!manager.isAlive(i, x, y)) {
                             isSunkn = true;
                             pn_maps[i].getCell(x, y).setColor(Cell.BLACK);
-                            se2.start();
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-
                         }
                     }
                 }
@@ -285,6 +274,7 @@ public class BattlePanel extends JPanel {
             }
             if (isSunkn) {
                 lb_bombGrid.setText(i + " :沈没");
+                se2.start();
             }
         }
         if (!manager.isAlive(idTable.get(playerID))) {
