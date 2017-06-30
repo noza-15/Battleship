@@ -2,11 +2,14 @@ package BattleShip.swing;
 
 import BattleShip.*;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +23,8 @@ public class BattlePanel extends JPanel {
     JButton bt_confirm;
     int turnNo = 1;
     AttackCellPanel[] pn_maps;
+    Clip se1 = null;
+    Clip se2 = null;
 
     public BattlePanel(MainFrame mf) {
         this.mf = mf;
@@ -27,6 +32,28 @@ public class BattlePanel extends JPanel {
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
+        InputStream inputStream1 = ClassLoader.getSystemResourceAsStream(
+                "BattleShip/res/sen_ge_bomsuityuu01.wav");
+        InputStream inputStream2 = ClassLoader.getSystemResourceAsStream(
+                "BattleShip/res/sen_ge_bomsuijou02.wav");
+        try {
+            AudioInputStream sein1 = AudioSystem.getAudioInputStream(inputStream1);
+            AudioInputStream sein2 = AudioSystem.getAudioInputStream(inputStream2);
+            AudioFormat format1 = sein1.getFormat();
+            AudioFormat format2 = sein2.getFormat();
+            DataLine.Info di1 = new DataLine.Info(Clip.class, format1);
+            DataLine.Info di2 = new DataLine.Info(Clip.class, format2);
+            se1 = (Clip) AudioSystem.getLine(di1);
+            se2 = (Clip) AudioSystem.getLine(di2);
+            se1.open(sein1);
+            se2.open(sein2);
+        } catch (LineUnavailableException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+        }
 
         AttackCellPanel cp = new AttackCellPanel(mf, this, 25);
         gbc.gridx = 0;
@@ -171,7 +198,8 @@ public class BattlePanel extends JPanel {
         HashMap<Integer, Integer> idTable = mf.player.getIDTable();
         int AttackersCount = mf.player.manager.getAttackersCount();
         ArrayList<Player> pList = mf.player.getPlayersList();
-
+        se1.setFramePosition(0);
+        se2.setFramePosition(0);
         if (manager.isAlive(idTable.get(playerID))) {
             int x = cp_bomb.getSelectedX();
             int y = cp_bomb.getSelectedY();
@@ -214,12 +242,21 @@ public class BattlePanel extends JPanel {
             }
         }
         for (int i = 0; i < pList.size(); i++) {
+            boolean isSunkn = false;
             if (pList.get(i).getJobCode() == Server.ATTACKER) {
+                se1.setFramePosition(0);
+                se2.setFramePosition(0);
                 for (int y = 0; y < Server.FIELD_SIZE_Y; y++) {
                     for (int x = 0; x < Server.FIELD_SIZE_X; x++) {
                         switch (manager.getState(i, x, y)) {
                             case ShipManager.BOMB_HIT:
                                 pn_maps[i].getCell(x, y).setColor(Cell.RED);
+                                se1.start();
+                                try {
+                                    Thread.sleep(3000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 break;
                             case ShipManager.BOMB_HIT_NEXT:
                                 pn_maps[i].getCell(x, y).setColor(Cell.YELLOW);
@@ -231,13 +268,29 @@ public class BattlePanel extends JPanel {
                             case ShipManager.BOMB_ALREADY_HIT:
                                 break;
                         }
+                        if (!manager.isAlive(i, x, y)) {
+                            isSunkn = true;
+                            pn_maps[i].getCell(x, y).setColor(Cell.BLACK);
+                            se2.start();
+                            try {
+                                Thread.sleep(3000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
                     }
                 }
                 manager.show(i);
             }
+            if (isSunkn) {
+                lb_bombGrid.setText(i + " :沈没");
+            }
         }
         if (!manager.isAlive(idTable.get(playerID))) {
-            lb_bombGrid.setText("あなたは死にました。戦闘不能です");
+            lb_bombGrid.setText("あなたは死にました。戦闘不能です。");
+            JOptionPane.showInputDialog(this, "あなたは死にました。戦闘不能です。",
+                    "敗戦", JOptionPane.WARNING_MESSAGE);
         }
         bt_nextTurn.setEnabled(true);
     }

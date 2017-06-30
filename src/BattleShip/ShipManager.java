@@ -204,6 +204,13 @@ public class ShipManager {
         return sunkenCount[ID] < 3;
     }
 
+    public boolean isAlive(int ID, int x, int y) {
+        if (shipsMap[ID][x][y] == null) {
+            return true;
+        }
+        return shipsMap[ID][x][y].isAlive();
+    }
+
     /**
      * @return 自分の盤面
      */
