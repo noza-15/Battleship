@@ -107,10 +107,12 @@ public class StartPanel extends JPanel {
             mf.cmd = new CommandHandler(socket);
             return true;
         } catch (ConnectException ce) {
+            ce.printStackTrace();
             JOptionPane.showMessageDialog(mf, "サーバーに接続を拒否されました。",
                     "接続拒否", JOptionPane.ERROR_MESSAGE);
             return false;
         } catch (IOException ioe) {
+            ioe.printStackTrace();
             JOptionPane.showMessageDialog(mf, "サーバー接続中にエラーが発生しました。",
                     "接続エラー", JOptionPane.ERROR_MESSAGE);
             return false;

@@ -2,7 +2,7 @@ package BattleShip;
 
 import java.io.Serializable;
 
-public class Ship extends SeaObject implements Serializable {
+public class Ship implements Serializable {
 
     public static final int UP = 0;
     public static final int RIGHT = 1;

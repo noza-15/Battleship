@@ -20,12 +20,12 @@ public class Attacker extends Player {
             int x, y, dir;
             System.out.println(Server.SHIPS[i] + "の設定をします。"
                     + Server.SHIPS[i] + "の大きさは" + Server.SHIPS_SIZE[i] + "です。" +
-                    "始点の位置を決めてください");
+                    "始点の位置を決めてください。");
             System.out.print("x:");
             x = inputInt(0, Server.FIELD_SIZE_X);
             System.out.print("y:");
             y = inputInt(0, Server.FIELD_SIZE_Y);
-            System.out.println("設置する方向を決めてください");
+            System.out.println("設置する方向を決めてください。");
             System.out.println("上:0 右:1 下:2 左:3");
             dir = inputInt(0, 3);
             while (!manager.canSetShip(Server.SHIPS_SIZE[i], x, y, dir)) {
@@ -34,8 +34,7 @@ public class Attacker extends Player {
                 x = inputInt(0, Server.FIELD_SIZE_X);
                 System.out.print("y:");
                 y = inputInt(0, Server.FIELD_SIZE_Y);
-                System.out.println("設置する方向を決めてください");
-                System.out.println("上:0 右:1 下:2 左:3");
+                System.out.println("設置する方向を決めてください。\n上:0 右:1 下:2 左:3");
                 dir = inputInt(0, 3);
             }
             manager.setMyShip(Server.SHIPS[i], Server.SHIPS_SIZE[i], x, y, dir);
@@ -43,21 +42,16 @@ public class Attacker extends Player {
         //サーバーに船の配置を送信する
         cmd.send(Server.SET_SHIPS);
         cmd.send(manager.getMyShips());
-        /*
-        System.out.println("他のプレイヤーの選択を待っています…");
-        manager.setOthersShips((BattleShip.Ship[][][]) cmd.receiveObject());
-        System.out.println("盤面データを受信しています…");*/
         super.newGame();
     }
 
     @Override
-    //攻撃する位置を指定する。
     public void nextTurn() throws SocketException {
         int turnNo = 1;
         while (true) {
             if (manager.isAlive(IDTable.get(playerID))) {
                 int x, y;
-                System.out.println("どこを攻撃しますか？");//攻撃場所の読み込み
+                System.out.println("どこを攻撃しますか？");
                 System.out.print("x:");
                 x = inputInt(0, Server.FIELD_SIZE_X);
                 System.out.print("y:");
@@ -71,10 +65,9 @@ public class Attacker extends Player {
             }
             super.nextTurn();
             if (!manager.isAlive(IDTable.get(playerID))) {
-                System.out.println("あなたは死にました。戦闘不能です");
+                System.out.println("あなたは死にました。戦闘不能です。");
             }
             scanner.next();
         }
     }
-
 }

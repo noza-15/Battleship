@@ -12,13 +12,13 @@ public class Client {
     private CommandHandler cmd;
 
     public static void main(String[] args) {
-        System.out.println("\u001b[34m" + Server.GAME_NAME + "\u001b[0m"); //TODO: GUI
+        System.out.println("\u001b[34m" + Server.GAME_NAME + "\u001b[0m");
         Client client = new Client();
         try {
             client.initialize();
             client.play();
         } catch (SocketException se) {
-            System.err.println("サーバー接続中にエラーが発生しました。"); //TODO: GUI
+            System.err.println("サーバー接続中にエラーが発生しました。");
             System.exit(1);
         }
     }
@@ -40,38 +40,34 @@ public class Client {
 
     private void establishConnection() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("サーバーのアドレスを入力してください。"); //TODO: GUI
+        System.out.println("サーバーのアドレスを入力してください。");
         String inputAddress = scanner.nextLine();
         InetAddress address;
         try {
             address = InetAddress.getByName(inputAddress);
         } catch (UnknownHostException e) {
-            System.err.println("サーバーが見つかりませんでした。アドレスが正しいか確認してください。"); //TODO: GUI
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
+            System.out.println("サーバーが見つかりませんでした。アドレスが正しいか確認してください。");
+            e.printStackTrace();
             establishConnection();
             return;
         }
         try {
             Socket socket = new Socket(address, Server.PORT_NO);
             System.out.println("サーバーとの接続に成功しました。");
-            System.out.println("socket = " + socket); //TODO: GUI
+            System.out.println("socket = " + socket);
             cmd = new CommandHandler(socket);
         } catch (ConnectException ce) {
-            System.err.println("サーバーに接続を拒否されました。"); //TODO: GUI
+            System.out.println("サーバーに接続を拒否されました。");
+            ce.printStackTrace();
             establishConnection();
-            return;
         } catch (IOException e) {
-            System.err.println("サーバー接続中にエラーが発生しました。"); //TODO: GUI
+            System.out.println("サーバー接続中にエラーが発生しました。");
+            e.printStackTrace();
             System.exit(1);
         }
     }
 
     private void setPlayer() {
-        //TODO: GUI
         System.out.println("プレイヤー名を入力してください。");
         String inputName = scanner.next();
         System.out.println("役割を選んでください。\nAttacker(攻撃者), Bystander(傍観者)");
@@ -98,7 +94,7 @@ public class Client {
         player.setGroupID(groupID);
         cmd.send(groupID);
         if (!cmd.receiveBoolean()) {
-            System.out.println("このグループには参加できません。"); //TODO: GUI
+            System.out.println("このグループには参加できません。");
             setGroup();
             register();
             return;
@@ -108,17 +104,16 @@ public class Client {
         player.setPlayerID(cmd.receiveInt());
         player.setCmd(cmd);
 
-        System.out.println("グループ" + groupID + "に参加しました。"); //TODO: GUI
+        System.out.println("グループ" + groupID + "に参加しました。");
         System.out.println(cmd.receiveString());
         if (player.isParent()) {
-            System.out.println("\u001b[35mあなたはこのゲームの親です。”end”を入力すると参加募集を締め切ります。\u001b[0m"); //TODO: GUI
+            System.out.println("\u001b[35mあなたはこのゲームの親です。”end”を入力すると参加募集を締め切ります。\u001b[0m");
         }
     }
 
     private void setGroup() throws SocketException {
         int groupCount;
         int op;
-        //TODO: GUI
         System.out.println("操作を選択してください。");
         System.out.println("1: 新規グループを作成");
         cmd.send(Server.CHECK_GROUP_EXISTENCE);
@@ -149,14 +144,13 @@ public class Client {
     private void newGroup() throws SocketException {
         cmd.send(Server.NEW_GROUP);
         groupID = cmd.receiveInt();
-        System.out.println("グループ" + groupID + "を作成します。"); //TODO: GUI
+        System.out.println("グループ" + groupID + "を作成します。");
     }
 
     private void listGroup(int groupCount) throws SocketException {
         Scanner scanner = new Scanner(System.in);
         cmd.send(Server.LIST_GROUP);
         int total = cmd.receiveInt();
-        //TODO: GUI
         System.out.println("グループが " + groupCount + " 個あります。グループを選んでください。");
         for (int i = 0; i < total; i++) {
             System.out.println(cmd.receiveString());

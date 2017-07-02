@@ -24,8 +24,6 @@ public class AttackCellPanel extends CellPanel {
                         if (x == -1 && y == -1) {
                             x = cell.getCellX();
                             y = cell.getCellY();
-//                            cell.setText("●");
-//                            cell.setColor(Cell.BLACK);
                             setEnabledAll(false);
                             cell.setEnabled(true);
                         } else {
