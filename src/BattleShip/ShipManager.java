@@ -1,11 +1,13 @@
 package BattleShip;
 
 public class ShipManager {
-    public static final int UNKNOWN = 0;
+    public static final int NOT_OPENED = 0;
     public static final int BOMB_HIT = 2;
     public static final int BOMB_MISS = 3;
     public static final int BOMB_ALREADY_HIT = 4;
     public static final int BOMB_HIT_NEXT = 5;
+    public static final int SHIP_SUNKEN = 6;
+    public static final int SHIP_ALREADY_SUNKEN = 7;
     private Ship[][] myShips;
     private Ship[][][] shipsMap;
     private int[][][] state;
@@ -109,6 +111,10 @@ public class ShipManager {
         return state[ID][x][y];
     }
 
+    public boolean isShip(int x, int y) {
+        return myShips[x][y] != null;
+    }
+
     public void show(int ID) {
         for (int n = 0; n < Server.FIELD_SIZE_X; n++) {
             System.out.print("\t" + n);
@@ -121,13 +127,13 @@ public class ShipManager {
                     System.out.print("✖\t");
                 } else if (state[ID][x][y] == -1) {
                     System.out.print("◯\t");
-                } else if (state[ID][x][y] == BOMB_HIT) {
+                } else if (state[ID][x][y] == BOMB_HIT || state[ID][x][y] == BOMB_ALREADY_HIT) {
                     System.out.print("@\t");
                 } else if (state[ID][x][y] == BOMB_MISS) {
                     System.out.print("*\t");
                 } else if (state[ID][x][y] == BOMB_HIT_NEXT) {
                     System.out.print("%\t");
-                } else if (state[ID][x][y] == UNKNOWN) {
+                } else if (state[ID][x][y] == NOT_OPENED) {
                     System.out.print("-\t");
                 }
             }
@@ -157,14 +163,14 @@ public class ShipManager {
                 return state[ID][x][y] = BOMB_HIT_NEXT;
             }
             return state[ID][x][y] = BOMB_MISS;
-        } else if (state[ID][x][y] == UNKNOWN) {
+        } else if (state[ID][x][y] == BOMB_HIT) {
+            return state[ID][x][y] = BOMB_ALREADY_HIT;
+        } else if (state[ID][x][y] == NOT_OPENED) {
             shipsMap[ID][x][y].bombed();
             if (!shipsMap[ID][x][y].isAlive()) {
                 sunkenCount[ID]++;
             }
             return state[ID][x][y] = BOMB_HIT;
-        } else if (state[ID][x][y] == BOMB_HIT) {
-            return BOMB_ALREADY_HIT;
         } else {
             return state[ID][x][y];
         }

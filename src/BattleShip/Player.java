@@ -18,7 +18,7 @@ public class Player implements Serializable {
     private String playerName;
     private int jobCode;
     private boolean isParent;
-    private boolean isAlive;
+    private boolean isAlive = true;
 
     Player(String inputName) {
         setPlayerName(inputName);
@@ -143,6 +143,14 @@ public class Player implements Serializable {
 
     public void setIDTable(HashMap<Integer, Integer> IDTable) {
         this.IDTable = IDTable;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 
     @Override

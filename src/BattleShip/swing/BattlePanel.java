@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 public class BattlePanel extends JPanel {
     MainFrame mf;
+
     AttackCellPanel cp_bomb;
     ViewerCellPanel[] pn_maps;
     JLabel lb_bombInfo;
@@ -56,6 +57,14 @@ public class BattlePanel extends JPanel {
         }
 
         AttackCellPanel cp_myShip = new AttackCellPanel(mf, this, 25);
+        for (int i = 0; i < Server.FIELD_SIZE_X; i++) {
+            for (int j = 0; j < Server.FIELD_SIZE_Y; j++) {
+                if (mf.player.manager.isShip(i, j)) {
+                    cp_myShip.getCell(i, j).setColor(Cell.BLACK);
+                }
+            }
+
+        }
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0d;
@@ -137,9 +146,13 @@ public class BattlePanel extends JPanel {
         bt_nextTurn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cp_bomb.setEnabledAll(true);
-                bt_nextTurn.setEnabled(false);
-                bt_confirm.setEnabled(true);
+                if (mf.player.isAlive()) {
+                    cp_bomb.setEnabledAll(true);
+                    bt_nextTurn.setEnabled(false);
+                    bt_confirm.setEnabled(true);
+                } else {
+                    nextTurn();
+                }
             }
         });
         gbc_info.gridx = 0;
@@ -237,12 +250,12 @@ public class BattlePanel extends JPanel {
             }
             for (int j = 0; j < pList.size(); j++) {
                 if (pList.get(i).getJobCode() == Server.ATTACKER) {
-                    int state = manager.isBombed(idTable.get(command.getPlayerID()), j, command.getX(), command.getY());
+                    manager.isBombed(idTable.get(command.getPlayerID()), j, command.getX(), command.getY());
                 }
             }
         }
         for (int i = 0; i < pList.size(); i++) {
-            boolean isSunkn = false;
+            boolean isSunken = false;
             if (pList.get(i).getJobCode() == Server.ATTACKER) {
                 se1.setFramePosition(0);
                 se2.setFramePosition(0);
@@ -250,9 +263,12 @@ public class BattlePanel extends JPanel {
                     for (int x = 0; x < Server.FIELD_SIZE_X; x++) {
                         switch (manager.getState(i, x, y)) {
                             case ShipManager.BOMB_HIT:
-                                pn_maps[i].getCell(x, y).setColor(Cell.RED);
-                                pn_maps[i].getCell(x, y).setEnabled(false);
-                                se1.start();
+                                if (pn_maps[i].getCell(x, y).getColor() != Cell.RED && pn_maps[i].getCell(x, y).getColor() != Cell.BLACK) {
+                                    pn_maps[i].getCell(x, y).setColor(Cell.RED);
+                                    pn_maps[i].getCell(x, y).setEnabled(false);
+                                    System.out.println(x + "," + y);
+                                    se1.start();
+                                }
                                 break;
                             case ShipManager.BOMB_HIT_NEXT:
                                 pn_maps[i].getCell(x, y).setColor(Cell.YELLOW);
@@ -261,30 +277,32 @@ public class BattlePanel extends JPanel {
                             case ShipManager.BOMB_MISS:
                                 pn_maps[i].getCell(x, y).setColor(Cell.BLUE);
                                 break;
-                            case ShipManager.UNKNOWN:
+                            case ShipManager.NOT_OPENED:
                                 break;
                             case ShipManager.BOMB_ALREADY_HIT:
                                 System.out.println("ALREADY");
+                                System.out.println(x + "," + y);
                                 break;
                         }
-                        if (!manager.isAlive(i, x, y)) {
-                            isSunkn = true;
+                        if (pn_maps[i].getCell(x, y).getColor() != Cell.BLACK && !manager.isAlive(i, x, y)) {
+                            isSunken = true;
                             pn_maps[i].getCell(x, y).setColor(Cell.BLACK);
                         }
                     }
                 }
                 manager.show(i);
             }
-            if (isSunkn) {
+            if (isSunken) {
                 lb_bombInfo.setText(i + " :沈没");
                 se2.start();
             }
         }
-        if (!manager.isAlive(idTable.get(playerID))) {
+        bt_nextTurn.setEnabled(true);
+        if (mf.player.isAlive() && !manager.isAlive(idTable.get(playerID))) {
+            mf.player.setAlive(false);
             lb_bombInfo.setText("あなたは死にました。戦闘不能です。");
             JOptionPane.showMessageDialog(this, "あなたは死にました。戦闘不能です。",
                     "敗戦", JOptionPane.WARNING_MESSAGE);
         }
-        bt_nextTurn.setEnabled(true);
     }
 }

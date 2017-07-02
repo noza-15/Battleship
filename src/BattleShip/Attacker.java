@@ -66,8 +66,11 @@ public class Attacker extends Player {
             super.nextTurn();
             if (!manager.isAlive(IDTable.get(playerID))) {
                 System.out.println("あなたは死にました。戦闘不能です。");
+            } else {
+                scanner.nextLine();
             }
-            scanner.next();
+            System.out.println("次のターンに進むには何か入力してください。");
+            scanner.nextLine();
         }
     }
 }
